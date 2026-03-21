@@ -1,0 +1,13 @@
+{
+  "name": "collabspace-root",
+  "version": "1.0.0",
+  "description": "Root configuration for CollabSpace monorepo",
+  "private": true,
+  "scripts": {
+    "install-all": "npm install --prefix frontend && npm install --prefix backend",
+    "clean": "rm -rf node_modules frontend/node_modules backend/node_modules",
+    "lint-all": "npm run lint --prefix frontend && npm run lint --prefix backend"
+  },
+  "author": "Yahya",
+  "license": "UNLICENSED"
+}
