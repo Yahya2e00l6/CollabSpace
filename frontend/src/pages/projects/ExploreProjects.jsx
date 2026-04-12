@@ -1,4 +1,4 @@
-const ExploreProjects = (props)=>{
+const ExploreProjects = ()=>{
     return (
         <>
         <p>The search page where they find projects by ID. (inside the project section)</p>

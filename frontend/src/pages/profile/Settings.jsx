@@ -1,8 +1,7 @@
-const Settings = (props) => {
+function Settings(){
     return(
         <>
-        <p>Fields to update Name, Email,Password and upload a Profile Picture. (inside the profile)</p>
         </>
     )
 }
-export default Settings;
+export default Settings
