@@ -160,6 +160,14 @@
     height: 48px;
   }
 }
+/* Empêche le scroll sur la fenêtre entière */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; 
+}
 
 .ticks {
   position: relative;
