@@ -1,0 +1,91 @@
+.RequestItem {
+    background-color: #ffffff; 
+    border: 1px solid #e1e4e8; 
+    border-radius: 12px;
+    padding: 16px;
+    max-width: 500px;
+    display: flex;
+    align-items: center; 
+    gap: 16px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+}
+
+.profile {
+    width: 64px; 
+    height: 64px;
+    object-fit: cover; 
+    border-radius: 50%;
+    border: 2px solid #007bff; 
+}
+
+.RequestData {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+.RequestData :global(p) {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color: #4b5563; 
+    font-size: 0.9rem;
+}
+
+
+.RequestData :global(.Name) {
+    font-weight: bold;
+    color: #111827; 
+    font-size: 1.1rem;
+}
+
+
+.RequestData :global(.Email), 
+.RequestData :global(.CIN), 
+.RequestData :global(.Date) {
+    color: #6b7280; 
+    font-size: 0.85rem;
+}
+
+.btns {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: auto;
+    justify-content: center; 
+}
+
+.approve, .decline {
+    all: unset;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s ease; 
+}
+
+
+.approve {
+    background-color: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.approve:hover {
+    background-color: #16a34a;
+    color: white;
+}
+
+.decline {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.decline:hover {
+    background-color: #dc2626;
+    color: white;
+}

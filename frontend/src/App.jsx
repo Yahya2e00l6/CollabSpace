@@ -1,121 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import {Navigate, Route , Routes } from "react-router-dom"
 import './App.css'
+import MainLayout from "./components/layouts/MainLayout"
+import Home from "./pages/MainPages/Home"
+import Projects from "./pages/MainPages/Projects"
+import Profile from "./pages/MainPages/Profile"
+import Notification from "./pages/MainPages/Notification"
+import People from "./pages/MainPages/People"
 
+import CreateProject from "./pages/projects/CreateProject"
+import ExploreProjects from "./pages/projects/ExploreProjects"
+import MyProjects from "./pages/projects/MyProjects"
+import ProjectLayout from "./components/layouts/ProjectLayout"
+import ProfileLayout from "./components/layouts/ProfileLayout"
+import Overview from "./pages/profile/Overview"
+import ProfileProjects from "./pages/profile/ProfileProjects"
+import Dashboard from "./pages/profile/Dashboard"
+import ActiveTasks from "./pages/profile/ActiveTasks"
+import Calendar from "./pages/profile/Calendar"
+import Network from "./pages/profile/Network"
+import Settings from "./pages/profile/Settings"
+import Help from "./pages/profile/Help"
+import Archived from "./pages/projects/Archived"
+import AdminDashboard from "./pages/dashboard/AdminDashboard"
+import RequestList from "./components/entreprise/RequestList"
+import AddProject from "./components/forms/AddProject"
+import AddTask from "./components/forms/AddTask"
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    // <Routes>
+    //   <Route element={<MainLayout />}>
+        
+    //     <Route path="/" element={<Home />} />
 
-      <div className="ticks"></div>
+    //     <Route path="/projects" element={<Projects />}>
+    //         <Route element={<ProjectLayout />}>
+    //           <Route index element={<Navigate to="explore" replace/>}></Route>
+    //           <Route path="explore"  element={<ExploreProjects />} />
+    //           <Route path="create" element={<CreateProject />} />
+    //           <Route path="my-projects" element={<MyProjects />} />
+    //           <Route path="Archived" element={<Archived/>} />
+    //         </Route>
+    //     </Route>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+    //     <Route path="/notifications" element={<Notification />} />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    //     <Route path="/people" element={<People />} />
+
+    //     <Route path="/profile" element={<Profile />}>
+    //       <Route element={<ProfileLayout />}>
+    //         <Route path="overview" element={<Overview />} />
+    //         <Route path="projects" element={<ProfileProjects />} />
+    //         <Route path="dashboard" element={<Dashboard />} />
+    //         <Route path="active-task" element={<ActiveTasks />} />
+    //         <Route path="calendar" element={<Calendar />} />
+    //         <Route path="network" element={<Network />} />
+    //         <Route path="setting" element={<Settings />} />
+    //         <Route path="help" element={<Help />} />
+    //       </Route>
+    //     </Route>
+
+
+    //   </Route>
+    // </Routes>
+    // <AdminDashboard/>
+    // <RequestList/>
+    // <AddProject/>
+    <AddTask/>
+  );
 }
 
 export default App;
