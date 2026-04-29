@@ -1,0 +1,91 @@
+/* Mini-SidebarCalendar.module.css */
+
+.miniCalendar {
+    width: 250px;
+    padding: 10px;
+    font-family: 'Roboto', sans-serif;
+    color: #3c4043;
+}
+
+.miniCalendarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px;
+    margin-bottom: 12px;
+}
+
+.selectedDate {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.switchBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 18px;
+    color: #5f6368;
+    transition: background 0.2s;
+}
+
+.switchBtn:hover {
+    background-color: #f1f3f4;
+}
+
+.daysList {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: #70757a;
+    margin-bottom: 8px;
+}
+
+.miniCalendarBox {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.dayBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    cursor: pointer;
+}
+
+.daySpan {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 12px;
+    transition: background 0.2s, color 0.2s;
+}
+
+/* Logic Classes */
+
+.sameMonth {
+    color: #3c4043;
+}
+
+.notSameMonth {
+    color: #bdc1c6; /* Greyed out for previous/next month */
+}
+
+.isToday {
+    background-color: #1a73e8 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+.dayBox:hover .daySpan:not(.isToday) {
+    background-color: #f1f3f4;
+}

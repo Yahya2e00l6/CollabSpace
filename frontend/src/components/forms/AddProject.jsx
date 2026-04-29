@@ -2,11 +2,15 @@ import { useState } from "react"
 import style from "../../Style/AddProject.module.css"
 
 function AddProject(){
+    const Now = new Date();
+
     const [ ProjectName, setProjectName] = useState("")
     const [ ProjectDescription , setProjectDescription ] = useState("");
     const [ ProjectVisibility , setProjectVisibility ] = useState("public")
     const [ HasError , setHasError ] = useState(false)
-    const Handelsubmit = async(e)=>{
+    const [ DeadLine , setDeadLine ] = useState(Now.toLocaleDateString())
+    const today = new Date().toISOString().split('T')[0];
+    const Handlesubmit = async(e)=>{
         e.preventDefault();
         const hasSymbol = /[!@#$%^&*()+={}\\[\]|\\"'<>?\\/=]/.test(ProjectName);
         if(ProjectName.length<8 || typeof(ProjectName[0])===Number || hasSymbol){
@@ -17,8 +21,9 @@ function AddProject(){
     }
     return(
         <>
-            <form method="POST" className={style.form} onSubmit={Handelsubmit}>
-                <span className={Error ? style.Error : style.Hidden }></span>
+            <form method="POST" className={style.form} onSubmit={Handlesubmit}>
+                <button type="button" className={style.close}>X</button>
+                <span className={HasError ? style.Error : style.Hidden }></span>
                 <div className={style.formGroup}>
                     <label htmlFor="projectName" className={style.label}>Project Name:</label>
                     <input 
@@ -27,7 +32,7 @@ function AddProject(){
                         name="projectName" 
                         required 
                         className={style.input}
-                        onChange={(e)=>setProjectName(e.target.value)}
+                        onChange={(e) => setProjectName(e.target.value)}
                     />
                 </div>
                 <div className={style.formGroup}>
@@ -39,6 +44,18 @@ function AddProject(){
                         className={style.textarea}
                         onChange={(e)=>setProjectDescription(e.target.value)}
                     ></textarea>
+                </div>
+                <div className={style.formGroup}>
+                    <label htmlFor="DeadLine" className={style.label}>Dead Line</label>
+                    <input 
+                        type="date"
+                        id="DeadLine"
+                        name="DeadLine"
+                        value={today}
+                        min={today}
+                        onChange={(e)=>setDeadLine(e.target.value)} 
+                        className={style.input}
+                    />
                 </div>
                 <fieldset className={style.fieldset}>
                     <legend className={style.legend}>Visibility:</legend>
@@ -61,7 +78,6 @@ function AddProject(){
                             value="private" 
                             checked={ProjectVisibility=="private"}
                             onChange={(e)=>setProjectVisibility(e.target.value)}
-                            
                         />
                         <label htmlFor="private">Private</label>
                     </div>

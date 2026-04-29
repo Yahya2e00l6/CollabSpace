@@ -20,12 +20,17 @@ import Calendar from "./pages/profile/Calendar"
 import Network from "./pages/profile/Network"
 import Settings from "./pages/profile/Settings"
 import Help from "./pages/profile/Help"
-import Archived from "./pages/projects/Archived"
 import AdminDashboard from "./pages/dashboard/AdminDashboard"
-import RequestList from "./components/entreprise/RequestList"
+// import RequestList from "./components/entreprise/RequestList"
 import AddProject from "./components/forms/AddProject"
 import AddTask from "./components/forms/AddTask"
+import RegisterForm from "./components/forms/RegistreForm"
+// import Members from "./components/entreprise/Members"
+import BarChart from "./components/charts/BarChart"
+import AdminPanel from "./pages/admin/AdminPanel"
+import MiniSidebarCalendar from "./components/calendar/MiniSidebarCalendar"
 function App() {
+  var date = new Date();
   return (
     // <Routes>
     //   <Route element={<MainLayout />}>
@@ -65,7 +70,12 @@ function App() {
     // <AdminDashboard/>
     // <RequestList/>
     // <AddProject/>
-    <AddTask/>
+    // <AddTask/>
+    // <RegisterForm/>
+    // <Members/>
+    // <BarChart/>
+    // <AdminPanel/>
+    <MiniSidebarCalendar currentDate={date}/>
   );
 }
 

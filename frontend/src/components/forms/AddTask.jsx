@@ -27,6 +27,7 @@ function AddTask(){
     return(
         <>
             <form method="POST" onSubmit={Handlesubmit}>
+                <button type="button" className={style.close}>X</button>
                 <div className={style.formGroup}>
                     <span className={NameHasError ? style.taskNameError : style.hidden}></span>
                     <label htmlFor="TaskName" className={style.label}>Name</label>
