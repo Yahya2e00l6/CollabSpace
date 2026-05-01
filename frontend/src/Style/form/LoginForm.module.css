@@ -1,0 +1,98 @@
+/* Container styling */
+.form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.fieldset {
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    border: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    max-width: 420px;
+    width: 100%;
+    gap: 20px;
+    padding: 0;
+}
+
+.legend {
+    font-weight: 700;
+    font-size: 2rem;
+    color: #0b1220;
+    margin-bottom: 8px;
+    text-align: left; 
+    width: 100%;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #3d4d6a;
+}
+
+.input {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    background-color: #f8fafc;
+}
+
+.input:focus {
+    border-color: #00d2ff;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 210, 255, 0.1);
+}
+
+/* Buttons */
+.submit {
+    all: unset;
+    text-align: center;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+    color: white;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+}
+
+.submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(58, 123, 213, 0.3);
+}
+
+.submit:active {
+    transform: translateY(0);
+}
+
+.footer {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.link {
+    color: #3a7bd5;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 5px;
+    transition: color 0.2s;
+}
+
+.link:hover {
+    color: #00d2ff;
+    text-decoration: underline;
+}
