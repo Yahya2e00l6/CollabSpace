@@ -46,7 +46,7 @@
 .input {
     border: 1.5px solid #e0e0e0;
     border-radius: 8px;
-    padding: 10px 15px;
+    padding: 12px 16px;
     font-size: 15px;
     outline: none;
     transition: all 0.3s ease;
@@ -109,4 +109,36 @@
 
 .Hidden {
     display: none;
+}
+
+@media (max-width: 1024px) {
+    .legend {
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+    }
+
+    .formGroup {
+        gap: 8px;
+    }
+
+    .label {
+        font-size: 15px;
+    }
+
+    .input {
+        padding: 14px 16px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .btn {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .submit,
+    .resetRequest {
+        padding: 14px;
+    }
 }

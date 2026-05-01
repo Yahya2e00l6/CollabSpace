@@ -11,18 +11,18 @@
     background: transparent;
     display: flex;
     flex-direction: column;
-    max-width: 420px;
-    width: 100%;
-    gap: 20px;
+    max-width: 360px;
+    width: min(100%, 360px);
+    gap: 14px;
     padding: 0;
 }
 
 .legend {
     font-weight: 700;
-    font-size: 2rem;
+    font-size: 1.75rem;
     color: #0b1220;
     margin-bottom: 8px;
-    text-align: left; 
+    text-align: center;
     width: 100%;
 }
 
@@ -58,7 +58,7 @@
 .submit {
     all: unset;
     text-align: center;
-    padding: 14px;
+    padding: 12px;
     border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
@@ -95,4 +95,35 @@
 .link:hover {
     color: #00d2ff;
     text-decoration: underline;
+}
+
+@media (max-width: 1024px) {
+    .legend {
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+    }
+
+    .formGroup {
+        gap: 8px;
+    }
+
+    .label {
+        font-size: 15px;
+    }
+
+    .input {
+        padding: 14px 16px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .btn {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .submit{
+        padding: 14px;
+    }
 }

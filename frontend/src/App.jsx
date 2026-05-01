@@ -2,7 +2,8 @@ import {Navigate, Route , Routes } from "react-router-dom"
 import './App.css'
 import RegisterForm from "./components/forms/RegistreForm";
 import Register from "./pages/auth/Register";
-import LoginForm from "./components/forms/LoginForm";
+import LoginForm from "./components/forms/SignInForm";
+import Login from "./pages/auth/SignIn";
 
 
 function App() {
@@ -20,8 +21,10 @@ function App() {
     // <BarChart/>
     // <AdminPanel/>
     // <MiniSidebarCalendar currentDate={date}/>
-    // <Register/>  
-    <LoginForm/>
+    <Register/>  
+    // <LoginForm/>
+    // <Login/>
+    
   );
 }
 

@@ -1,7 +1,7 @@
 import { useState } from "react"
-import style  from "../../Style/form/LoginForm.module.css"
+import style  from "../../Style/form/SignInForm.module.css"
 import { Link } from "react-router-dom"
-function LoginForm(){
+function SignInForm(){
     const [ identifier , setidentifier ] = useState("")
     const [ Password , setPassword ]  = useState("")
     const HandleSubmit = async (e) =>{
@@ -11,8 +11,8 @@ function LoginForm(){
     return(
         <>
             <form method="POST" onSubmit={HandleSubmit} className={style.form}>
-                <fieldset lassName={style.fieldset}>
-                    <legend className={style.legend}>Login</legend>
+                <fieldset className={style.fieldset}>
+                    <legend className={style.legend}>Sign In</legend>
                     <div className={style.formGroup}>
                         <label htmlFor="identifier" className={style.label}>identifier</label>
                         <input 
@@ -46,4 +46,4 @@ function LoginForm(){
     )
 }
 
-export default LoginForm
+export default SignInForm
