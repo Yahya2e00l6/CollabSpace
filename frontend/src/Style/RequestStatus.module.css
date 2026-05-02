@@ -4,15 +4,11 @@
     min-height: 100vh;
     height: 100vh;
     width: 100%;
-    background:
-        linear-gradient(120deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.74)),
-        url("../assets/backgrounds/backRegister.jpg") center / cover no-repeat;
+    background:linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     color: #0b1220;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
 }
-
-/* Left Side: Hero Area (Bright & Clean) */
 .sideBox {
     flex: 1.1;
     display: flex;
@@ -21,6 +17,16 @@
     position: relative;
     background: transparent;
     overflow: hidden;
+}
+.statusBox {
+    flex: 0.9;
+    display: flex;
+    flex-direction: column;
+    padding: 96px 72px 64px;
+    position: relative;
+    background: transparent;
+    overflow: hidden;
+    justify-content: center;
 }
 
 .logo {
@@ -66,7 +72,6 @@
 
 .accentText {
     color: #ff9f1a;
-    display: block;
 }
 
 .typewriterWrapper {
@@ -78,10 +83,10 @@
     border-left: 3px solid rgba(6, 182, 212, 0.5);
 }
 
-.heroMeta {
-    margin: 0.9rem 0 1rem;
-    display: grid;
-    gap: 0.35rem;
+.introduction :global(p){
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 20px;
+    font-weight: 600;
 }
 .LottieDiv {
     margin-top: 0.5rem;
@@ -98,17 +103,17 @@
     transform: translateY(0);
 }
 .formSection {
-    flex: 0 0 28%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding: 32px 28px;
-    margin: 32px 200px 32px 0;
+    margin: 2rem 0 0 0;
     background: #ffffff;
     border-radius: 22px;
     box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
     overflow: hidden;
-    transform: translateX(-24px);
+    width: 100%;
+    max-width: 450px;
 }
 
 .formContainer {
@@ -148,6 +153,12 @@
     .sideBox {
         border-right: none;
         padding: 96px 56px 60px;
+        flex: 1;
+    }
+
+    .statusBox {
+        flex: 1;
+        padding: 64px 56px;
     }
 
     .formSection {
@@ -172,68 +183,133 @@
     }
 }
 
+/* iPad / Tablet Version (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 768px) {
+    .Register {
+        flex-direction: column;
+        min-height: auto;
+        height: auto;
+        padding: 24px 20px 32px;
+        gap: 20px;
+    }
 
-@media (max-width: 980px) {
+    .sideBox {
+        padding: 64px 40px 48px;
+        flex: 1;
+    }
+
+    .statusBox {
+        padding: 48px 40px;
+        flex: 1;
+    }
+
+    .logo {
+        top: 20px;
+        left: 20px;
+        font-size: 1.6rem;
+    }
+
+    .mainTitle {
+        font-size: clamp(2.2rem, 5vw, 2.8rem);
+    }
+
+    .formSection {
+        width: min(500px, 100%);
+        max-width: 500px;
+        padding: 24px 20px;
+        margin: 1.5rem auto 0;
+    }
+
+    .formContainer {
+        max-width: 100%;
+    }
+}
+
+/* Mobile / Phone Version (below 768px) */
+@media (max-width: 767px) {
     .Register {
         flex-direction: column;
         min-height: 100dvh;
+        height: auto;
+        padding: 0;
+        gap: 0;
+        overflow-y: auto;
     }
+    .introduction :global(p){
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 13px;
+    font-weight: 600;
+}
 
     .sideBox {
         border-right: none;
         border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-        padding: 84px 32px 48px;
-    }
-
-    .formSection {
-        padding: 24px 20px 32px;
-    }
-
-    .formContainer {
-        max-width: 720px;
-    }
-
-    .LottieDiv {
-        max-width: 580px;
-        margin-top: 1.25rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .formSection {
-        width: min(520px, 100%);
-        margin: 0 auto 24px;
-        padding: 20px 18px;
-        justify-content: center;
-        transform: none;
-    }
-}
-
-@media (max-width: 600px) {
-    .sideBox {
         padding: 72px 20px 40px;
+        flex: none;
+    }
+
+    .statusBox {
+        padding: 32px 20px 40px;
+        flex: none;
+        justify-content: flex-start;
     }
 
     .logo {
-        top: 24px;
-        left: 20px;
+        top: 16px;
+        left: 16px;
         font-size: 1.15rem;
+    }
+
+    .mainTitle {
+        font-size: clamp(1.8rem, 6vw, 2.2rem);
+        margin-bottom: 0.75rem;
+    }
+
+    .accentText {
+        display: inline;
+    }
+
+    .formSection {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 16px;
+        margin: 1.25rem 0 0;
+        border-radius: 16px;
     }
 
     .formContainer {
         padding: 0;
+        max-width: 100%;
+    }
+
+    .formTitle {
+        font-size: 1.4rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .formSubtext {
+        font-size: 0.9rem;
+        margin-bottom: 1.2rem;
     }
 
     .typewriterWrapper {
-        font-size: 0.98rem;
+        font-size: 0.95rem;
+        max-height: none;
+    }
+
+    .heroMeta {
+        font-size: 0.95rem;
+        margin: 0.8rem 0 0.8rem;
     }
 
     .LottieDiv {
-        max-width: 460px;
+        max-width: 100%;
         margin-top: 1rem;
     }
 
     .lottie {
+        width: 100%;
+        max-width: 400px;
         transform: none;
     }
 }

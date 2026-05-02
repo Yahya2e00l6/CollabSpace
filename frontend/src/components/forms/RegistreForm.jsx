@@ -1,5 +1,6 @@
 import { useState } from "react"
 import style from "../../Style/form/RegisterForm.module.css"
+import { Link } from "react-router-dom"
 function RegisterForm(){
     const [ FirstName , setFirstName ] = useState("")
     const [ LastName , setLastName ] = useState("")
@@ -165,8 +166,10 @@ function RegisterForm(){
                         />
                     </div>
                     <div className={style.btn}>
-                        <button type="submit" className={style.submit}>send request</button> 
-                        <button type="reset" className={style.resetRequest}>follow your request</button> 
+                        <button type="submit" className={style.submit}>send request</button>
+                        <Link to="/RequestStatus" className={style.link}>
+                            <button type="reset" className={style.resetRequest}>follow your request</button> 
+                        </Link>
                     </div>
                 </fieldset>
             </form>

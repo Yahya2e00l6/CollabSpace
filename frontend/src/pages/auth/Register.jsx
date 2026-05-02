@@ -1,7 +1,7 @@
 import RegisterForm from "../../components/forms/RegistreForm";
 import style from "../../Style/Register.module.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import animationLottie from '../../assets/lottieFiles/Welcome.lottie';
+import animationLottie from '../../assets/lottieFiles/Recruitment.lottie';
 import Typewriter from 'typewriter-effect';
 
 const Register = () => {
@@ -47,8 +47,6 @@ const Register = () => {
                     />
                 </div>
             </div>
-
-            {/* Right Side: Form Section */}
             <div className={style.formSection}>
                 <div className={style.formContainer}>
                     <RegisterForm />

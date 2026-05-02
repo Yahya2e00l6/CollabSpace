@@ -1,4 +1,4 @@
-import LoginForm from "../../components/forms/SignInForm";
+import SignInForm from "../../components/forms/SignInForm";
 import style from "../../Style/SignIn.module.css"
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import animationLottie from '../../assets/lottieFiles/Welcome.lottie';
@@ -46,11 +46,9 @@ const SignIn = ()=>{
                     />
                 </div>
             </div>
-
-            {/* Right Side: Form Section */}
             <div className={style.formSection}>
                 <div className={style.formContainer}>
-                    <LoginForm />
+                    <SignInForm />
                 </div>
             </div>
         </div>

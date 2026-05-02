@@ -36,9 +36,9 @@ function SignInForm(){
                             />
                     </div>
                     <button type="submit" className={style.submit}>submit</button>
-                    <div>
+                    <div className={style.footer}>
                         <p>you dont have an account?</p>
-                        <Link to="../../pages/auth/Register.jsx">send a request</Link>
+                        <Link to="/Register" className={style.link}>send a request</Link>
                     </div>
                 </fieldset>
             </form>

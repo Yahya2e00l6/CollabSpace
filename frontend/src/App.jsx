@@ -1,29 +1,22 @@
 import {Navigate, Route , Routes } from "react-router-dom"
 import './App.css'
-import RegisterForm from "./components/forms/RegistreForm";
-import Register from "./pages/auth/Register";
-import LoginForm from "./components/forms/SignInForm";
-import Login from "./pages/auth/SignIn";
+import { publicRoutes } from "./routes/routes";
+import RequestStatusBox from "./components/Structural & UI/RequestStatusBox";
 
 
 function App() {
   return (
+    <Routes>
+      {publicRoutes.map((route) => (
+        <Route key={route.path} path={route.path} element={route.element} />
+      ))}
+      {/* FIX: Redirect the empty root path to login */}
+      <Route path="/" element={<Navigate to="/SignIn" replace />} />
 
-
-    //   </Route>
-    // </Routes>
-    // <AdminDashboard/>
-    // <RequestList/>
-    // <AddProject/>
-    // <AddTask/>
-    // <RegisterForm/>
-    // <Members/>
-    // <BarChart/>
-    // <AdminPanel/>
-    // <MiniSidebarCalendar currentDate={date}/>
-    <Register/>  
-    // <LoginForm/>
-    // <Login/>
+      {/* OPTIONAL: Catch-all for 404 errors */}
+      <Route path="*" element={<Navigate to="/SignIn" replace />} />
+    </Routes>
+    // <RequestStatusBox/>
     
   );
 }
