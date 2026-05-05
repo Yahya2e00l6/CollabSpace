@@ -1,0 +1,9 @@
+.Insights{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch;
+    gap: 16px;
+    flex: 0 0 auto;
+    height: clamp(120px, 18vh, 190px);
+}

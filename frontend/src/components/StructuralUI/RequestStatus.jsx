@@ -1,11 +1,11 @@
 import { DotLottieReact } from "@lottiefiles/dotlottie-react"
-import style from "../../Style/RequestStatusBox.module.css"
+import style from "../../Style/StructuralUI/RequestStatus.module.css"
 import approved from "../../assets/lottieFiles/Approval Stamp.lottie"
 import rejected from "../../assets/lottieFiles/Rejected.lottie"
 import pending from "../../assets/lottieFiles/Identity Verification Pending.lottie"
 import { Link } from "react-router-dom"
 
-const RequestStatusBox = ({ status = "accepted" }) => {
+const RequestStatus = ({ status = "accepted" }) => {
     
     const statusData = {
         pending: {
@@ -52,4 +52,4 @@ const RequestStatusBox = ({ status = "accepted" }) => {
         </div>
     )
 }
-export default RequestStatusBox
+export default RequestStatus

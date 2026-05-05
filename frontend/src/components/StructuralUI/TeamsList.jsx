@@ -1,4 +1,4 @@
-import style from "../../Style/TeamsList.module.css"
+import style from "../../Style/StructuralUI/TeamsList.module.css"
 import profile from "../../assets/profile.png"
 
 function TeamsList(){

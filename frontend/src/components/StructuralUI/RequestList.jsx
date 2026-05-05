@@ -1,5 +1,5 @@
 import profile from '../../assets/profile.png'
-import style from "../../Style/RequestList.module.css"
+import style from "../../Style/StructuralUI/RequestList.module.css"
 function RequestList(){
     return(
         <>

@@ -3,8 +3,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 3rem 2rem; /* Increased vertical padding for better balance */
-    border-radius: 28px; /* Slightly more rounded for the larger size */
+    padding: 3rem 2rem;
+    border-radius: 28px; 
     text-align: center;
     transition: all 0.3s ease;
     

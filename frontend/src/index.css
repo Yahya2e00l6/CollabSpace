@@ -13,11 +13,22 @@ body,
 body {
 	margin: 0;
 	overflow-x: hidden;
-	overflow-y: auto;
+	overflow-y: hidden;
 }
 
-@media (min-width: 1025px) {
+/* @media (min-width: 1025px) {
 	body {
 		overflow-y: hidden;
 	}
+} */
+
+/* This targets the entire browser window */
+html, body {
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For IE and Edge */
+}
+
+/* This targets Chrome, Safari, and Edge (Chromium) */
+::-webkit-scrollbar {
+    display: none;
 }

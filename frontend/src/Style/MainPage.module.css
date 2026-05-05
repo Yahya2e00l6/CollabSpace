@@ -1,0 +1,37 @@
+.MainPage{
+    display: flex;
+    flex-direction: row;
+    background:linear-gradient(120deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.74));
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.selectedSection{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    flex: 1;
+    min-height: 0;
+    padding: 0 16px 16px 0;
+    height: 100%;
+    overflow: hidden;
+}
+.Overview{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: stretch;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    padding: 0 10px 10px;
+    overflow: hidden;
+}
+
+@media (max-width: 1100px) {
+    .Overview {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+}

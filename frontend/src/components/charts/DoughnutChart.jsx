@@ -7,17 +7,26 @@ import {
             Legend,
             Title
         } from "chart.js/auto"
-import {Bar} from "react-chartjs-2"
+import style from '../../Style/Charts/DoughnutChart.module.css'
+import {Doughnut} from "react-chartjs-2"
 function DoughtnutChart({chartData , title}){
     return(
         <>
-        <div>
-            <Bar 
+        <div className={style.chartContainer}>
+            <Doughnut 
             data={chartData}
             options={{
                 responsive : true,
+                maintainAspectRatio: false,
                 plugins : {
-                    legend : true,
+                    legend: {
+                        display: true,
+                        position: "bottom",
+                        labels: {
+                        usePointStyle: true,
+                        pointStyle: "circle"
+                        }
+                    },
                     title : {
                         display:true,
                         text: title

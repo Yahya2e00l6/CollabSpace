@@ -1,51 +1,153 @@
-import styles from "../../Style/MainLayout.module.css";
+import style from "../../Style/MainLayout.module.css";
 import { Link, Outlet } from 'react-router-dom';
-
+import UserBox from "../StructuralUI/UserBox";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { 
+        faChartColumn ,
+        faPeopleGroup , 
+        faUserGroup , 
+        faDiagramProject ,
+        faListCheck ,
+        faBell
+        
+    } from '@fortawesome/free-solid-svg-icons';
+import { useState } from "react";
+import CreateTeam from "../forms/CreateTeam";
+import AddProject from "../forms/AddProject";
+import AddTask from "../forms/AddTask";
 const MainLayout = () => {
-    let isLoggedIn = true;
+    const role = 'admin';
+    const [ isAddProjectOpen ,setIsAddProjectOpen ] = useState(false)
+    const [ isAddTaskOpen ,setIsAddTaskOpen ] = useState(false)
+    const [ isCreateTeamOpen ,setIsCreateTeamOpen ] = useState(false)
+    const toggelProject = ()=>setIsAddProjectOpen(!isAddProjectOpen);
+    const toggelTask = ()=>setIsAddTaskOpen(!isAddTaskOpen);
+    const toggelTeam = ()=>setIsCreateTeamOpen(!isCreateTeamOpen);
 
     return (
-        <div className={styles.layoutWrapper}>
-            <nav className={styles.navbar}>
-                <div className={styles.navContainer}>
-                    {/* Logo Area */}
-                    <div className={styles.logoSection}>
-                        <img src="https://via.placeholder.com/40" alt="logo" className={styles.logo}/>
-                        <span className={styles.brandName}>LearnAndTry</span>
-                    </div>
-
-                    {/* Navigation Links */}
-                    <ul className={styles.navLinks}>
-                        {isLoggedIn ? (
-                            <>
-                                <li><Link to="/">Home</Link></li>
-                                <li><Link to="/projects/create">Projects</Link></li>
-                                <li><Link to="/people">People</Link></li>
-                                <li><Link to="/notifications">Notification</Link></li>
-                                {/* Profile pushed to the end */}
-                                <li className={styles.userSection}>
-                                    <Link to="/profile/overview">
-                                        <img src="https://via.placeholder.com/35" alt="profile" className={styles.profilePic} />
-                                    </Link>
+        <>
+            <nav className={style.sidebar}>
+                <div className={style.logo}>CollabSpace</div>
+                <div className={style.Identity}>
+                    <UserBox/>
+                </div>
+                <p className={style.mainMenu}>Main Menu</p>
+                <div className={style.mainMenuList}>
+                    {
+                        role === 'admin' ?
+                        (
+                            <ul>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faChartColumn} /></div>
+                                    <p>Dashboard</p>
                                 </li>
-                            </>
-                        ) : (
-                            <>
-                                <li><Link to="/">Home</Link></li>
-                                <li><Link to="/#">Features</Link></li>
-                                <li><Link to="/#">Contact</Link></li>
-                                <li className={styles.userSection}><Link to="/#">Login</Link></li>
-                                <li><Link to="/#" className={styles.getStartedBtn}>Get Started</Link></li>
-                            </>
-                        )}
-                    </ul>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faPeopleGroup} /></div>
+                                    <p>Teams</p>
+                                </li>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faUserGroup} /></div>
+                                    <p>Social</p>
+                                </li>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faDiagramProject} /></div>
+                                    <p>Projects</p>
+                                </li>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faBell} /></div>
+                                    <p>Requests</p>
+                                </li>
+                            </ul>
+                        ) : 
+                        role === 'manager' ?
+                        (
+                            <ul>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faChartColumn} /></div>
+                                    <p>Dashboard</p>
+                                </li>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faPeopleGroup} /></div>
+                                    <p>Team</p>
+                                </li>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faUserGroup} /></div>
+                                    <p>Social</p>
+                                </li>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faListCheck} /></div>
+                                    <p>Tasks</p>
+                                </li>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faDiagramProject} /></div>
+                                    <p>Projects</p>
+                                </li>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faBell} /></div>
+                                    <p>Requests</p>
+                                </li>
+                            </ul>
+                        ) : 
+                        (
+                            <ul>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faChartColumn} /></div>
+                                    <p>Dashboard</p>
+                                </li>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faPeopleGroup} /></div>
+                                    <p>Team</p>
+                                </li>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faUserGroup} /></div>
+                                    <p>Social</p>
+                                </li>setIsTeamValide
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faListCheck} /></div>
+                                    <p>Tasks</p>
+                                </li>
+                                <li>
+                                    <div className={style.icon}><FontAwesomeIcon icon={faDiagramProject} /></div>
+                                    <p>Projects</p>
+                                </li>
+                            </ul>
+                        )
+                    }
+                </div>
+                <p className={style.General}>General</p>
+                <div className={style.actionBlock}>
+                                        {
+                        role === 'admin' ?
+                        (
+                            <div className={style.Container}>
+                                <button className={style.createTeam} onClick={toggelTeam}>Create Team</button>
+                                <button className={style.addProject} onClick={toggelProject}>Add Project</button>
+                            </div>
+                        ) : 
+                        role === 'manager' ?
+                        (
+                            <div className={style.Container}>
+                                <div>
+                                    <button className={style.addTask} onClick={toggelTask}>Add Task</button>
+                                    <button className={style.addProject} onClick={toggelProject}>Add Project</button>
+                                </div>
+                            </div>
+                        ) : 
+                        (
+                            <div className={style.Container}>
+                                <button className={style.createTeam} onClick={toggelTeam}>Create Team</button>
+                            </div>
+                            
+                        )
+                    }
                 </div>
             </nav>
-
-            <main className={styles.content}>
-                <Outlet />
-            </main>
-        </div>
+            <div className={`${style.c_Container} ${(isCreateTeamOpen || isAddProjectOpen || isAddTaskOpen) ? style.isOpen : ""}`}>
+                {isCreateTeamOpen && <CreateTeam onClose={toggelTeam}/>}
+                {isAddProjectOpen && <AddProject onClose={toggelProject}/>}
+                {isAddTaskOpen && <AddTask onClose={toggelTask}/>}
+            </div>
+        </>
     );
 };
 

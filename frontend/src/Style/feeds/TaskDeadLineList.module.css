@@ -1,0 +1,16 @@
+.List {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	gap: 12px;
+	flex: 1;
+	min-height: 0;
+	overflow: auto;
+	padding-right: 4px;
+}
+
+@media (min-width: 1100px) and (min-height: 900px) {
+	.List {
+		justify-content: space-between;
+	}
+}

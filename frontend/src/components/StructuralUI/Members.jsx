@@ -1,5 +1,5 @@
 import { useState } from "react"
-import style from "../../Style/Members.module.css"
+import style from "../../Style/StructuralUI/Members.module.css"
 import profile from '../../assets/profile.png'
 
 function Members(){
