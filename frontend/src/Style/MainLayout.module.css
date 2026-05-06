@@ -18,6 +18,53 @@
 	animation: sidebar-in 520ms ease-out both;
 }
 
+.sidebarHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.menuSections {
+	display: flex;
+	flex-direction: column;
+}
+
+.mobileToggle {
+	display: none;
+	border: 1px solid var(--border-soft);
+	background: #ffffff;
+	border-radius: 12px;
+	padding: 8px;
+	width: 42px;
+	height: 42px;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	box-shadow: 0 6px 16px rgba(26, 35, 69, 0.12);
+	cursor: pointer;
+}
+
+.toggleBar {
+	width: 18px;
+	height: 2px;
+	background: var(--text-strong);
+	border-radius: 999px;
+	transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.isActive .toggleBar:nth-child(1) {
+	transform: translateY(6px) rotate(45deg);
+}
+
+.isActive .toggleBar:nth-child(2) {
+	opacity: 0;
+}
+
+.isActive .toggleBar:nth-child(3) {
+	transform: translateY(-6px) rotate(-45deg);
+}
+
 .logo {
 	display: flex;
 	align-items: center;
@@ -205,12 +252,123 @@
 	}
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
 	.sidebar {
 		width: 100%;
 		min-height: auto;
+		padding: 18px 16px 14px;
 		border-right: none;
 		border-bottom: 1px solid var(--border-soft);
 		box-shadow: none;
+	}
+
+	.mobileToggle {
+		display: inline-flex;
+	}
+
+	.menuSections {
+		max-height: 0;
+		overflow: hidden;
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(-6px);
+		transition: max-height 220ms ease, opacity 220ms ease, transform 220ms ease;
+	}
+
+	.menuOpen {
+		max-height: calc(100dvh - 90px);
+		overflow-y: auto;
+		opacity: 1;
+		pointer-events: auto;
+		transform: translateY(0);
+	}
+
+	.logo {
+		margin: 8px 0 12px;
+		padding-bottom: 12px;
+		font-size: 1.25rem;
+		letter-spacing: 0.12rem;
+	}
+
+	.Identity {
+		margin-top: 10px;
+		padding-bottom: 12px;
+	}
+
+	.mainMenu,
+	.General {
+		margin: 16px 0 8px;
+		padding-bottom: 0;
+		text-align: left;
+	}
+
+	.mainMenuList ul {
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.mainMenuList li {
+		padding: 8px 12px;
+	}
+
+	.mainMenuList li p {
+		font-size: 16px;
+		white-space: nowrap;
+	}
+
+	.actionBlock {
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.addProject,
+	.addTask,
+	.addTeam,
+	.createTeam {
+		width: 100%;
+	}
+}
+
+@media (max-width: 720px) {
+	.sidebar {
+		padding: 14px 12px 12px;
+	}
+
+	.logo {
+		margin: 6px 0 10px;
+		padding-bottom: 10px;
+		font-size: 1.05rem;
+		letter-spacing: 0.1rem;
+	}
+
+	.mainMenuList ul {
+		gap: 10px;
+	}
+
+	.mainMenuList li {
+		padding: 6px 10px;
+		border-radius: 12px;
+	}
+
+	.mainMenuList li p {
+		font-size: 14px;
+	}
+
+	.icon {
+		width: 36px;
+		height: 36px;
+		font-size: 14px;
+	}
+
+	.actionBlock {
+		flex-direction: column;
+	}
+
+	.addProject,
+	.addTask,
+	.addTeam,
+	.createTeam {
+		width: 100%;
+		font-size: 14px;
 	}
 }

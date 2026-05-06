@@ -10,3 +10,20 @@
 	flex: 1;
 	min-height: 0;
 }
+
+@media (max-width: 1024px) {
+	.charts {
+		height: auto;
+	}
+
+	.charts > div {
+		flex: 0 0 auto;
+		min-height: 320px;
+	}
+}
+
+@media (max-width: 720px) {
+	.charts > div {
+		min-height: 260px;
+	}
+}

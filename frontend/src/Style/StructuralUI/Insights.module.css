@@ -7,3 +7,17 @@
     flex: 0 0 auto;
     height: clamp(120px, 18vh, 190px);
 }
+
+@media (max-width: 1024px) {
+    .Insights {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        height: auto;
+    }
+}
+
+@media (max-width: 720px) {
+    .Insights {
+        grid-template-columns: 1fr;
+    }
+}

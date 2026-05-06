@@ -29,3 +29,18 @@
     font-size: 17px;
     color: #1f2a44;
 }
+
+@media (max-width: 720px) {
+    .UserBox {
+        padding: 8px 14px 8px 10px;
+    }
+
+    .profile {
+        width: 34px;
+        height: 34px;
+    }
+
+    .UserName {
+        font-size: 15px;
+    }
+}

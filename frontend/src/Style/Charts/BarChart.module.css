@@ -23,10 +23,18 @@
     .chartContainer {
         padding: 14px 12px 8px;
         border-radius: 16px;
-        height: 100%;
+        height: auto;
+        min-height: 260px;
     }
 
     .chartContainer canvas {
         height: 100%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .chartContainer {
+        height: auto;
+        min-height: 320px;
     }
 }
