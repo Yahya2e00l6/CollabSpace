@@ -1,5 +1,5 @@
 import SignInForm from "../../components/forms/SignInForm";
-import style from "../../Style/SignIn.module.css"
+import style from "../../Style/auth/SignIn.module.css"
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import animationLottie from '../../assets/lottieFiles/Welcome.lottie';
 import Typewriter from 'typewriter-effect';

@@ -15,7 +15,8 @@ import { useState } from "react";
 import CreateTeam from "../forms/CreateTeam";
 import AddProject from "../forms/AddProject";
 import AddTask from "../forms/AddTask";
-const MainLayout = () => {
+import Dashboard from "../../pages/Main/Dashboard";
+const MainLayout = ({setSelected}) => {
     const role = 'admin';
     const [ isAddProjectOpen ,setIsAddProjectOpen ] = useState(false)
     const [ isAddTaskOpen ,setIsAddTaskOpen ] = useState(false)
@@ -25,7 +26,11 @@ const MainLayout = () => {
     const toggelTask = ()=>setIsAddTaskOpen(!isAddTaskOpen);
     const toggelTeam = ()=>setIsCreateTeamOpen(!isCreateTeamOpen);
     const toggleMenu = () => setIsMenuOpen((open) => !open);
-
+    const [selectedMenu , setSelectedMenu ] = useState("Dashboard")
+    const isSelected = (selected) =>{
+        setSelected(selected)
+        setSelectedMenu(selected)
+    }
     return (
         <>
             <nav className={style.sidebar}>
@@ -53,23 +58,23 @@ const MainLayout = () => {
                             role === 'admin' ?
                             (
                                 <ul>
-                                    <li>
+                                    <li onClick={() => isSelected('Dashboard')} className={selectedMenu === "Dashboard" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faChartColumn} /></div>
                                         <p>Dashboard</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Teams')} className={selectedMenu === "Teams" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faPeopleGroup} /></div>
                                         <p>Teams</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Social')} className={selectedMenu === "Social" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faUserGroup} /></div>
                                         <p>Social</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Projects')} className={selectedMenu === "Projects" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faDiagramProject} /></div>
                                         <p>Projects</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Requests')} className={selectedMenu === "Requests" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faBell} /></div>
                                         <p>Requests</p>
                                     </li>
@@ -78,27 +83,27 @@ const MainLayout = () => {
                             role === 'manager' ?
                             (
                                 <ul>
-                                    <li>
+                                    <li onClick={() => isSelected('Dashboard')} className={selectedMenu === "Dashboard" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faChartColumn} /></div>
                                         <p>Dashboard</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Teams')} className={selectedMenu === "Teams" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faPeopleGroup} /></div>
                                         <p>Team</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Social')} className={selectedMenu === "Social" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faUserGroup} /></div>
                                         <p>Social</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Tasks')} className={selectedMenu === "Tasks" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faListCheck} /></div>
                                         <p>Tasks</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Projects')} className={selectedMenu === "Projects" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faDiagramProject} /></div>
                                         <p>Projects</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Requests')} className={selectedMenu === "Requests" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faBell} /></div>
                                         <p>Requests</p>
                                     </li>
@@ -106,23 +111,23 @@ const MainLayout = () => {
                             ) : 
                             (
                                 <ul>
-                                    <li>
+                                    <li onClick={() => isSelected('Dashboard')} className={selectedMenu === "Dashboard" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faChartColumn} /></div>
                                         <p>Dashboard</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Teams')} className={selectedMenu === "Teams" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faPeopleGroup} /></div>
                                         <p>Team</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Social')} className={selectedMenu === "Social" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faUserGroup} /></div>
                                         <p>Social</p>
-                                    </li>setIsTeamValide
-                                    <li>
+                                    </li>
+                                    <li onClick={() => isSelected('Tasks')} className={selectedMenu === "Tasks" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faListCheck} /></div>
                                         <p>Tasks</p>
                                     </li>
-                                    <li>
+                                    <li onClick={() => isSelected('Projects')} className={selectedMenu === "Projects" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faDiagramProject} /></div>
                                         <p>Projects</p>
                                     </li>

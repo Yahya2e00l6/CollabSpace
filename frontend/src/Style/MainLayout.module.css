@@ -130,12 +130,6 @@
 .mainMenuList li:nth-child(5) { animation-delay: 180ms; }
 .mainMenuList li:nth-child(6) { animation-delay: 210ms; }
 
-.mainMenuList li:first-child {
-	background: var(--accent-soft);
-	color: var(--accent);
-	font-weight: 600;
-}
-
 .mainMenuList li:hover {
 	background: rgba(91, 124, 250, 0.12);
 	color: var(--accent);
@@ -159,10 +153,21 @@
 	box-shadow: inset 0 0 0 1px rgba(229, 235, 247, 0.9);
 }
 
-.mainMenuList li:first-child .icon,
-.mainMenuList li:hover .icon {
+.chosen {
+	background: var(--accent-soft);
+	color: var(--accent);
+	font-weight: 600;
+}
+
+.mainMenuList li:hover .icon,
+.chosen .icon {
 	color: var(--accent);
 	background: #ffffff;
+}
+
+.chosen p {
+	color: var(--accent);
+	font-weight: 600;
 }
 
 .actionBlock {

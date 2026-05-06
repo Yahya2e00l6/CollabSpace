@@ -1,6 +1,6 @@
 import StatusForm from "../../components/forms/StatusForm";
-import style from "../../Style/RequestStatus.module.css"
-import RequestStatusBox from "../../components/Structural & UI/RequestStatusBox";
+import style from "../../Style/auth/RequestStatus.module.css"
+import RequestStatusBox from "../../components/StructuralUI/RequestStatusBox";
 const RequestStatus = ()=>{
     return(
         <>

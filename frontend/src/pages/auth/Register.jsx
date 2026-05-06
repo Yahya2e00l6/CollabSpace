@@ -1,5 +1,5 @@
 import RegisterForm from "../../components/forms/RegistreForm";
-import style from "../../Style/Register.module.css";
+import style from "../../Style/auth/Register.module.css";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import animationLottie from '../../assets/lottieFiles/Recruitment.lottie';
 import Typewriter from 'typewriter-effect';
