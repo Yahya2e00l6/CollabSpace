@@ -1,4 +1,4 @@
-import style from '../../../Style/feeds/CompletedList.module.css'
+import style from '../../../Style/StructuralUI/feeds/CompletedProject.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiagramProject } from '@fortawesome/free-solid-svg-icons';
 function CompletedProject({Name , Team , Time}){

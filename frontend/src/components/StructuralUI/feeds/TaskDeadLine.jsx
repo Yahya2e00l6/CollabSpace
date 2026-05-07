@@ -1,4 +1,4 @@
-import style from "../../../Style/feeds/TaskDeadLine.module.css"
+import style from "../../../Style/StructuralUI/feeds/TaskDeadLine.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faListCheck } from '@fortawesome/free-solid-svg-icons';
 const TaskDeadLine = ({TaskName,ProjectName,remainingDays,DeadLine}) => {

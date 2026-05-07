@@ -1,4 +1,4 @@
-import style from "../../../Style/feeds/ProjectDeadlineList.module.css"
+import style from "../../../Style/StructuralUI/feeds/ProjectDeadlineList.module.css"
 import { eachDayOfInterval } from "date-fns"
 import { useState } from "react"
 import ProjectDeadLine from "./ProjectDeadLine"

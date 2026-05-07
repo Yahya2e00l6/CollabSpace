@@ -1,5 +1,5 @@
 import { useState } from "react"
-import style from "../../../Style/feeds/Feeds.module.css"
+import style from "../../../Style/StructuralUI/feeds/Feeds.module.css"
 import TaskDeadLineList from "./TaskDeadLineList"
 import ProjectDeadLineList from "./ProjectsDeadLineList"
 import CompletedList from "./CompletedProject"

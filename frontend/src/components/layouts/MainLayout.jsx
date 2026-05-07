@@ -141,7 +141,6 @@ const MainLayout = ({setSelected}) => {
                             role === 'admin' ?
                             (
                                 <div className={style.Container}>
-                                    <button className={style.createTeam} onClick={toggelTeam}>Create Team</button>
                                     <button className={style.addProject} onClick={toggelProject}>Add Project</button>
                                 </div>
                             ) : 

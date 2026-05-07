@@ -1,0 +1,99 @@
+.projectCard {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 16px;
+	min-height: 90px;
+	border-radius: 14px;
+	border: 1px solid rgba(226, 232, 240, 0.9);
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 245, 255, 0.98) 100%);
+	box-shadow: 0 8px 18px rgba(31, 42, 68, 0.08);
+	overflow: hidden;
+	font-family: "Sora", "Segoe UI", Tahoma, sans-serif;
+	transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+	animation: cardIn 240ms ease-out both;
+}
+
+.projectCard::before {
+	content: "";
+	position: absolute;
+	width: 120px;
+	height: 120px;
+	top: -60px;
+	right: -60px;
+	opacity: 0.85;
+	pointer-events: none;
+}
+
+.projectCard:hover {
+	transform: translateY(-2px);
+	border-color: rgba(79, 124, 255, 0.3);
+	box-shadow: 0 12px 24px rgba(31, 42, 68, 0.14);
+}
+
+.Profile {
+	width: 54px;
+	height: 54px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid rgba(79, 124, 255, 0.25);
+	box-shadow: 0 6px 14px rgba(31, 42, 68, 0.12);
+	background: #fff;
+}
+
+.projeectData {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+	z-index: 1;
+}
+
+.name {
+	margin: 0;
+	font-size: 0.95rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	color: #1f2a44;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.age {
+	margin: 0;
+	font-size: 0.8rem;
+	color: #6b7280;
+}
+
+.role {
+	margin: 0;
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: #4f6bda;
+}
+
+.team {
+	margin: 0;
+	font-size: 0.78rem;
+	color: #8892a6;
+}
+
+@keyframes cardIn {
+	from {
+		opacity: 0;
+		transform: translateY(6px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.projectCard {
+		animation: none;
+		transition: none;
+	}
+}

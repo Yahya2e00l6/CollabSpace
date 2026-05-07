@@ -1,0 +1,54 @@
+.list {
+	width: 100%;
+	min-width: 0;
+	flex: 1;
+	padding: 12px;
+	background: rgba(255, 255, 255, 0.96);
+	border: 1px solid rgba(226, 232, 240, 0.9);
+	border-radius: 16px;
+	box-shadow: 0 10px 20px rgba(28, 44, 84, 0.08);
+	overflow: hidden;
+}
+
+.table {
+	width: 100%;
+	min-width: 100%;
+	border-collapse: separate;
+	border-spacing: 0 10px;
+	font-family: "Sora", "Segoe UI", Tahoma, sans-serif;
+}
+
+.thead {
+	position: sticky;
+	top: 0;
+	background: transparent;
+}
+
+.th {
+	text-align: center;
+	padding: 8px 10px;
+	font-size: 0.72rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #6b7591;
+}
+
+.tbody {
+	font-size: 0.86rem;
+	color: #1f2a44;
+}
+
+.noResults {
+	margin: 0;
+	padding: 16px 8px;
+	text-align: center;
+	color: #6b7591;
+}
+
+@media (max-width: 1024px) {
+	.table {
+		display: block;
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+}

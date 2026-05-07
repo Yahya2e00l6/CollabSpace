@@ -1,4 +1,4 @@
-import style from "../../Style/StructuralUI/HeaderDash.module.css"
+import style from "../../Style/StructuralUI/Header.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { 
         faChartColumn ,
@@ -7,10 +7,9 @@ import {
         faDiagramProject ,
         faListCheck ,
         faBell
-        
     } from '@fortawesome/free-solid-svg-icons';
-const HeaderDash = () => {
-    const selectedPage = "Dashboard"
+const Header = ({selectedPage}) => {
+    const role = 'admin';
     return(
         <>
             {selectedPage === "Dashboard" && 
@@ -23,7 +22,16 @@ const HeaderDash = () => {
                 </div>
             }
 
-            {selectedPage === "Team" && 
+            {selectedPage === "Teams" && (
+                role === 'admin' ? 
+                <div className={style.HeaderDash}>
+                    <div className={style.sectionLogo}>
+                        <div className={style.icon}><FontAwesomeIcon icon={faPeopleGroup} /></div>
+                        <h1 className={style.Name}>Teams</h1>
+                    </div>
+                    <p className={style.Introduction}>A strong organization is built on a solid foundation. Manage your collective workforce, track the health of every team, and shape the future of your company’s collaboration</p>
+                </div>
+                :
                 <div className={style.HeaderDash}>
                     <div className={style.sectionLogo}>
                         <div className={style.icon}><FontAwesomeIcon icon={faPeopleGroup} /></div>
@@ -31,6 +39,7 @@ const HeaderDash = () => {
                     </div>
                     <p className={style.Introduction}>Everything starts with the right people. Check in with your squad, view your collaborators, and bring new talent into the fold</p>
                 </div>
+            )
             }
 
             {selectedPage === "Social" && 
@@ -67,7 +76,7 @@ const HeaderDash = () => {
                 <div className={style.HeaderDash}>
                     <div className={style.sectionLogo}>
                         <div className={style.icon}><FontAwesomeIcon icon={faBell} /></div>
-                        <h1 className={style.Name}>Request</h1>
+                        <h1 className={style.Name}>Requests</h1>
                     </div>
                     <p className={style.Introduction}>The gateway to collaboration. Manage incoming invitations and oversee team growth to ensure the right people are in the right places.</p>
                 </div>
@@ -76,4 +85,4 @@ const HeaderDash = () => {
     )
 }
 
-export default HeaderDash
+export default Header

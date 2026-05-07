@@ -1,4 +1,4 @@
-import style from '../../../Style/feeds/ProjectsDeadLine.module.css'
+import style from '../../../Style/StructuralUI/feeds/ProjectsDeadLine.module.css'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDiagramProject } from '@fortawesome/free-solid-svg-icons';

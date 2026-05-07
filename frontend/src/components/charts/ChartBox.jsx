@@ -35,7 +35,6 @@ const ChartBox = () =>{
             role === 'admin' &&
             <BarChart chartData={barData} title={'Total Projects Finished'} Axis={'y'}/>
           }
-
           {
             role==='manager' && 
             <BarChart chartData={barData} title={'Total Projects Finished'} Axis={'y'}/>
