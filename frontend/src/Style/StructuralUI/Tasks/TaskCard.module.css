@@ -1,0 +1,167 @@
+.MembershipCard {
+	background: #ffffff;
+	box-shadow: 0 8px 16px rgba(28, 44, 84, 0.08);
+	border: 1px solid rgba(226, 232, 240, 0.9);
+	border-radius: 14px;
+	overflow: hidden;
+	transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.MembershipCard:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 12px 22px rgba(28, 44, 84, 0.12);
+	border-color: rgba(79, 124, 255, 0.25);
+}
+
+.MembershipCard td {
+	padding: 12px 10px;
+	vertical-align: middle;
+    text-align: center;
+}
+
+.profiles {
+	width: 56px;
+}
+
+.profile {
+	width: 42px;
+	height: 42px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid rgba(79, 124, 255, 0.2);
+	background: #f8fafc;
+}
+
+.Name p {
+	margin: 0;
+	font-weight: 600;
+	color: #1f2a44;
+}
+
+.OwnerName p,
+.Status p,
+.CreateAt,
+.DeadLine p {
+	margin: 0;
+	color: #5b6b88;
+}
+
+.statusPill {
+	margin: 0;
+	display: inline-flex;
+	align-items: center;
+	padding: 4px 10px;
+	border-radius: 999px;
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.01em;
+}
+
+.statusPending {
+	color: #b45309;
+	background: rgba(249, 115, 22, 0.12);
+	border: 1px solid rgba(249, 115, 22, 0.25);
+}
+
+.statusCompleted {
+	color: #17803d;
+	background: rgba(34, 197, 94, 0.12);
+	border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.statusOngoing {
+	color: #1f5fbf;
+	background: rgba(59, 130, 246, 0.12);
+	border: 1px solid rgba(59, 130, 246, 0.22);
+}
+
+.buttons {
+	display: flex;
+	gap: 8px;
+	justify-content: center;
+}
+
+.Completed,
+.Ongoing,
+.pending {
+	border: none;
+	padding: 6px 12px;
+	border-radius: 10px;
+	font-size: 0.78rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+}
+.icon {
+	width: 52px;
+	height: 52px;
+	border: 1px solid;
+	border-radius: 50px;
+	color:#5b7cfa ;
+	display: grid;
+	place-items: center;
+	font-size: 20px;
+	background: rgba(255, 255, 255, 0.7);
+	box-shadow: inset 0 0 0 1px rgba(229, 235, 247, 0.9);
+}
+.Completed {
+	background: rgba(34, 197, 94, 0.16);
+	color: #17803d;
+	border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.Ongoing {
+	background: rgba(59, 130, 246, 0.16);
+	color: #1f5fbf;
+	border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.pending {
+	background: rgba(249, 115, 22, 0.14);
+	color: #b45309;
+	border: 1px solid rgba(249, 115, 22, 0.25);
+}
+
+.Completed:hover,
+.Ongoing:hover,
+.pending:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 8px 14px rgba(28, 44, 84, 0.12);
+}
+
+.delete {
+	margin-left: 6px;
+	border: 1px solid rgba(239, 68, 68, 0.28);
+	background: rgba(239, 68, 68, 0.12);
+	color: #b91c1c;
+	width: 34px;
+	height: 34px;
+	border-radius: 10px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, border-color 140ms ease;
+}
+
+.delete:hover {
+	transform: translateY(-1px);
+	background: rgba(239, 68, 68, 0.2);
+	border-color: rgba(239, 68, 68, 0.4);
+	box-shadow: 0 8px 14px rgba(28, 44, 84, 0.12);
+}
+
+.delete:focus-visible {
+	outline: 2px solid rgba(239, 68, 68, 0.55);
+	outline-offset: 2px;
+}
+
+@media (max-width: 1024px) {
+	.MembershipCard td {
+		padding: 10px 8px;
+	}
+
+	.buttons {
+		gap: 6px;
+	}
+}

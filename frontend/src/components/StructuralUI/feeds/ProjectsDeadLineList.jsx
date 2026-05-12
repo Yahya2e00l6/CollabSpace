@@ -1,72 +1,48 @@
+import { useContext, useEffect, useState } from "react"
 import style from "../../../Style/StructuralUI/feeds/ProjectDeadlineList.module.css"
-import { eachDayOfInterval } from "date-fns"
-import { useState } from "react"
 import ProjectDeadLine from "./ProjectDeadLine"
-const ProjectDeadLineList = () => {
-    
-        const data = [
-            {
-                id:7,
-                Name : "project 11",
-                TotalTasks : 23,
-                CompletedTask : 3,
-                remaining : 1
-            },
-            {
-                id :1,
-                Name : "project 5",
-                TotalTasks : 22,
-                CompletedTask : 6,
-                remaining : 2
-            },
-            {
-                id:2,
-                Name : "project 4",
-                TotalTasks : 43,
-                CompletedTask : 1,
-                remaining : 5
-            },
-            {
-                id:3,
-                Name : "project 1",
-                TotalTasks : 35,
-                CompletedTask : 5,
-                remaining : 7,
-            },
-            {
-                id:4,
-                Name : "project 3",
-                TotalTasks : 10,
-                CompletedTask : 2,
-                remaining : 9
-            },
-            {
-                id:6,
-                Name : "project 8",
-                TotalTasks : 50,
-                CompletedTask : 49,
-                remaining : 17
-            },
-            {
-                id:5,
-                Name : "project 2",
-                TotalTasks : 20,
-                CompletedTask : 7,
-                remaining : 30
-            },
-    ]
+import { AuthContext } from "../../../context/AuthContext"
+import { get } from "../../../api/client"
+const ProjectDeadLineList = ({id}) => {
+    const {user} =useContext(AuthContext)
+    const [ projectDeadLine , setProjectDeadLine ] = useState([])
+
+    useEffect(() => {
+        const fetchdata = async () => {
+            try{
+                if(!id){
+                    const {teamId} = await get(`/auth/userTeam/${user.id}`)
+                    console.log(teamId);
+                    if(teamId){
+                        const response = await get(`/projects/projectDeadlineInfo/${teamId}`)
+                        if(response){
+                            setProjectDeadLine(response);
+                        }
+                    }
+                }else{
+                    const response = await get(`/projects/projectDeadlineInfo/${id}`)
+                    if(response){
+                    setProjectDeadLine(response);
+                    }
+                }
+            }catch(e){
+                console.error(e.message);
+            }
+        }
+        fetchdata()
+    },[user.id , id])
     return(
         <>
         <div className={style.List}>
             {
-                data.map((d) => (
+                projectDeadLine.map((data) => (
                         <ProjectDeadLine
-                            key={d.id}
-                            Name={d.Name} 
-                            DeadLine={'2026-06-1'}
-                            totalTasks={d.TotalTasks}
-                            completedTasks={d.CompletedTask}
-                            remainingDays={d.remaining}
+                            key={data.projectid}
+                            Name={data.projectName} 
+                            DeadLine={data.deadLine.split('T')[0]}
+                            totalTasks={data.totalTasks}
+                            completedTasks={data.completedTasks}
+                            remainingDays={data.remaining}
                             />
                 ))
             }

@@ -11,26 +11,31 @@ import {
         faBell
         
     } from '@fortawesome/free-solid-svg-icons';
-import { useState } from "react";
+import {useContext, useState } from "react";
 import CreateTeam from "../forms/CreateTeam";
 import AddProject from "../forms/AddProject";
 import AddTask from "../forms/AddTask";
 import Dashboard from "../../pages/Main/Dashboard";
+import ConfirmationBox from "../StructuralUI/ConfirmationBox";
+import { AuthContext } from "../../context/AuthContext";
 const MainLayout = ({setSelected}) => {
-    const role = 'admin';
     const [ isAddProjectOpen ,setIsAddProjectOpen ] = useState(false)
     const [ isAddTaskOpen ,setIsAddTaskOpen ] = useState(false)
     const [ isCreateTeamOpen ,setIsCreateTeamOpen ] = useState(false)
+    const [ isSignOutOpen, setIsSignOutOpen ] = useState(false)
     const [ isMenuOpen, setIsMenuOpen ] = useState(false)
     const toggelProject = ()=>setIsAddProjectOpen(!isAddProjectOpen);
     const toggelTask = ()=>setIsAddTaskOpen(!isAddTaskOpen);
     const toggelTeam = ()=>setIsCreateTeamOpen(!isCreateTeamOpen);
+    const toggelSignOut = ()=>setIsSignOutOpen(!isSignOutOpen);
     const toggleMenu = () => setIsMenuOpen((open) => !open);
     const [selectedMenu , setSelectedMenu ] = useState("Dashboard")
     const isSelected = (selected) =>{
         setSelected(selected)
         setSelectedMenu(selected)
     }
+    const { user } = useContext(AuthContext)
+    if (!user) return null;
     return (
         <>
             <nav className={style.sidebar}>
@@ -50,12 +55,12 @@ const MainLayout = ({setSelected}) => {
                 </div>
                 <div className={`${style.menuSections} ${isMenuOpen ? style.menuOpen : ""}`}>
                     <div className={style.Identity}>
-                        <UserBox/>
+                        <UserBox onSignOut={toggelSignOut} />
                     </div>
                     <p className={style.mainMenu}>Main Menu</p>
                     <div className={style.mainMenuList}>
                         {
-                            role === 'admin' ?
+                            user.role === 'admin' ?
                             (
                                 <ul>
                                     <li onClick={() => isSelected('Dashboard')} className={selectedMenu === "Dashboard" ? style.chosen : ''}>
@@ -80,7 +85,7 @@ const MainLayout = ({setSelected}) => {
                                     </li>
                                 </ul>
                             ) : 
-                            role === 'manager' ?
+                            user.Role === 'manager' ?
                             (
                                 <ul>
                                     <li onClick={() => isSelected('Dashboard')} className={selectedMenu === "Dashboard" ? style.chosen : ''}>
@@ -138,13 +143,13 @@ const MainLayout = ({setSelected}) => {
                     <p className={style.General}>General</p>
                     <div className={style.actionBlock}>
                                             {
-                            role === 'admin' ?
+                            user.role === 'admin' ?
                             (
                                 <div className={style.Container}>
                                     <button className={style.addProject} onClick={toggelProject}>Add Project</button>
                                 </div>
                             ) : 
-                            role === 'manager' ?
+                            user.role === 'manager' ?
                             (
                                 <div className={style.Container}>
                                     <div>
@@ -163,10 +168,11 @@ const MainLayout = ({setSelected}) => {
                     </div>
                 </div>
             </nav>
-            <div className={`${style.c_Container} ${(isCreateTeamOpen || isAddProjectOpen || isAddTaskOpen) ? style.isOpen : ""}`}>
+            <div className={`${style.c_Container} ${(isCreateTeamOpen || isAddProjectOpen || isAddTaskOpen || isSignOutOpen) ? style.isOpen : ""}`}>
                 {isCreateTeamOpen && <CreateTeam onClose={toggelTeam}/>}
                 {isAddProjectOpen && <AddProject onClose={toggelProject}/>}
                 {isAddTaskOpen && <AddTask onClose={toggelTask}/>}
+                {isSignOutOpen && <ConfirmationBox onClose={toggelSignOut} type='SignOut' />}
             </div>
         </>
     );

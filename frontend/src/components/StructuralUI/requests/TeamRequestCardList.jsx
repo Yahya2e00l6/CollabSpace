@@ -72,16 +72,18 @@ const TeamRequestCardList = () =>{
                     (
                         <table className={style.table}>
                             <thead className={style.thead}>
-                                <th className={style.th}>picture</th>
-                                <th className={style.th}>Full Name</th>
-                                <th className={style.th}>Gender</th>
-                                <th className={style.th}>Age</th>
-                                <th className={style.th}>Email</th>
-                                <th className={style.th}>Phone</th>
-                                <th className={style.th}>Team Name</th>
-                                <th className={style.th}>Request Date</th>
-                                <th className={style.th}>Status</th>
-                                <th className={style.th}>Action</th>
+                                <tr>                                
+                                    <th className={style.th}></th>
+                                    <th className={style.th}>Full Name</th>
+                                    <th className={style.th}>Gender</th>
+                                    <th className={style.th}>Age</th>
+                                    <th className={style.th}>Email</th>
+                                    <th className={style.th}>Phone</th>
+                                    <th className={style.th}>Team Name</th>
+                                    <th className={style.th}>Request Date</th>
+                                    <th className={style.th}>Status</th>
+                                    <th className={style.th}>Action</th>
+                                </tr>
                             </thead>
                             <tbody className={style.tbody}>
                                 {

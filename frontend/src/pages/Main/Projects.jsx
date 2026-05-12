@@ -53,7 +53,7 @@ const Projects = () =>{
             <div className={style.selectedSection}>
                 <Header selectedPage={'Projects'}/>
                 <div className={style.Overview}>
-                    <ProjectList projectsData={projectData}/>
+                    <ProjectList projectsData={projectData} Project={true}/>
                     <ProjectDash/>
                 </div>
             </div>

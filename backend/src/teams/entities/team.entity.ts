@@ -14,9 +14,9 @@ export class Team {
     @Column({name : 'memberCount'})
     memberCount! : number
 
-    @OneToOne(()=>User)
-    @JoinColumn({name : 'ManagerID'})
-    manager! : User;
+    @OneToOne(()=>User , { nullable: true })
+    @JoinColumn({name : 'ManagerID' })
+    manager!: User | null;
 
     @OneToMany(()=>User , (user)=>user.team)
     members! : User[];

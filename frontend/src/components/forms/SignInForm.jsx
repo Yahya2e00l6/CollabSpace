@@ -1,11 +1,33 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import style  from "../../Style/form/SignInForm.module.css"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { post } from "../../api/client"
+import { AuthContext } from "../../context/AuthContext"
 function SignInForm(){
     const [ identifier , setidentifier ] = useState("")
-    const [ Password , setPassword ]  = useState("")
+    const [ password , setPassword ]  = useState("")
+    const [ error , setError ]  = useState(false)
+    const navigate = useNavigate()
+    const {login} = useContext(AuthContext)
     const HandleSubmit = async (e) =>{
         e.preventDefault();
+        try{
+            const response = await post('/auth/signin',
+                {
+                    identifier : identifier ,
+                    password : password
+                })
+            if(response && response.identifier){
+                localStorage.setItem('token',response.token || "no-token-yet")
+                localStorage.setItem('user' , JSON.stringify(response))
+                console.log("Success! Navigating...");
+                login(response)
+                navigate('/collabSpace')
+            }
+        }catch(error){
+            console.error(error.message);
+            setError(true)
+        }
         
     }
     return(
@@ -13,6 +35,7 @@ function SignInForm(){
             <form method="POST" onSubmit={HandleSubmit} className={style.form}>
                 <fieldset className={style.fieldset}>
                     <legend className={style.legend}>Sign In</legend>
+                    <span className={error ? style.error : style.hidden}>Invalid username or password. Please try again.</span>
                     <div className={style.formGroup}>
                         <label htmlFor="identifier" className={style.label}>identifier</label>
                         <input 

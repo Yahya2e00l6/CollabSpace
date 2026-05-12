@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { GuestRequest } from "./guest-request.entity";
+import { guestRequest } from "./guest-request.entity";
 import { Team } from "src/teams/entities/team.entity";
 import { UserData } from "src/users/entities/user-data.entity";
 import { Task } from "src/tasks/entities/task.entity";
@@ -23,11 +23,14 @@ export class User {
     })
     role! : string;
 
-    @OneToOne(()=>GuestRequest)
+    @OneToOne(()=>guestRequest)
     @JoinColumn({name : 'RequestID'})
-    request! : GuestRequest;
+    request! : guestRequest;
 
-    @ManyToOne(()=>Team , ((team)=>team.members) , {nullable : true})
+    @Column({ name: 'teamID', nullable: true })
+    teamId!: number | null;
+
+    @ManyToOne(()=>Team , ((team)=>team.members) , {nullable : true , onDelete: 'SET NULL'})
     @JoinColumn({name : 'teamID'})
     team! : Team | null;
 

@@ -1,7 +1,11 @@
 import StatusForm from "../../components/forms/StatusForm";
 import style from "../../Style/auth/RequestStatus.module.css"
 import RequestStatusBox from "../../components/StructuralUI/RequestStatusBox";
+import { useState } from "react";
 const RequestStatus = ()=>{
+    const [ status , setStatus ] = useState("none")
+    const [ firstName , setFirstName ] = useState("")
+    const [ lastName , setLastName ] = useState("")
     return(
         <>
         <div className={style.Register}>
@@ -15,13 +19,21 @@ const RequestStatus = ()=>{
                 </div>
                 <div className={style.formSection}>
                     <div className={style.formContainer}>
-                        <StatusForm/>
+                        <StatusForm 
+                            setStatus={setStatus} 
+                            setFirstName={setFirstName}
+                            setLastName={setLastName}
+                            />
                     </div>
                 </div>
             </div>
             <div className={style.statusBox}>
                 <div className={style.requestStatus}>
-                    <RequestStatusBox/>
+                    <RequestStatusBox 
+                        status={status}
+                        firstName={firstName}
+                        lastName={lastName}
+                        />
                 </div>
             </div>
         </div>

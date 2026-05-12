@@ -8,8 +8,10 @@ import {
         faListCheck ,
         faBell
     } from '@fortawesome/free-solid-svg-icons';
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 const Header = ({selectedPage}) => {
-    const role = 'admin';
+    const { user } = useContext(AuthContext)
     return(
         <>
             {selectedPage === "Dashboard" && 
@@ -23,7 +25,7 @@ const Header = ({selectedPage}) => {
             }
 
             {selectedPage === "Teams" && (
-                role === 'admin' ? 
+                user.role === 'admin' ? 
                 <div className={style.HeaderDash}>
                     <div className={style.sectionLogo}>
                         <div className={style.icon}><FontAwesomeIcon icon={faPeopleGroup} /></div>

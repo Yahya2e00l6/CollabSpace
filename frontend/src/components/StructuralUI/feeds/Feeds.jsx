@@ -1,17 +1,18 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import style from "../../../Style/StructuralUI/feeds/Feeds.module.css"
 import TaskDeadLineList from "./TaskDeadLineList"
 import ProjectDeadLineList from "./ProjectsDeadLineList"
 import CompletedList from "./CompletedProject"
 import CompletedProjectList from "./CompletedProjectList"
+import { AuthContext } from "../../../context/AuthContext"
 const Feeds = () =>{
     const [ selectedList , setSelectedList ] = useState("Projects")
-    let role = 'manager'
+    const { user } = useContext(AuthContext)
     return(
         <>
             <div className={style.Feeds}>
                 {
-                    role === 'manager' && 
+                    user.role === 'manager' && 
                     <div className={style.Manager}>
                         <div className={style.feedList}>
                             <div className={style.BtnsBox}>
@@ -30,7 +31,7 @@ const Feeds = () =>{
                     </div>
                 }
                 {
-                    role === 'user' && 
+                    user.role === 'member' && 
                     <div className={style.user}>
                         <div className={style.title}>
                             <h1>Task DeadLines</h1>
@@ -41,7 +42,7 @@ const Feeds = () =>{
                     </div>
                 }
                 {
-                    role === 'admin' &&
+                    user.role === 'admin' &&
                     <div className={style.admin}>
                         <div className={style.title}>
                             <h1> Completed Project </h1>

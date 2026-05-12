@@ -50,6 +50,13 @@
 	z-index: 1;
 }
 
+.actions {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
 .name {
 	margin: 0;
 	font-size: 0.95rem;
@@ -78,6 +85,37 @@
 	margin: 0;
 	font-size: 0.78rem;
 	color: #8892a6;
+}
+
+.Delete {
+	width: 40px;
+	height: 40px;
+	border-radius: 12px;
+	border: 1px solid rgba(248, 113, 113, 0.4);
+	background: linear-gradient(135deg, rgba(254, 226, 226, 0.9) 0%, rgba(255, 245, 245, 0.95) 100%);
+	color: #c2410c;
+	display: grid;
+	place-items: center;
+	box-shadow: 0 6px 12px rgba(248, 113, 113, 0.18);
+	cursor: pointer;
+	transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.Delete:hover {
+	transform: translateY(-1px);
+	border-color: rgba(239, 68, 68, 0.65);
+	color: #b91c1c;
+	box-shadow: 0 8px 16px rgba(239, 68, 68, 0.25);
+}
+
+.Delete:focus-visible {
+	outline: 2px solid rgba(239, 68, 68, 0.5);
+	outline-offset: 2px;
+}
+
+.Delete:active {
+	transform: translateY(0);
+	box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
 }
 
 @keyframes cardIn {

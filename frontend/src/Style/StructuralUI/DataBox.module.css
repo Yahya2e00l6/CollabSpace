@@ -15,6 +15,7 @@
         radial-gradient(160px 160px at 12% 18%, rgba(91, 124, 250, 0.18), transparent 70%);
     font-family: "Sora", "Segoe UI", Tahoma, sans-serif;
     text-align: center;
+    animation: cardIn 240ms ease-out both;
 }
 
 
@@ -25,6 +26,7 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     color: #7d87a5;
+    animation: contentIn 240ms ease-out 60ms both;
 }
 
 
@@ -35,6 +37,40 @@
     line-height: 1;
     color: #1f2a44;
     letter-spacing: -0.02em;
+    animation: contentIn 260ms ease-out 120ms both;
+}
+
+@keyframes cardIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes contentIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .DataBox {
+        animation: none;
+    }
+
+    .boxName,
+    .Data {
+        animation: none;
+    }
 }
 
 @media (max-width: 1024px) {

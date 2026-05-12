@@ -1,42 +1,66 @@
+import { post } from "../../api/client"
 import style from "../../Style/form/StatusForm.module.css"
 import { useState } from "react"
 
-const StatusForm = ()=>{
-    const [ FirstName , setFirstName ] = useState("")
-    const [ LastName , setLastName ] = useState("")
+const StatusForm = ({setStatus ,setFirstName , setLastName})=>{
+    const [ phone , setPhone ] = useState("")
     const [ CIN , setCIN ] = useState("")
     const [ Email , setEmail ] = useState("")
-    const handleSubmit = ()=>{
-
+    const [ ErrorMessage , setErrorMessage ] = useState("")
+    const [ error , setError ]  = useState(false)
+    const blockPhoneInput = (e) => {
+        if ([ 'Backspace' , 'Tab' , 'Entre' , 'Escape' , 'Delete'].includes(e.key)){
+            return;
+        }
+        if(!/^[0-9]$/.test(e.key)){
+            e.preventDefault();
+        }
+    }
+    const handleStatus = (status) => setStatus(status)
+    const handleFirstName = (firstName) => setFirstName(firstName)
+    const handleLastName = (lastName) => setLastName(lastName)
+    const handleSubmit = async (e)=>{
+        e.preventDefault()
+        setError(false)
+        try{
+            const response = await post('/auth/existingRequest',{
+                cin : CIN,
+                email : Email,
+                phoneNumber : phone
+            })
+            if(response){
+                console.log("Request submitted successfully!")
+                console.log(response.status)
+                handleStatus(response.status);
+                handleFirstName(response.firstName);
+                handleLastName(response.lastName);
+            }
+        }catch(e){
+            console.error(e.message)
+            setError(true)
+            setErrorMessage(e.message || "Request Not Found.")
+        }
     }
     return(
         <>
             <form method="POST" onSubmit={handleSubmit} className={style.form}>
                 <fieldset className={style.fieldset}>
                     <legend className={style.legend}>Register Form</legend>
+                    <span className={error ? style.error : style.hidden}>{ErrorMessage ? ErrorMessage : "Something went wrong" }</span>
                     <div className={style.formGroup}>
-                        <label htmlFor="FirstName" className={style.label}>First Name</label>
+                        <label htmlFor="Phone" className={style.label}>Phone</label>
                         <input 
-                            type="text"
-                            name="FirstName"
-                            id="FirstName"
+                            type="tel" 
+                            name="Phone"
+                            id="Phone"
                             className={style.input}
+                            maxLength={10}
                             required
-                            autoComplete="given-name"
-                            onChange={(e)=>setFirstName(e.target.value)}
-                        />
-                    </div>
-                    <div className={style.formGroup}>
-                        <label htmlFor="LastName" className={style.label}>Last Name</label>
-                        <input 
-                            type="text" 
-                            name="LasttName" 
-                            id="LastName"
-                            className={style.input}
-                            required
-                            autoComplete="family-name"
-                            onChange={(e)=>setLastName(e.target.value)}
-                        />
+                            autoComplete="tel"
+                            onChange={(e)=>setPhone(e.target.value)}
+                            onKeyDown={blockPhoneInput}
+                            pattern="^(06|07)\d{8}$"
+                            />
                     </div>
                     <div className={style.formGroup}>
                         <label htmlFor="CIN" className={style.label}>CIN</label>
@@ -64,7 +88,7 @@ const StatusForm = ()=>{
                             />
                     </div>
                     <div className={style.footer}>
-                        <button type="button" className={style.submit}>check</button>
+                        <button type="submit" className={style.submit}>check</button>
                     </div>
                 </fieldset>
             </form>

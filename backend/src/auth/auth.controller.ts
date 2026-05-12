@@ -1,31 +1,62 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { SignInDto } from './dto/signIn-auth.dto';
+import { CreateRequestDto } from './dto/createrequest-auth.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+
+  @Get('noTeamMembers')
+  async noTeamMembers(){
+    return await this.authService.getNoTeamMembers();
+  }
+  @Patch('demoteToMember/:id')
+  async demoteToMember (@Param('id',ParseIntPipe) id : number ){
+    return await this.authService.demoteToMember(+id)
+  }
+  @Get('userTeam/:id')
+  async userTeam(@Param('id',ParseIntPipe) id : number){
+    const result = await this.authService.getTeamIdRaw(id)
+    if(!result){
+      return {message : "User is not assigned to a team yet."}
+    }
+    return {teamId: result.teamId}
+  }
+
+
+
+
+
+
 
   @Post()
   create(@Body() createAuthDto: CreateAuthDto) {
     return this.authService.create(createAuthDto);
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
+  @Post('signin')
+  signin(@Body() SignInDto: SignInDto) {
+    return this.authService.validateUser(SignInDto.identifier,SignInDto.password);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
+  @Post('register')
+  register(@Body() dto : CreateRequestDto) {
+    return this.authService.createRequest(dto)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
+  @Post('existingRequester')
+  existingRequester(@Body() exist : CreateRequestDto){
+    return this.authService.validateRequest(exist.cin, exist.email, exist.phoneNumber)
   }
+  @Post('existingRequest')
+  existingRequest(@Body() exist : CreateRequestDto){
+    return this.authService.Requeststatus(exist.cin, exist.email, exist.phoneNumber)
+  }
+
 
   @Delete(':id')
   remove(@Param('id') id: string) {

@@ -1,3 +1,31 @@
+.sidebox {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.requesterName {
+    width: 100%;
+    padding: 18px 24px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.16) 0%, rgba(191, 219, 254, 0.35) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 14px 28px rgba(37, 99, 235, 0.12);
+    text-align: center;
+}
+
+.greeting {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #1e3a8a;
+    letter-spacing: 0.02em;
+    text-transform: capitalize;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -29,6 +57,11 @@
     border: 1px solid #ef4444;
 }
 
+.none {
+    background: #f5f7ff;
+    border: 1px solid #93a4ff;
+}
+
 .requestLottie {
     width: 100%;
     max-width: 560px; 
@@ -52,6 +85,7 @@
 .pending p { color: #9a5f00; }
 .accepted p { color: #15803d; }
 .rejected p { color: #991b1b; }
+.none p { color: #3f4da6; }
 
 
 .statusTitle {

@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import style from "../../Style/form/AddProject.module.css"
+import { AuthContext } from "../../context/AuthContext";
 
 function AddProject({onClose}){
     const Now = new Date();
@@ -9,6 +10,7 @@ function AddProject({onClose}){
     const [ NameHasError , setNameHasError ] = useState(false)
     const [ isTeamValide , setIsTeamValide ] = useState(false)
     const [ ProjectTeam , setProjectTeam ] = useState('')
+    const { user } = useContext(AuthContext)
 
     const [ DescriptionHasError , setDescriptionHasError ] = useState(false)
     const [ DeadLine , setDeadLine ] = useState(Now.toLocaleDateString())
@@ -26,7 +28,6 @@ function AddProject({onClose}){
         }
         //API
     }
-    const role='admin';
     return(
         <>
             <div className={style.container} onClick={e => {e.stopPropagation()}}>
@@ -46,7 +47,7 @@ function AddProject({onClose}){
                         onChange={(e) => setProjectName(e.target.value)}
                     />
                 </div>
-                    {role==='admin' ? (
+                    {user.role==='admin' ? (
                         <div className={style.formGroup}>
                             <span className={isTeamValide? style.OwnerError : style.Hidden}>Invalide Team</span>
                             <label htmlFor="TeamManager" className={style.label}>Team</label>

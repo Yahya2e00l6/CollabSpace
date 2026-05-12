@@ -10,7 +10,7 @@ function CompletedProject({Name , Team , Time}){
                 <div className={style.ProjectData}>
                     <p className={style.Name}>{Name}</p>
                     <p className={style.Team}>{Team}</p>
-                    <p className={style.Team}>{Time} a go</p>
+                    <p className={style.Team}>{Time}</p>
                 </div>
                 <p className={style.status}>completed</p>
             </div>

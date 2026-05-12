@@ -1,10 +1,12 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import style from "../../Style/form/CreateTeam.module.css"
+import { AuthContext } from "../../context/AuthContext"
 function CreateTeam({onClose}){
     const [ TeamName , setTeamName ] = useState("")
     const [ TeamManager , setTeamManager ] = useState("")
     const [ isTeamManagerValide , setIsTeamManagerValide ] = useState(false)
     const [ NameHasError , setNameHasError ] = useState(false)
+    const { user } = useContext(AuthContext)
     
     const Handlesubmit = async (e) => {
         e.preventDefault();
@@ -20,7 +22,7 @@ function CreateTeam({onClose}){
 
         //API
     }
-    const role='admin';
+
 
     return(
         <>
@@ -42,7 +44,7 @@ function CreateTeam({onClose}){
                         onChange={(e)=>setTeamName(e.target.value)}
                     />
                 </div>
-                {role==='admin' ? (
+                {user.role==='admin' ? (
                     <div className={style.formGroup}>
                         <span className={isTeamManagerValide? style.OwnerError : style.Hidden}></span>
                         <label htmlFor="TeamManager" className={style.label}>Team Manager</label>

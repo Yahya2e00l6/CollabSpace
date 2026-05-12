@@ -1,12 +1,40 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import style from "../../../Style/StructuralUI/social/UserList.module.css"
 import UserCard from "./UserCard";
+import ConfirmationBox from "../ConfirmationBox";
+import { get } from "../../../api/client";
 
-const UserList = ({UsersData}) => {
+const UserList = ({section ,teamId}) => {
     const [ searchTerm , setSearchTerm ] = useState("")
-    const filtredData = UsersData.filter(
-        (user) => user.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+    const [ usersData , setUsersData ] = useState([])
+    const [isDeleteUserOpen, setIsDeleteUserOpen] = useState(false)
+    const [selectedUser, setSelectedUser] = useState(null)
+    const deleteToggle = () => setIsDeleteUserOpen(!isDeleteUserOpen)
+    const openDelete = (user) => {
+        setSelectedUser(user)
+        setIsDeleteUserOpen(true)
+    }
+    const filtredData = usersData.filter(
+        (user) => user.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const removeUserFromState = (id) => {
+        setUsersData((prevList) => prevList.filter((team) => team.id !== id));
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            if(section === 'team' ){
+                try{
+                    const response = await get(`/teams/teamMembers/${teamId}`)
+                    setUsersData(response);
+                    console.log(response)
+                }catch(e){
+                    console.log(e.message)
+                }
+            }
+        }
+        fetchData()
+    },[teamId , section])
     return(
         <>
         <div className={style.Container}>
@@ -19,25 +47,38 @@ const UserList = ({UsersData}) => {
                     className={style.input}
                 />
             </div>
-            <div className={style.list}>
-            {
-                filtredData.length > 0 ? 
-                (
-                    filtredData.map((d) => (
-                        <UserCard 
-                            key={d.id}
-                            firstName={d.firstName}
-                            lastName={d.lastName}
-                            Role={d.Role}
-                            Age={d.Age}
-                            Team={d.Team}
-                        />
-                    ))
-                )
-                :
-                <p className={style.noResults}>No User found matching "{searchTerm}"</p>
+            { section === 'team' &&
+                <div className={style.list}>
+                {
+                    filtredData.length > 0 ? 
+                    (
+                        filtredData.map((d) => (
+                            <UserCard 
+                                key={d.id}
+                                fullName={d.fullName}
+                                section={'team'}
+                                onDelete={() => openDelete(d)}
+                            />
+                        ))
+                    )
+                    :
+                    <p className={style.noResults}>No User found matching "{searchTerm}"</p>
+                }
+                </div>
             }
-            </div>
+            {console.log(selectedUser)}
+            {isDeleteUserOpen && (
+                <div className={style.modal} onClick={deleteToggle}>
+                    <ConfirmationBox
+                        type='TeamMate'
+                        Name={selectedUser?.fullName}
+                        onClose={deleteToggle}
+                        teamId={teamId}
+                        userId={selectedUser?.id}
+                        onSuccess={() => removeUserFromState(selectedUser.id)}
+                    />
+                </div>
+            )}
         </div>
         </>
     )

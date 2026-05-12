@@ -17,6 +17,9 @@ export class Project {
     })
     description! : string;
 
+    @Column({ type: 'datetime', nullable: true })
+    completionDate!: Date;
+
     @Column({
         type : 'enum',
         enum : ['pending','completed','ongoing'],
@@ -53,11 +56,11 @@ export class Project {
         name : 'PROJECT_MEMBERS',
         joinColumn : {
             name : 'projectID',
-            referencedColumnName : 'ID'
+            referencedColumnName : 'id'
         },
         inverseJoinColumn : {
             name : 'userID',
-            referencedColumnName : 'ID'
+            referencedColumnName : 'id'
         }
     })
     members! : User[]

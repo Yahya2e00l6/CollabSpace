@@ -56,6 +56,43 @@
 	border-radius: 999px;
 }
 
+.projectFilter {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.filterButton {
+	appearance: none;
+	border: 1px solid rgba(79, 124, 255, 0.3);
+	background: linear-gradient(135deg, rgba(79, 124, 255, 0.12), rgba(47, 93, 255, 0.22));
+	color: var(--ink);
+	font-size: 0.92rem;
+	font-weight: 600;
+	padding: 8px 14px;
+	border-radius: 999px;
+	cursor: pointer;
+	box-shadow: 0 8px 16px rgba(28, 44, 84, 0.12);
+	transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.filterButton:hover {
+	transform: translateY(-1px);
+	border-color: rgba(47, 93, 255, 0.5);
+	background: linear-gradient(135deg, rgba(79, 124, 255, 0.2), rgba(47, 93, 255, 0.32));
+	box-shadow: 0 12px 22px rgba(28, 44, 84, 0.18);
+}
+
+.filterButton:active {
+	transform: translateY(0);
+	box-shadow: 0 6px 12px rgba(28, 44, 84, 0.12);
+}
+
+.filterButton:focus-visible {
+	outline: 2px solid rgba(47, 93, 255, 0.55);
+	outline-offset: 2px;
+}
+
 .list {
 	flex: 1;
 	min-height: 0;

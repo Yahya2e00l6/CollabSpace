@@ -1,4 +1,5 @@
-import ChartBox from "../../components/charts/ChartBox"
+
+import ChartCard from "../../components/charts/ChartCard"
 import Feeds from "../../components/StructuralUI/feeds/Feeds"
 import Header from "../../components/StructuralUI/Header"
 import Insights from "../../components/StructuralUI/Insights"
@@ -8,9 +9,9 @@ const Dashboard = () =>{
         <>
             <div className={style.selectedSection}>
                 <Header selectedPage={'Dashboard'}/>
-                <Insights/>
+                <Insights section={'dashboard'}/>
                 <div className={style.Overview} >
-                    <ChartBox/>
+                    <ChartCard/>
                     <Feeds/>
                 </div>
             </div>

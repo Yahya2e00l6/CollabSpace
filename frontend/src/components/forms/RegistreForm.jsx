@@ -1,32 +1,24 @@
 import { useState } from "react"
 import style from "../../Style/form/RegisterForm.module.css"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { post } from "../../api/client"
 function RegisterForm(){
     const [ FirstName , setFirstName ] = useState("")
     const [ LastName , setLastName ] = useState("")
+    const [ Gender , setGender ] = useState("m")
     const [ CIN , setCIN ] = useState("")
+    const [ error , setError ]  = useState(false)
     const [ Email , setEmail ] = useState("")
     const [ Phone , setPhone ] = useState("")
+    const [ ErrorMessage , setErrorMessage ] = useState("")
     const [ VerifieEmail , setVerifieEmail ] = useState("")
     const [ VerifiePhone , setVerifiePhone ] = useState("")
     const [ ErrorVerifieEmail , setErrorVerifieEmail ] =useState(false)
-    const [ Image , setImage ] =useState("")
-    const [ ImageError , setImageError ] = useState(false);
+    const [ ErrorVerifiePhone , setErrorVerifiePhone ] =useState(false)
+    const navigate = useNavigate();
     const today = Temporal.Now.plainDateISO();
     const EndDate = today.subtract({ years: 18});
     const [ BirthDate , setBirthDate ] = useState(EndDate.toString());
-
-    const HandleImage = (e) => {
-        const file = e.target.files[0];
-        if(!file) return;
-        const maxSize = 2 * 1024 * 1024 ;
-        if(file.size>maxSize){
-            setImageError(true);
-            return
-        }
-        setImage(file);
-        setImageError(false);
-    }
     const blockPhoneInput = (e) => {
         if ([ 'Backspace' , 'Tab' , 'Entre' , 'Escape' , 'Delete'].includes(e.key)){
             return;
@@ -37,9 +29,35 @@ function RegisterForm(){
     }
     const HandleSubmit = async (e) => {
         e.preventDefault();
+        setErrorVerifieEmail(false)
+        setErrorVerifiePhone(false)
+        setError(false)
         if(Email !== VerifieEmail ){
             setErrorVerifieEmail(true);
             return;
+        }
+        if(Phone !== VerifiePhone){
+            setErrorVerifiePhone(true);
+            return;
+        }
+        try{
+            const response = await post('/auth/register',{
+                firstName : FirstName.toLowerCase(),
+                lastName : LastName.toLowerCase(),
+                cin : CIN.toLowerCase(),
+                phoneNumber : Phone,
+                email : Email.toLowerCase(),
+                birthDate : BirthDate,
+                gender : Gender,
+            })
+            if(response){
+                console.log("Request submitted successfully!")
+                navigate('/RequestStatus')
+            }
+        }catch(e){
+            console.error(e.message)
+            setError(true)
+            setErrorMessage(e.message || "This user is already registered.");
         }
     }
 
@@ -48,20 +66,7 @@ function RegisterForm(){
             <form method="POST" onSubmit={HandleSubmit} className={style.form}>
                 <fieldset className={style.fieldset}>
                     <legend className={style.legend}>Register Form</legend>
-                    <div>
-                        <span className={ImageError ? style.Hidden : style.Error}></span>
-                        <label htmlFor="Image" className={style.label}>Image : </label>
-                        <input 
-                            type="file" 
-                            name="Image"
-                            id="Image"
-                            className={style.Image}
-                            accept="image/png , image/jpeg" 
-                            required
-
-                            onChange={HandleImage}
-                            />
-                    </div>
+                    <span className={error ? style.error : style.hidden}>{ErrorMessage ? ErrorMessage : "Something went wrong" }</span>
                     <div className={style.formGroup}>
                         <label htmlFor="FirstName" className={style.label}>First Name</label>
                         <input 
@@ -85,6 +90,13 @@ function RegisterForm(){
                             autoComplete="family-name"
                             onChange={(e)=>setLastName(e.target.value)}
                         />
+                    </div>
+                    <div className={style.formGroup}>
+                        <label htmlFor="Gender" className={style.label}>Gender</label>
+                        <select name="Gender" id="Gender" className={style.select} onChange={(e) => setGender(e.target.value)}>
+                            <option value="m">Male</option>
+                            <option value="f">Female</option>
+                        </select>
                     </div>
                     <div className={style.formGroup}>
                         <label htmlFor="CIN" className={style.label}>CIN</label>
@@ -115,6 +127,7 @@ function RegisterForm(){
                             />
                     </div>
                     <div className={style.formGroup}>
+                        <span className={ErrorVerifiePhone ? style.Error : style.Hidden}></span>
                         <label htmlFor="VerifiePhone" className={style.label}>VerifiePhone</label>
                         <input 
                             type="tel" 
@@ -141,7 +154,7 @@ function RegisterForm(){
                             />
                     </div>
                     <div className={style.formGroup}>
-                        <span className={ErrorVerifieEmail ? style.Hidden : style.Error}></span>
+                        <span className={ErrorVerifieEmail ? style.Error : style.Hidden}></span>
                         <label htmlFor="VerifieEmail" className={style.label}> Verifie email</label>
                         <input 
                             type="email" 

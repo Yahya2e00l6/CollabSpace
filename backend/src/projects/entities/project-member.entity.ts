@@ -1,12 +1,12 @@
 import { User } from "src/auth/entities/user.entity";
-import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { Project } from "./project.entity";
 
 @Entity('PROJECT_MEMBERS')
 export class projectMember{
-    @PrimaryGeneratedColumn({name : 'userID'})
+    @PrimaryColumn({name : 'userID'})
     userID! : number;
-    @PrimaryGeneratedColumn({name : 'projectID'})
+    @PrimaryColumn({name : 'projectID'})
     projectID! : number;
 
     @ManyToOne(()=>User)
