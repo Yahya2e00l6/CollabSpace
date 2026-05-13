@@ -18,7 +18,7 @@ export class Task {
 
     @Column({
         type : 'enum',
-        enum : ['pending','completed','ongoing'],
+        enum : ['completed','ongoing','pending'],
         name : 'Status',
         default : 'pending'
     })

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable ,NotFoundException  } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,6 +18,80 @@ export class ProjectsService {
     private userRepo : Repository <User>,
   ){}
 
+
+async assignMultipleToProject(userIds: number[], projectId: number) {
+    if (!userIds || userIds.length === 0) {
+        return { message: 'No users selected' };
+    }
+    await this.projectRepo
+      .createQueryBuilder()
+      .relation(Project, 'members') 
+      .of(projectId)                
+      .add(userIds);               
+    return { success: true, message: 'Members assigned successfully' };
+}
+async getAvailableMembers(projectId: number): Promise<User[]> {
+    const project = await this.projectRepo.findOne({
+        where: { id: projectId },
+        relations: ['team'],
+    });
+    if (!project || !project.team) return [];
+    const teamId = project.team.id;
+    return await this.userRepo.createQueryBuilder('user')
+        .innerJoin('user.team', 'team') 
+        .leftJoin('user.projects', 'project', 'project.id = :projectId', { projectId })
+        .leftJoin('user.profile' , 'profile')
+        .select('user.id', 'userId')
+        .addSelect("CONCAT(profile.firstName, ' ', profile.lastName)", 'fullName')
+        .addSelect('profile.email', 'email')
+        .where('team.id = :teamId', { teamId })
+        .andWhere('project.id IS NULL') 
+        .groupBy('user.id')
+        .getRawMany();
+}
+  async taskInfo( id : number) : Promise <any[]> {
+    return await this.projectRepo
+    .createQueryBuilder('project')
+    .leftJoin('project.tasks' , 'tasks')
+    .select('tasks.id' , 'taskId')
+    .addSelect('tasks.taskName' , 'taskName')
+    .addSelect('tasks.createdAt' , 'createdAt')
+    .addSelect('project.projectName' , 'project')
+    .addSelect('tasks.status' , 'taskStatus')
+    .where('project.id = :id',{id})
+    .getRawMany()
+  }
+  async tasksInsights( id : number ) : Promise <any>{
+    return await this.projectRepo
+    .createQueryBuilder('project')
+    .leftJoin('project.tasks' , 'tasks')
+    .leftJoin('project.members' , 'members')
+    .select('COUNT( DISTINCT members.id)' ,'totalMembers')
+    .addSelect('COUNT( DISTINCT tasks.id)','totalTasks')
+    .addSelect('COUNT(CASE WHEN tasks.status = "completed" THEN 1 END)' ,'completedTasks')
+    .addSelect('COUNT(CASE WHEN tasks.status = "pending" THEN 1 END)' ,'ongoingTasks')
+    .addSelect('COUNT(CASE WHEN tasks.status = "ongoing" THEN 1 END)' ,'pendingTasks')
+    .groupBy('project.id')
+    .where('project.id = :id' , {id})
+    .getRawOne()
+  }
+  async deleteProject (id : number ) : Promise <any>{
+    const project = await this.projectRepo.findOne({where : {id}})
+    if (!project) {
+          throw new NotFoundException(`Project #${id} not found`);
+      }
+      await this.projectRepo.remove(project);
+      return { message: `Project ${id} deleted successfully` };
+  }
+  async getProjects() : Promise  <any[]>{
+    return await this.projectRepo
+    .createQueryBuilder('project')
+    .leftJoin('project.team' , 'team')
+    .select('project.id' , 'id')
+    .addSelect('project.projectName','projectName')
+    .addSelect('team.name' , 'teamName')
+    .getRawMany()
+  }
   async getcompletedProjectsInfo() : Promise <any[]>{
     return await this.projectRepo
     .createQueryBuilder('project')

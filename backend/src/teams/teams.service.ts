@@ -36,7 +36,6 @@ export class TeamsService {
       .set({ teamId: teamId })
       .where("ID IN (:...ids)", { ids: userIds })
       .execute();
-
   }
   async getTeamMembers( id : number ) :Promise <any[]> {
     return await this.TeamRepo

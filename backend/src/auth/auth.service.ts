@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException  } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException  } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +7,8 @@ import { Repository } from 'typeorm';
 import {CreateRequestDto} from "./dto/createrequest-auth.dto"
 import { guestRequest } from './entities/guest-request.entity';
 import { Team } from 'src/teams/entities/team.entity';
+import { profile } from 'node:console';
+import { UserData } from 'src/users/entities/user-data.entity';
 
 @Injectable()
 export class AuthService {
@@ -16,13 +18,78 @@ export class AuthService {
     @InjectRepository(guestRequest)
     private requestRepository : Repository<guestRequest>,
     @InjectRepository(Team)
-    private teamRepository : Repository<Team>
+    private teamRepository : Repository<Team>,
+    @InjectRepository(UserData)
+    private userDataRepository : Repository<UserData>
   ){}
 
 
+  async gender(id : number) : Promise <any> {
+    return await this.userRepository
+    .createQueryBuilder('user')
+    .leftJoin('user.profile' , 'profile')
+    .select('profile.gender' , 'gender')
+    .getRawOne()
+  }
+  async requests () : Promise <any> {
+    return await this.requestRepository
+    .createQueryBuilder('request')
+    .select('request.id' , 'id')
+    .addSelect('CONCAT(request.firstName , " " , request.lastName)' , 'fullName')
+    .addSelect('request.cin' , 'cin')
+    .addSelect('request.gender' , 'gender')
+    .addSelect('request.email' , 'email')
+    .addSelect('request.phoneNumber' , 'phone')
+    .addSelect('TIMESTAMPDIFF(YEAR, request.birthDate, CURDATE())', 'age')
+    .addSelect('request.status','status')
+    .addSelect('request.createdAt' , 'createdAt')
+    .addSelect('request.updatedAt' , 'updatedAt')
+    .orderBy("FIELD(request.Status, 'pending', 'accepted', 'rejected')", "ASC")
+    .addOrderBy("request.createdAt", "DESC")
+    .getRawMany()
+  }
+  async rejectedRequest (id : number) : Promise <any> {
+    return await this.requestRepository.update( id , {status : 'rejected'})
+  }
+  async RemoveUser( id : number ) : Promise <any> {
+    await this.userDataRepository.delete({id : id})
+    const result = await this.userRepository.delete(id)
+    if( result.affected === 0 ){
+      throw new NotFoundException (`User with ID ${id} not found`)
+    }
+    return { message: "User deleted successfully" };
+  }
 
+  async getTaskInfo( id : number ) : Promise <any[]> {
+    return await this.userRepository
+    .createQueryBuilder('user')
+    .leftJoin('user.tasks' , 'tasks')
+    .innerJoin('tasks.project','project')
+    .select('tasks.id' , 'taskId')
+    .addSelect('tasks.taskName' , 'taskName')
+    .addSelect('tasks.createdAt' , 'createdAt')
+    .addSelect('project.projectName' , 'project')
+    .addSelect('tasks.status' , 'taskStatus')
+    .where('user.id = :id',{id})
+    .getRawMany()
+  }
+
+  async getUserData() : Promise <any[]>{
+    return await this.userRepository
+    .createQueryBuilder('user')
+    .innerJoin('user.profile' , 'profile')
+    .leftJoin('user.team' , 'team')
+    .select('user.id','id')
+    .addSelect('CONCAT(profile.firstName , " " , profile.lastName )' , 'fullName')
+    .addSelect('TIMESTAMPDIFF(YEAR, profile.birthDate, CURDATE())', 'age')
+    .addSelect('user.role' , 'role')
+    .addSelect('team.name','teamName')
+    .addSelect('profile.gender','gender')
+    .where('user.role != :role', { role: 'admin' })
+    .getRawMany()
+  }
   async getNoTeamMembers() : Promise <any[]>{
-    return this.userRepository
+    return await this.userRepository
     .createQueryBuilder('user')
     .innerJoin('user.profile' , 'profile')
     .leftJoin('user.team','team')
@@ -30,6 +97,7 @@ export class AuthService {
     .addSelect('CONCAT(profile.firstName , " " , profile.lastName)','fullName')
     .where('team.id IS NULL')
     .andWhere('user.role != :role', { role: 'manager' })
+    .andWhere('user.role != :role', { role: 'admin' })
     .getRawMany()
   }
   async demoteToMember ( id : number ) : Promise <any> {

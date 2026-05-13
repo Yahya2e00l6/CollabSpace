@@ -7,20 +7,47 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
+  @Post('assignMultiple/:projectId')
+  async assignMultiple(
+      @Param('projectId', ParseIntPipe) projectId: number,
+      @Body('userIds') userIds: number[]
+  ) {
+      return await this.projectsService.assignMultipleToProject(userIds, projectId);
+  }
 
+  @Get('availableMembers/:projectId')
+  async availableMembers(@Param('projectId' , ParseIntPipe) projectId : number){
+    return await this .projectsService.getAvailableMembers(projectId)
+  }
+  @Get('taskInfo/:projectId')
+  async taskInfo(@Param('projectId' , ParseIntPipe) projectId : number){
+    return await this.projectsService.taskInfo(projectId)
+  }
+  @Get('tasksInsights/:projectId')
+  async tasksInsights(@Param('projectId' , ParseIntPipe) projectId : number){
+    return await this.projectsService.tasksInsights(projectId);
+  }
+  @Delete('deleteProject/:id')
+  async deleteProject(@Param('id' , ParseIntPipe ) id : number){
+    return await this.projectsService.deleteProject(id)
+  }
+  @Get('projects')
+  async projects(){
+    return await this.projectsService.getProjects()
+  }
   @Get('projectsInsights')
-  Insights(){
-    return this.projectsService.getAdminInsights();
+  async Insights(){
+    return await this.projectsService.getAdminInsights();
   }
 
   @Get('projectDeadlineInfo/:teamid')
-  projectDeadlineInfo(@Param('teamid' , ParseIntPipe) teamid : number){
-    return this.projectsService.getprojectDeadlineInfo(teamid)
+  async projectDeadlineInfo(@Param('teamid' , ParseIntPipe) teamid : number){
+    return await this.projectsService.getprojectDeadlineInfo(teamid)
   }
 
   @Get('completedProjectsInfo')
-  completedProjectsInfo(){
-    return this.projectsService.getcompletedProjectsInfo()
+  async completedProjectsInfo(){
+    return await this.projectsService.getcompletedProjectsInfo()
   }
   
   @Post()

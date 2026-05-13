@@ -51,7 +51,7 @@ export class Project {
     @OneToMany(()=>Task , (task)=>task.project)
     tasks! : Task[]
 
-    @ManyToMany(()=>User)
+    @ManyToMany(() => User, (user) => user.projects)
     @JoinTable({
         name : 'PROJECT_MEMBERS',
         joinColumn : {

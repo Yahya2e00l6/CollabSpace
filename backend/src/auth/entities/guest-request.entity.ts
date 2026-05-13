@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn , CreateDateColumn , UpdateDateColumn} from "typeorm";
 
 @Entity('GUEST_REQUEST')
 export class guestRequest{
@@ -45,6 +45,20 @@ export class guestRequest{
     })
     status! : string;
 
+    @CreateDateColumn({ 
+        name: 'createdAt', 
+        type: 'timestamp', 
+        default: () => 'CURRENT_TIMESTAMP(6)' 
+    })
+    createdAt!: Date;
+
+    @UpdateDateColumn({ 
+        name: 'updatedAt', 
+        type: 'timestamp', 
+        default: () => 'CURRENT_TIMESTAMP(6)', 
+        onUpdate: 'CURRENT_TIMESTAMP(6)' 
+    })
+    updatedAt!: Date;
 
 
 }

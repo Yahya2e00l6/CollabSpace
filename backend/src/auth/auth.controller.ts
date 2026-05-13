@@ -10,6 +10,32 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
 
+  @Get('gender/:id')
+  async gender(@Param('id' , ParseIntPipe) id : number){
+    return this.authService.gender(id)
+  }
+  @Get('requests')
+  async requests() {
+    return await this.authService.requests();
+  }
+  @Patch('rejectedRequest/:id')
+  async rejectedRequest(@Param( 'id' , ParseIntPipe ) id : number){
+    return await this.authService.rejectedRequest(id)
+  }
+  @Delete('deleteUser/:id')
+  async deleteUser (@Param('id' ,ParseIntPipe) id : number) {
+    return await this.authService.RemoveUser(id)
+  }
+
+  @Get('taskInfo/:id')
+  async taskInfo(@Param('id' , ParseIntPipe) id : number){
+    return await this.authService.getTaskInfo(id);
+  }
+  @Get('userData')
+  async userData(){
+    return await this.authService.getUserData();
+  }
+
   @Get('noTeamMembers')
   async noTeamMembers(){
     return await this.authService.getNoTeamMembers();
