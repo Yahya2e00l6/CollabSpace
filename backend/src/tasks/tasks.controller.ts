@@ -2,11 +2,22 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from 
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { retry } from 'rxjs';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
+  @Delete('deleteTask/:taskId')
+  async deleteTask(@Param('taskId' , ParseIntPipe) taskId : number){
+    return this.tasksService.deleteTask(taskId)
+  }
+  @Patch('updateTaskState/:taskId/:newStatus')
+  async updateTaskState(
+    @Param('taskId' , ParseIntPipe) taskId : number,
+    @Param('newStatus') newStatus : string ) {
+      return this.tasksService.updateTaskState(taskId , newStatus)
+    }
   @Get('taskDeadlineInfo/:id')
   taskDeadlineInfo(@Param('id',ParseIntPipe) id : number ){
     return this .tasksService.getTaskDeadlineInfo(id);

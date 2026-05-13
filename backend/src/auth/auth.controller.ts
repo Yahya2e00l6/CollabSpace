@@ -10,6 +10,13 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
 
+  @Get('userProjects/:teamId/:userId')
+  async getUserProjects(
+      @Param('teamId', ParseIntPipe) teamId: number,
+      @Param('userId', ParseIntPipe) userId: number
+  ) {
+      return await this.authService.getUserProjects(teamId, userId);
+  }
   @Get('gender/:id')
   async gender(@Param('id' , ParseIntPipe) id : number){
     return this.authService.gender(id)

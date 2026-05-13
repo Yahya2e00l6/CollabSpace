@@ -15,9 +15,12 @@ export class ProjectsController {
       return await this.projectsService.assignMultipleToProject(userIds, projectId);
   }
 
-  @Get('availableMembers/:projectId')
-  async availableMembers(@Param('projectId' , ParseIntPipe) projectId : number){
-    return await this .projectsService.getAvailableMembers(projectId)
+  @Get('availableMembers/:projectId/:teamId') 
+  async availableMembers(
+      @Param('projectId', ParseIntPipe) projectId: number,
+      @Param('teamId', ParseIntPipe) teamId: number 
+  ) {
+      return await this.projectsService.getAvailableMembers(projectId, teamId);
   }
   @Get('taskInfo/:projectId')
   async taskInfo(@Param('projectId' , ParseIntPipe) projectId : number){

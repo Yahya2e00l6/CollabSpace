@@ -6,6 +6,7 @@ import { User } from 'src/auth/entities/user.entity';
 import { Repository , In } from 'typeorm';
 import { Team } from './entities/team.entity';
 import { groupBy } from 'rxjs';
+import { Project } from 'src/projects/entities/project.entity';
 
 @Injectable()
 export class TeamsService {
@@ -15,7 +16,22 @@ export class TeamsService {
     private UserRepo : Repository <User>,
     @InjectRepository(Team)
     private TeamRepo : Repository <Team>,
+    @InjectRepository(Project)
+    private ProjectRepo : Repository <Project>
   ){}
+
+  async getUserTeamProjects(teamId: number): Promise<any[]> {
+    return await this.ProjectRepo.createQueryBuilder('project')
+        .innerJoin('project.team', 'team') 
+        .select('project.id', 'id')
+        .addSelect('project.projectName', 'projectName')
+        .addSelect('project.description', 'description')
+        .addSelect('project.status', 'status')
+        .addSelect('project.deadLine', 'deadLine')
+        .where('team.id = :teamId', { teamId })
+        .getRawMany(); 
+}
+
   async removeTeamMate( userId : number , teamId : number ) :Promise <any>{
     const result = await this.UserRepo.update(
       {

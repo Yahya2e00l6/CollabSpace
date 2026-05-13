@@ -9,6 +9,7 @@ import { guestRequest } from './entities/guest-request.entity';
 import { Team } from 'src/teams/entities/team.entity';
 import { profile } from 'node:console';
 import { UserData } from 'src/users/entities/user-data.entity';
+import { Project } from 'src/projects/entities/project.entity';
 
 @Injectable()
 export class AuthService {
@@ -23,6 +24,25 @@ export class AuthService {
     private userDataRepository : Repository<UserData>
   ){}
 
+async getUserProjects(teamId: number, userId: number): Promise<any[]> {
+      return await this.userRepository.createQueryBuilder('user')
+          .innerJoin('PROJECT_MEMBERS', 'pm', 'pm.userID = user.ID')
+          
+          // 2. Connect the Project entity manually using the junction table's projectID
+          .innerJoin(Project, 'project', 'project.id = pm.projectID') 
+          
+          // 3. Connect the Team (Use LEFT JOIN so it doesn't crash if a project has no team)
+          .leftJoin('project.team', 'team')     
+          
+          .select('project.id', 'id') 
+          .addSelect('project.projectName', 'projectName')
+          
+          // 4. Force the user and team filters
+          .where('user.ID = :userId', { userId })
+          .andWhere('project.teamID = :teamId', { teamId }) // 👈 Look directly at the project's team column
+          
+          .getRawMany();
+  }
 
   async gender(id : number) : Promise <any> {
     return await this.userRepository
@@ -71,6 +91,14 @@ export class AuthService {
     .addSelect('project.projectName' , 'project')
     .addSelect('tasks.status' , 'taskStatus')
     .where('user.id = :id',{id})
+    .orderBy(`
+      CASE tasks.status 
+        WHEN 'pending' THEN 1 
+        WHEN 'ongoing' THEN 2 
+        WHEN 'completed' THEN 3 
+        ELSE 4 
+      END
+    `, 'ASC')
     .getRawMany()
   }
 

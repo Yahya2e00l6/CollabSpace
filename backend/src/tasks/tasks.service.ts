@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable , BadRequestException , NotFoundException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,6 +17,25 @@ export class TasksService {
     private projectMemberRepo : Repository <projectMember>
   ){}
 
+  async deleteTask (taskId : number) : Promise <any>{
+    const result = await this.taskRepo.delete(taskId)
+    if(result.affected === 0 ){
+      throw new NotFoundException(`Task #${taskId} not found or already deleted!`)
+    }
+  }
+  async updateTaskState (taskId : number , newStatus : string) : Promise <any> {
+    const allowedStatuses = ['ongoing','completed' , 'pending']
+    if(!allowedStatuses.includes(newStatus.toLocaleLowerCase())){
+      throw new BadRequestException(`Invalid status: ${newStatus}`);
+    }
+    const result = await this.taskRepo.update(taskId,{
+      status : newStatus.toLocaleLowerCase()
+    })
+    if (result.affected === 0) {
+          throw new NotFoundException(`Task #${taskId} not found!`);
+      }
+      return { success: true, message: 'Status updated', newStatus };
+  }
   async getTaskDeadlineInfo (id : number) : Promise <any[]>{
     return await this.taskRepo
     .createQueryBuilder('tasks')
@@ -33,28 +52,25 @@ export class TasksService {
     .orderBy('remaining','ASC')
     .getRawMany()
   }
-  async getUserInsights (id:number){
-    const totalProjects = await this.projectMemberRepo.count({where : {userID : id}})
-    const totalTasks = await this.taskRepo.count({where : {assignee : {id : id}}})
-    const completed = await this.taskRepo.count({where : {
-      assignee : { id : id },
-      status : 'completed'
-    }})
-    const ongoing = await this.taskRepo.count({where : {
-      assignee : { id : id },
-      status : 'ongoing'
-    }})
-    const pending = await this.taskRepo.count({where : {
-      assignee : { id : id },
-      status : 'pending'
-    }})
+  async getUserInsights(id: number) {
+    const [totalProjects, taskStats] = await Promise.all([
+      this.projectMemberRepo.count({ where: { userID: id } }),
+      this.taskRepo.createQueryBuilder('task')
+        .leftJoin('task.assignee', 'assignee')
+        .select('COUNT(task.id)', 'totalTasks')
+        .addSelect('COUNT(CASE WHEN task.status = "completed" THEN 1 END)', 'completed')
+        .addSelect('COUNT(CASE WHEN task.status = "ongoing" THEN 1 END)', 'ongoing')
+        .addSelect('COUNT(CASE WHEN task.status = "pending" THEN 1 END)', 'pending')
+        .where('assignee.id = :id', { id })
+        .getRawOne()
+    ]);
     return {
       totalProjects,
-      totalTasks,
-      completed,
-      ongoing,
-      pending
-    }
+      totalTasks: Number(taskStats.totalTasks || 0),
+      completed: Number(taskStats.completed || 0),
+      ongoing: Number(taskStats.ongoing || 0),
+      pending: Number(taskStats.pending || 0)
+    };
   }
   create(createTaskDto: CreateTaskDto) {
     return 'This action adds a new task';

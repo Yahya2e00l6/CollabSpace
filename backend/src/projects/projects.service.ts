@@ -23,42 +23,54 @@ async assignMultipleToProject(userIds: number[], projectId: number) {
     if (!userIds || userIds.length === 0) {
         return { message: 'No users selected' };
     }
-    await this.projectRepo
-      .createQueryBuilder()
-      .relation(Project, 'members') 
-      .of(projectId)                
-      .add(userIds);               
+    const values = userIds.map(id => ({
+        projectID: projectId,
+        userID: id      
+    }));
+    await this.projectRepo.createQueryBuilder()
+        .insert()
+        .into('PROJECT_MEMBERS')
+        .values(values)
+        .orIgnore()
+        .execute();
+
     return { success: true, message: 'Members assigned successfully' };
 }
-async getAvailableMembers(projectId: number): Promise<User[]> {
-    const project = await this.projectRepo.findOne({
-        where: { id: projectId },
-        relations: ['team'],
-    });
-    if (!project || !project.team) return [];
-    const teamId = project.team.id;
+async getAvailableMembers(projectId: number, teamId: number): Promise<any[]> {
     return await this.userRepo.createQueryBuilder('user')
         .innerJoin('user.team', 'team') 
-        .leftJoin('user.projects', 'project', 'project.id = :projectId', { projectId })
-        .leftJoin('user.profile' , 'profile')
+        .leftJoin('user.profile', 'profile')
         .select('user.id', 'userId')
         .addSelect("CONCAT(profile.firstName, ' ', profile.lastName)", 'fullName')
         .addSelect('profile.email', 'email')
         .where('team.id = :teamId', { teamId })
-        .andWhere('project.id IS NULL') 
-        .groupBy('user.id')
+        .andWhere('user.id NOT IN (SELECT userID FROM PROJECT_MEMBERS WHERE projectID = :projectId)', { projectId })
         .getRawMany();
 }
   async taskInfo( id : number) : Promise <any[]> {
     return await this.projectRepo
     .createQueryBuilder('project')
     .leftJoin('project.tasks' , 'tasks')
+    .leftJoin('tasks.assignee' , 'assignee')
+    .leftJoin('assignee.profile' , 'profile')
     .select('tasks.id' , 'taskId')
     .addSelect('tasks.taskName' , 'taskName')
     .addSelect('tasks.createdAt' , 'createdAt')
     .addSelect('project.projectName' , 'project')
     .addSelect('tasks.status' , 'taskStatus')
+    .addSelect('assignee.id' , 'OwnerId')
+    .addSelect('CONCAT(profile.firstName , " " , profile.lastName)' , 'OwnerfullName')
+    .addSelect('tasks.description' , 'taskDescription')
+    .addSelect('tasks.deadLine' , 'taskDeadLine')
     .where('project.id = :id',{id})
+    .orderBy(`
+      CASE tasks.status 
+        WHEN 'pending' THEN 1 
+        WHEN 'ongoing' THEN 2 
+        WHEN 'completed' THEN 3 
+        ELSE 4 
+      END
+    `, 'ASC')
     .getRawMany()
   }
   async tasksInsights( id : number ) : Promise <any>{
@@ -68,9 +80,9 @@ async getAvailableMembers(projectId: number): Promise<User[]> {
     .leftJoin('project.members' , 'members')
     .select('COUNT( DISTINCT members.id)' ,'totalMembers')
     .addSelect('COUNT( DISTINCT tasks.id)','totalTasks')
-    .addSelect('COUNT(CASE WHEN tasks.status = "completed" THEN 1 END)' ,'completedTasks')
-    .addSelect('COUNT(CASE WHEN tasks.status = "pending" THEN 1 END)' ,'ongoingTasks')
-    .addSelect('COUNT(CASE WHEN tasks.status = "ongoing" THEN 1 END)' ,'pendingTasks')
+    .addSelect('COUNT(DISTINCT CASE WHEN tasks.status = "completed" THEN tasks.id END)' ,'completedTasks')
+    .addSelect('COUNT(DISTINCT CASE WHEN tasks.status = "ongoing" THEN tasks.id END)' ,'ongoingTasks')
+    .addSelect('COUNT(DISTINCT CASE WHEN tasks.status = "pending" THEN tasks.id  END)' ,'pendingTasks')
     .groupBy('project.id')
     .where('project.id = :id' , {id})
     .getRawOne()

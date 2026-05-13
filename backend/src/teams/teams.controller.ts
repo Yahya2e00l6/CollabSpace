@@ -8,6 +8,10 @@ export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 
 
+  @Get('userTeamProjects/:teamId')
+    async userTeamProjects(@Param('teamId', ParseIntPipe) teamId: number) {
+    return await this.teamsService.getUserTeamProjects(teamId); 
+}
   @Patch(':teamId/removeTeamMate/:userId')
 async removeTeamMate(
     @Param('teamId', ParseIntPipe) teamId: number,
