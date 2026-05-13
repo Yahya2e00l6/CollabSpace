@@ -54,14 +54,9 @@ const RequestStatusBox = ({ status , firstName , lastName }) => {
                         autoplay
                     />
                 </div>
-
-
-                {/* Added an action button for better UX */}
-                {status === "accepted" && (
-                    <Link to="/SignIn">
-                        <button className={style.actionBtn}>Go to Workspace</button>
-                    </Link>
-                )}
+                <Link to="/SignIn">
+                    <button className={style.actionBtn}>Go to Workspace</button>
+                </Link>
             </div>
         </div>
     )

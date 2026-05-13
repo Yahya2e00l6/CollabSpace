@@ -1,12 +1,34 @@
 import style from "../../../Style/StructuralUI/Tasks/TaskCard.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faListCheck , faTrash } from '@fortawesome/free-solid-svg-icons';
-const TaskCard = ({TaskDescription ,TaskName , OwnerName , CreateAt , DeadLine , Status}) => {
+import {del, patch } from "../../../api/client";
+const TaskCard = ({TaskDescription ,TaskName , OwnerName , CreateAt , DeadLine , Status , taskId , onStatusUpdate , onDelete}) => {
+
     const statusClass = Status.toLowerCase() === "pending"
         ? style.statusPending
         : Status.toLowerCase() === "completed"
             ? style.statusCompleted
             : style.statusOngoing
+    const updateState = async(newStatus) => {
+        try{
+            const response = patch(`/tasks/updateTaskState/${taskId}/${newStatus}`)
+            if(response){
+                onStatusUpdate(taskId , newStatus)
+            }
+        }catch(e){
+            console.log(e.error)
+        }
+    }
+    const deleteTask = async() => {
+        try{
+            const response = del(`/tasks/deleteTask/${taskId}`)
+            if(response){
+                onDelete(taskId)
+            }
+        }catch(e){
+            console.log(e.error)
+        }
+    }
     return(
         <>
 <tr className={style.MembershipCard}>
@@ -33,25 +55,25 @@ const TaskCard = ({TaskDescription ,TaskName , OwnerName , CreateAt , DeadLine ,
                 { 
                     Status === "pending" && 
                     <td className={style.buttons}>
-                        <button type="button" className={style.Completed}>Completed</button>
-                        <button type="button" className={style.Ongoing}>Ongoing</button>
-                        <button type="button" className={style.delete}><FontAwesomeIcon icon={faTrash} /></button>
+                        <button type="button" className={style.Completed} onClick={() => updateState('completed')}>Completed</button>
+                        <button type="button" className={style.Ongoing} onClick={() => updateState('ongoing')}>Ongoing</button>
+                        <button type="button" className={style.delete}><FontAwesomeIcon icon={faTrash} onClick={() => deleteTask()}/></button>
                     </td>
                 }
                 { 
                     Status === "completed" && 
                     <td className={style.buttons}>
-                        <button type="button" className={style.pending}>pending</button>
-                        <button type="button" className={style.Ongoing}>Ongoing</button>
-                        <button type="button" className={style.delete}><FontAwesomeIcon icon={faTrash} /></button>
+                        <button type="button" className={style.pending} onClick={() => updateState('pending')}>pending</button>
+                        <button type="button" className={style.Ongoing} onClick={() => updateState('ongoing')}>Ongoing</button>
+                        <button type="button" className={style.delete}><FontAwesomeIcon icon={faTrash} onClick={() => deleteTask()}/></button>
                     </td>
                 }
                 { 
                     Status === "ongoing" && 
                     <td className={style.buttons}>
-                        <button type="button" className={style.Completed}>Completed</button>
-                        <button type="button" className={style.pending}>pending</button>
-                        <button type="button" className={style.delete}><FontAwesomeIcon icon={faTrash} /></button>
+                        <button type="button" className={style.Completed} onClick={() => updateState('completed')}>Completed</button>
+                        <button type="button" className={style.pending} onClick={() => updateState('pending')}>pending</button>
+                        <button type="button" className={style.delete}><FontAwesomeIcon icon={faTrash} onClick={() => deleteTask()}/></button>
                     </td>
                 }
             </tr>

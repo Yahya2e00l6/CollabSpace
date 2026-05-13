@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { del , patch} from '../../api/client'
 
-const SignOutBox = ({type , Name , onClose , teamId , userId ,onSuccess}) =>{
+const SignOutBox = ({type , Name , onClose , teamId , userId ,onSuccess , projectId}) =>{
     const { logout } = useContext(AuthContext)
     const navigate = useNavigate();
     const handleLogOut = (e) => {
@@ -33,6 +33,26 @@ const SignOutBox = ({type , Name , onClose , teamId , userId ,onSuccess}) =>{
             console.error(e.message)
         }
     }
+    const handleRemoveUser = async () => {
+        try{
+            await del(`/auth/deleteUser/${userId}`)
+            console.log(`Team deleted  ${Name} successfully.`);
+            onSuccess()
+            onClose()
+        }catch(e){
+            console.error(e.message)
+        }
+    } 
+    const handleDeleteProject = async () => {
+        try{
+            await del(`/projects/deleteProject/${projectId}`)
+            console.log(`project deleted  ${Name} successfully.`);
+            onSuccess()
+            onClose()
+        }catch(e){
+            console.error(e.message)
+        }
+    }
     return(
         <>
         <div className={style.container} onClick={e => {e.stopPropagation()}}>
@@ -44,7 +64,7 @@ const SignOutBox = ({type , Name , onClose , teamId , userId ,onSuccess}) =>{
                         <p className={style.Body}>Are you sure you want to delete {Name}? This will permanently remove all associated tasks, 
                             milestones, and data. This action cannot be undone.</p>
                         <div className={style.buttons}>
-                            <button type='button' className={style.accept}>Delete Project</button>
+                            <button type='button' className={style.accept} onClick={handleDeleteProject}>Delete Project</button>
                             <button type='button' className={style.decline} onClick={onClose}>Keep Project</button>
                         </div>
                     </div>
@@ -91,6 +111,17 @@ const SignOutBox = ({type , Name , onClose , teamId , userId ,onSuccess}) =>{
                         <p className={style.Body}>ou are about to permanently delete this team and all its member associations. This action cannot be undone. Are you sure you want to proceed?</p>
                         <div className={style.buttons}>
                             <button type='button' className={style.accept} onClick={handleDeleteTeam}>Remove</button>
+                            <button type='button' className={style.decline} onClick={onClose}>cancel</button>
+                        </div>
+                    </div>
+            }
+            { 
+                type === 'social' &&
+                    <div className={style.box}>
+                        <p className={style.title}>Removing User?</p>
+                        <p className={style.Body}>Removing {Name} will permanently erase their profile, role associations, and activity history within the platform. They will immediately lose access to all collaborative spaces. Are you sure you want to continue?</p>
+                        <div className={style.buttons}>
+                            <button type='button' className={style.accept} onClick={handleRemoveUser}>Remove</button>
                             <button type='button' className={style.decline} onClick={onClose}>cancel</button>
                         </div>
                     </div>

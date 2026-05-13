@@ -14,7 +14,7 @@ return(
         <div className={style.selectedSection}>
             <Header selectedPage={'Teams'}/>
             { 
-                user.role === 'admin' &&
+                user.role === 'admin' ?
                 <div className={style.Overview}>
                     <TeamList setTeamId={setTeamId}/>
                     {teamId ? (
@@ -23,23 +23,14 @@ return(
                             <div className={style.loadingPlaceholder}>Selecting a team...</div>
                     )}
                 </div>
-            }
-            { 
-                user.role === 'user' &&
+                :
                 <div className={style.Overview}>
-                    <UserList/>
+                    <UserList section={'team'} teamId={user.teamId}/>
                     {user.teamId ? (
                         <TeamDash teamId={user.teamId} />
                         ) : (
                             <div className={style.loadingPlaceholder}>Selecting a team...</div>
                     )}
-                </div>
-            }
-            { 
-                user.role === 'manager' &&
-                <div className={style.Overview}>
-                    <UserList section={'team'} teamId={user.teamId}/>
-                    <TeamDash teamId={user.teamId} />
                 </div>
             }
         </div>

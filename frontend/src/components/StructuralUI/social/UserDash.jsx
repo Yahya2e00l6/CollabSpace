@@ -2,25 +2,29 @@ import style from "../../../Style/StructuralUI/social/UserDash.module.css"
 import Insights from "../Insights"
 import DoughtnutChart from "../../charts/DoughnutChart"
 import ProjectCardList from "../feeds/ProjectCardList";
+import { useState } from "react";
+import TaskCardList from "../feeds/TaskCardList";
 
-const UserDash = () =>{
+const UserDash = ({userId}) =>{
+    const [doughnut , setDoughnut] = useState({})
     const doughnutData = {
     labels: ['Completed', 'Ongoing', 'Pending'],
     datasets: [{
-    data: [75, 42, 18],
+    data: [doughnut.completed, doughnut.ongoing, doughnut.pending],
     backgroundColor: ['#10b981', '#3b82f6', '#f59e0b'],
     hoverOffset: 4
 }]
 };
+console.log(doughnut)
     return(
         <>
             <div className={style.selectedSection}>
-                <Insights/>
+                <Insights section={'social'} id={userId} setDoughnut={setDoughnut}/>
                 <div className={style.Overview}>
-                    <DoughtnutChart chartData={doughnutData} title={'Tasks doughtnut'} Axis={'y'}/>
+                    <DoughtnutChart chartData={doughnutData} title={'TASKS STATUS'} Axis={'y'}/>
                         <div className={style.projectListCards}>
-                            <p className={style.name}>Doughnut</p>
-                            <ProjectCardList/>
+                            <p className={style.name}>TASKS STATUS</p>
+                            <TaskCardList userId={userId} section={'user'}/>
                         </div>
                 </div>
             </div>

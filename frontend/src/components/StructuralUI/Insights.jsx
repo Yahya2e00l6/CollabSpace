@@ -6,85 +6,47 @@ import { get } from "../../api/client"
 
 const Insights = ({section ,id , setDoughnut}) =>{
     const { user } = useContext(AuthContext)
-    const [ projectStats ,setProjectStats ] =useState({})
-    const [ tasksStats ,setTasksStats ] =useState({})
+    const [insightsData, setInsightsData] = useState({});
     
-    useEffect(()=>{
-        const fetchState = async () =>{
-            if(user.role === 'admin'){
-                if(section === 'dashboard'){
-                    try{
-                        const response = await get('/projects/projectsInsights')
-                        if(response){
-                            setProjectStats(response)
-                        }
-                    }catch(e){
-                        console.error(e.message || "Failed to load stats");
-                    }
-                }else if( section === 'teams' ){
-                    try{
-                        const response = await get(`/teams/projectsInsights/${id}`)
-                        if(response){
-                            setProjectStats(response)
-                            setDoughnut(response)
-                        }
-                    }catch(e){
-                        console.error(e.message || "Failed to load stats");
-                    }
-                }else if( section === 'social'){
-                    console.log('')
-                }else if(section === 'projects'){
-                    console.log('')
-                }
-            }else{
-                try{
-                    if( section === 'dashboard'){
-                        const response = await get(`/tasks/tasksInsights/${user.id}`)
-                        if(response){
-                            setTasksStats(response)
-                        }
-                    }else if( section === 'teams'){
-                    try{
-                        const response = await get(`/teams/projectsInsights/${id}`)
-                        console.log(response)
-                        if(response){
-                            setProjectStats(response)
-                            setDoughnut(response)
-                        }
-                    }catch(e){
-                        console.error(e.message || "Failed to load stats");
-                    }
-                    }
-                }catch(e){
-                    console.error(e.message || "Failed to load stats");
-                }
-                
+    useEffect(() => {
+        const fetchInsights = async () => {
+            let endpoint = "";
+            if (section === 'dashboard' && user.role === 'admin') {
+                endpoint = '/projects/projectsInsights';
+            } else if (section === 'dashboard') {
+                endpoint = `/tasks/tasksInsights/${user.id}`;
+            } else if (section === 'teams') {
+                endpoint = `/teams/projectsInsights/${id}`;
+            } else if (section === 'social') {
+                endpoint = `/tasks/tasksInsights/${id}`;
+            }else if ( section === 'project' ) {
+                endpoint = `/projects/tasksInsights/${id}`
             }
-        }
-        fetchState()
-    },[user.id , user.role ,section ,id ,setDoughnut])
+            if (!endpoint) return;
+            try {
+                const response = await get(endpoint);
+                if (response) {
+                    setInsightsData(response); 
+                    setDoughnut?.(response); 
+                }
+            } catch (e) {
+                console.error("Insights Error:", e.message);
+            }
+        };
 
+        fetchInsights();
+    }, [user.id, user.role, section, id, setDoughnut]);
     return(
         <>
-        {
-            user.role==='admin'?
-            <div className={style.Insights}>
-                {Object.entries(projectStats).map(([key,value])=>(
-                    <DataBox key={key} name={key} value={value}/>
-                ))}
-            </div>
-            :
-            <div className={style.Insights}>
-                {Object.keys(projectStats).length > 0
-                    ? Object.entries(projectStats).map(([key, value]) => (
-                        <DataBox key={key} name={key} value={value} />
-                    ))
-                    : Object.entries(tasksStats).map(([key, value]) => (
-                        <DataBox key={key} name={key} value={value} />
-                    ))
-                }
-            </div>
-        }
+        <div className={style.Insights}>
+            {Object.entries(insightsData).length > 0 ? (
+                Object.entries(insightsData).map(([key, value]) => (
+                    <DataBox key={key} name={key} value={value} />
+                ))
+            ) : (
+                <p className={style.loading}>No stats available...</p>
+            )}
+        </div>
         </>
     )
 }

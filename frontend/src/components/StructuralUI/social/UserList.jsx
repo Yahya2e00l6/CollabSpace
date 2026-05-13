@@ -4,7 +4,7 @@ import UserCard from "./UserCard";
 import ConfirmationBox from "../ConfirmationBox";
 import { get } from "../../../api/client";
 
-const UserList = ({section ,teamId}) => {
+const UserList = ({section ,teamId , setUserId}) => {
     const [ searchTerm , setSearchTerm ] = useState("")
     const [ usersData , setUsersData ] = useState([])
     const [isDeleteUserOpen, setIsDeleteUserOpen] = useState(false)
@@ -27,14 +27,21 @@ const UserList = ({section ,teamId}) => {
                 try{
                     const response = await get(`/teams/teamMembers/${teamId}`)
                     setUsersData(response);
-                    console.log(response)
+                }catch(e){
+                    console.log(e.message)
+                }
+            }else if(section === 'social'){
+                try{
+                    const response = await get('/auth/userData')
+                        setUsersData(response);
+                        setUserId(response[0].id)
                 }catch(e){
                     console.log(e.message)
                 }
             }
         }
         fetchData()
-    },[teamId , section])
+    },[teamId , section , setUserId])
     return(
         <>
         <div className={style.Container}>
@@ -66,11 +73,35 @@ const UserList = ({section ,teamId}) => {
                 }
                 </div>
             }
-            {console.log(selectedUser)}
+            { section === 'social' &&
+                <div className={style.list}>
+                {
+                    filtredData.length > 0 ? 
+                    (
+                        filtredData.map((d) => (
+                            <div key={d.id}  onClick={() => setUserId(d.id)}>
+                                <UserCard
+                                    id={d.id}
+                                    fullName={d.fullName}
+                                    section={'social'}
+                                    Age = {d.age}
+                                    gender = {d.gender}
+                                    Role = {d.role}
+                                    Team = {d.teamName}
+                                    onDelete={() => openDelete(d)}
+                                    />
+                            </div>
+                        ))
+                    )
+                    :
+                    <p className={style.noResults}>No User found matching "{searchTerm}"</p>
+                }
+                </div>
+            }
             {isDeleteUserOpen && (
                 <div className={style.modal} onClick={deleteToggle}>
                     <ConfirmationBox
-                        type='TeamMate'
+                        type='social'
                         Name={selectedUser?.fullName}
                         onClose={deleteToggle}
                         teamId={teamId}

@@ -21,7 +21,7 @@ const TeamDash = ({teamId}) =>{
                 <div className={style.Overview}>
                     <DoughtnutChart chartData={doughnutData} title={'Tasks doughtnut'} Axis={'y'}/>
                         <div className={style.projectListCards}>
-                            <p className={style.name}>Doughnut</p>
+                            <p className={style.name}>DeadLine</p>
                             <ProjectDeadLineList id={teamId}/>
                         </div>
                 </div>

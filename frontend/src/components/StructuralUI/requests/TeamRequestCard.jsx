@@ -1,6 +1,6 @@
 import style from "../../../Style/StructuralUI/requests/TeamRequestCard.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDiagramProject } from '@fortawesome/free-solid-svg-icons';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 const TeamRequestCard = ({Gender , firstName , lastName , teamName , Email , Phone , Status ,Age , requestDate }) => {
     const statusClass = Status.toLowerCase() === "accepted"
         ? style.statusAccepted
@@ -11,7 +11,7 @@ const TeamRequestCard = ({Gender , firstName , lastName , teamName , Email , Pho
         <>
             <tr className={style.MembershipCard}>
                 <td className={style.profiles}>
-                    <div className={style.icon}><FontAwesomeIcon icon={faDiagramProject} /></div>
+                    <div className={style.icon}><FontAwesomeIcon icon={faBell} /></div>
                 </td>
                 <td className={style.Name}>
                     <p>{firstName} {lastName}</p>
