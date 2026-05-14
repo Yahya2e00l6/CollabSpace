@@ -8,6 +8,14 @@ import { retry } from 'rxjs';
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
+  @Post('createtask/:projectId')
+  async createTask(
+    @Param('projectId', ParseIntPipe) projectId: number,
+    @Body() body: any 
+  ) {
+    return await this.tasksService.createTask(projectId, body);
+  }
+  
   @Delete('deleteTask/:taskId')
   async deleteTask(@Param('taskId' , ParseIntPipe) taskId : number){
     return this.tasksService.deleteTask(taskId)

@@ -15,13 +15,12 @@ const UserDash = ({userId}) =>{
     hoverOffset: 4
 }]
 };
-console.log(doughnut)
     return(
         <>
             <div className={style.selectedSection}>
                 <Insights section={'social'} id={userId} setDoughnut={setDoughnut}/>
                 <div className={style.Overview}>
-                    <DoughtnutChart chartData={doughnutData} title={'TASKS STATUS'} Axis={'y'}/>
+                    <DoughtnutChart chartData={doughnutData} title={'Tasks Breakdown'} Axis={'y'}/>
                         <div className={style.projectListCards}>
                             <p className={style.name}>TASKS STATUS</p>
                             <TaskCardList userId={userId} section={'user'}/>

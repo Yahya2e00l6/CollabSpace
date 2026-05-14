@@ -12,7 +12,6 @@ const ProjectDeadLineList = ({id}) => {
             try{
                 if(!id){
                     const {teamId} = await get(`/auth/userTeam/${user.id}`)
-                    console.log(teamId);
                     if(teamId){
                         const response = await get(`/projects/projectDeadlineInfo/${teamId}`)
                         if(response){

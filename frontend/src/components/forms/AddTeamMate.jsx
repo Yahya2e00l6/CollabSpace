@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Select from 'react-select'
 import style from '../../Style/form/AddTeamMate.module.css'
 import { get, post } from '../../api/client'
+import { AuthContext } from '../../context/AuthContext'
 
 const AddTeamMate = ({onClose ,teamId , teamName}) => {
 
     const [selectedTeamMates , setSelectedTeamMates ] = useState([])
     const [noTeamMembers , setNoTeamMate ] = useState({})
+    const {user} = useContext(AuthContext)
     const removeMemberFromState = (id) => {
         setNoTeamMate((prevList) => prevList.filter((team) => team.id !== id));
     };
@@ -40,7 +42,8 @@ const AddTeamMate = ({onClose ,teamId , teamName}) => {
             <button type="button" className={style.close} onClick={onClose}>&times;</button>
             <form method="POST" className={style.form} onSubmit={Handlesubmit}>
             <fieldset className={style.fieldset}>
-                <legend className={style.legend}>Add TeamMate</legend>
+                <legend className={style.legend}>Add Teammate</legend>
+            {user.role === 'admin' && 
                 <div className={style.formGroup}>
                     <label htmlFor="teamName" className={style.label}>Team Name</label>
                     <input 
@@ -57,6 +60,7 @@ const AddTeamMate = ({onClose ,teamId , teamName}) => {
                         value={teamId}
                     />
                 </div>
+            }
                 <div className={style.formGroup}>
                     <label htmlFor="TeamMate" className={style.label}>Team Manager</label>
                     <Select 

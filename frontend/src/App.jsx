@@ -9,8 +9,8 @@ function App() {
         {publicRoutes.map((route) => (
           <Route key={route.path} path={route.path} element={route.element} />
         ))}
-        <Route path="/" element={<Navigate to="/SignIn" replace />} />
-        <Route path="*" element={<Navigate to="/SignIn" replace />} />
+        <Route path="/" element={<Navigate to="/LandingPage" replace />} />
+        <Route path="*" element={<Navigate to="/LandingPage" replace />} />
       </Routes>
   );
 }

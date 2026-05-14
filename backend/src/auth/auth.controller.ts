@@ -9,6 +9,13 @@ import { CreateRequestDto } from './dto/createrequest-auth.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+@Patch('updateStatus/:id')
+    async updateStatus(
+        @Param('id', ParseIntPipe) id: number,
+        @Body('role') role: string 
+    ) {
+        return await this.authService.updateUserRole(id, role);
+    }
 
   @Get('userProjects/:teamId/:userId')
   async getUserProjects(
@@ -60,6 +67,10 @@ export class AuthController {
     return {teamId: result.teamId}
   }
 
+  @Patch('acceptedRequest/:id')
+    async acceptRequest(@Param('id', ParseIntPipe) id: number) {
+        return await this.authService.acceptRequest(id);
+    }
 
 
 

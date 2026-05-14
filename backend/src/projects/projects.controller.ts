@@ -7,12 +7,32 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
+  @Patch('updateStatus/:id')
+  async updateStatus(
+      @Param('id', ParseIntPipe) id: number,
+      @Body('status') status: string
+  ) {
+      return await this.projectsService.updateProjectStatus(id, status);
+  }
+  @Post('addProject/:teamId')
+  async addProject(
+      @Param('teamId', ParseIntPipe) teamId: number,
+      @Body() body: any 
+  ) {
+      return await this.projectsService.addProject(teamId, body);
+  }
+
   @Post('assignMultiple/:projectId')
   async assignMultiple(
       @Param('projectId', ParseIntPipe) projectId: number,
       @Body('userIds') userIds: number[]
   ) {
       return await this.projectsService.assignMultipleToProject(userIds, projectId);
+  }
+
+  @Get('projectMembers/:projectId')
+  async projectMembers(@Param('projectId' , ParseIntPipe) projectId : number){
+    return await this.projectsService.getProjectMembers(projectId);
   }
 
   @Get('availableMembers/:projectId/:teamId') 

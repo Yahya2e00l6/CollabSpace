@@ -1,32 +1,60 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import style from "../../Style/form/AddProject.module.css"
 import { AuthContext } from "../../context/AuthContext";
+import { get,post } from "../../api/client";
+import Select from 'react-select'
 
 function AddProject({onClose}){
     const Now = new Date();
+    const today = new Date().toISOString().split('T')[0];
 
     const [ ProjectName, setProjectName] = useState("")
     const [ ProjectDescription , setProjectDescription ] = useState("");
     const [ NameHasError , setNameHasError ] = useState(false)
-    const [ isTeamValide , setIsTeamValide ] = useState(false)
     const [ ProjectTeam , setProjectTeam ] = useState('')
     const { user } = useContext(AuthContext)
 
     const [ DescriptionHasError , setDescriptionHasError ] = useState(false)
-    const [ DeadLine , setDeadLine ] = useState(Now.toLocaleDateString())
-    const today = new Date().toISOString().split('T')[0];
+    const [ DeadLine , setDeadLine ] = useState(today)
+    const [ teamList , setTeamList ] = useState([])
+        useEffect(() => {
+            if(user.role === 'admin'){
+                const fetchData = async() => {
+                    try{
+                        const response = await get('/teams/teamsList')
+                        if(response){
+                            setTeamList(response)
+                        }
+                    }catch(e){
+                        console.error(e.message)
+                    }
+                }
+                fetchData()
+            }
+        },[user.role])
     const Handlesubmit = async(e)=>{
         e.preventDefault();
-        const hasSymbol = /[!@#$%^&*()+={}\\[\]|\\"'<>?\\/=]/.test(ProjectName);
-        if(ProjectName.length<8 || typeof(ProjectName[0])===Number || hasSymbol){
+        const hasSymbol = /[!@#$%^*()+={}\\[\]|\\"'<>?\\/=]/.test(ProjectName);
+        if(ProjectName.length<4 || typeof(ProjectName[0])===Number || hasSymbol){
             setNameHasError(true);
             return;
         }
-        if(ProjectDescription.length < 24){
+        if(ProjectDescription.length < 12){
             setDescriptionHasError(true);
             return;
+        }   
+        const finalTeamId = user.role !== 'admin' ? user.teamId : ProjectTeam;
+        console.log(ProjectTeam)
+        if (!finalTeamId) {
+            alert("Please select a Project Team!");
+            return;
         }
-        //API
+        try{
+            await post(`/projects/addProject/${finalTeamId}`,{ProjectName,teamId: finalTeamId , ProjectDescription , DeadLine , userId: user.id })
+            onClose()
+        }catch(e){
+            console.error(e.message)
+        }
     }
     return(
         <>
@@ -34,9 +62,8 @@ function AddProject({onClose}){
             <button type="button" className={style.close} onClick={onClose}>&times;</button>
             <form method="POST" className={style.form} onSubmit={Handlesubmit}>
             <fieldset className={style.fieldset}>
-                <legend className={style.legend}>AddProject</legend>
-                <span className={NameHasError ? style.Error : style.Hidden }>Name must be at least 8 characters and contain no symbols.</span>
-                <div className={style.formGroup}>
+                <legend className={style.legend}>Add Project</legend>
+                    <div className={style.formGroup}>
                     <label htmlFor="projectName" className={style.label}>Project Name:</label>
                     <input 
                         type="text" 
@@ -49,21 +76,19 @@ function AddProject({onClose}){
                 </div>
                     {user.role==='admin' ? (
                         <div className={style.formGroup}>
-                            <span className={isTeamValide? style.OwnerError : style.Hidden}>Invalide Team</span>
-                            <label htmlFor="TeamManager" className={style.label}>Team</label>
-                            <input 
-                                id="TeamManager"
-                                name="TeamManager"
-                                className={style.input}
-                                list="members"
+                            <label htmlFor="projectTeam" className={style.label}>Project Team</label>
+                            <Select
+                                options={Array.isArray(teamList)?teamList.map((data)=>({
+                                    value : data.id,
+                                    label : data.name
+                                })) : []}
+                                id="projectTeam"
+                                name="projectTeam"
+                                onChange={(selectedOption) => setProjectTeam(selectedOption.value)} 
+                                className={style.Select}
                                 required
-                                onChange={(e) => setProjectTeam(e.target.value)}
+                                placeholder="Select Project's Team..."
                             />
-                            <datalist id="members">
-                                <option value="team 1" />
-                                <option value="team 2" />
-                                <option value="team 3" />
-                            </datalist>
                         </div>
                     ) : ''}
                 <div className={style.formGroup}>
@@ -83,7 +108,7 @@ function AddProject({onClose}){
                         type="date"
                         id="DeadLine"
                         name="DeadLine"
-                        value={today}
+                        value={DeadLine}
                         min={today}
                         onChange={(e)=>setDeadLine(e.target.value)} 
                         className={style.input}

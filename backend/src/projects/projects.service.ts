@@ -16,9 +16,54 @@ export class ProjectsService {
     private projectRepo : Repository <Project>,
     @InjectRepository(User)
     private userRepo : Repository <User>,
+    @InjectRepository(Team)
+    private teamRepo : Repository <Team>,
   ){}
 
+  async updateProjectStatus(projectId: number, newStatus: string) {
+    const project = await this.projectRepo.findOne({ where: { id: projectId } });
+    if (!project) throw new NotFoundException(`Project #${projectId} not found`);
+    
+    project.status = newStatus;
+    await this.projectRepo.save(project);
+    return { success: true, project };
+}
 
+async addProject(teamId: number, projectData: any) {
+      const team = await this.teamRepo.findOne({ where: { id: teamId } });
+      if (!team) {
+          throw new NotFoundException(`Team #${teamId} not found!`);
+      }
+      const creator = await this.userRepo.findOne({ where: { id: projectData.userId } });
+      if (!creator) {
+          throw new NotFoundException(`User #${projectData.userId} not found!`);
+      }
+      const newProject = this.projectRepo.create({
+          projectName: projectData.ProjectName,
+          description: projectData.ProjectDescription, 
+          deadLine: projectData.DeadLine,
+          team: team,      
+          creator: creator 
+      });
+      const savedProject = await this.projectRepo.save(newProject);
+      if(projectData.userId !== 1){
+        savedProject.members = [creator];
+        await this.projectRepo.save(savedProject);
+      }
+      return { success: true, message: 'Project successfully created!', project: savedProject };
+  }
+
+
+  async getProjectMembers (projectId : number) : Promise <any[]>{
+    return await this.projectRepo
+    .createQueryBuilder('project')
+    .leftJoin('project.members','members')
+    .innerJoin('members.profile','profile')
+    .select('members.id','userId')
+    .addSelect('CONCAT(profile.firstName , " " , profile.LastName)','fullName')
+    .where('project.id = :projectId' , {projectId})
+    .getRawMany()
+  }
 async assignMultipleToProject(userIds: number[], projectId: number) {
     if (!userIds || userIds.length === 0) {
         return { message: 'No users selected' };
@@ -102,6 +147,7 @@ async getAvailableMembers(projectId: number, teamId: number): Promise<any[]> {
     .select('project.id' , 'id')
     .addSelect('project.projectName','projectName')
     .addSelect('team.name' , 'teamName')
+    .addSelect('project.status' , 'status')
     .getRawMany()
   }
   async getcompletedProjectsInfo() : Promise <any[]>{

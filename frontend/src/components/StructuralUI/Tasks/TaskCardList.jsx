@@ -11,11 +11,14 @@ const TaskCardList = ({projectId}) => {
         const fetchData = async () => {
             try{
                 const response = await get(`/projects/taskInfo/${projectId}`)
-                if(response && user.role === 'member'){
-                    const filtereddData = response.filter(T => T.OwnerId === user.id)
-                    setProjectTasks(filtereddData)
-                }else{
-                    setProjectTasks(response)
+                const normalized = Array.isArray(response)
+                    ? response.filter(task => task && task.taskId && task.taskName)
+                    : []
+                if (user.role === 'member') {
+                    const filteredData = normalized.filter(task => task.OwnerId === user.id)
+                    setProjectTasks(filteredData)
+                } else {
+                    setProjectTasks(normalized)
                 }
             }catch(e){
                 console.log(e.message)
@@ -51,9 +54,9 @@ const TaskCardList = ({projectId}) => {
                                         <th className={style.th}>Owner Name</th>
                                         <th className={style.th}>Description</th>
                                         <th className={style.th}>Status</th>
-                                        <th className={style.th}>Create At</th>
+                                        <th className={style.th}>CREATED AT</th>
                                         <th className={style.th}>DeadLine</th>
-                                        <th className={style.th}>Action</th>
+                                        <th className={style.th}>ACTIONS</th>
                                     </tr>
                                 </thead>
                                 <tbody className={style.tbody}>
@@ -66,9 +69,9 @@ const TaskCardList = ({projectId}) => {
                                             TaskName={d.taskName}
                                             OwnerName={d.OwnerfullName} 
                                             TaskDescription={d.taskDescription} 
-                                            Status={d.taskStatus.toLowerCase()} 
-                                            CreateAt={d.createdAt.split('T')[0]} 
-                                            DeadLine={d.taskDeadLine.split('T')[0]}
+                                            Status={d.taskStatus?.toLowerCase() || "pending"}
+                                            CreateAt={d.createdAt?.split('T')[0] || "No Date"} 
+                                            DeadLine={d.taskDeadLine?.split('T')[0] || "No Date"}
                                             onStatusUpdate={handleStatusUpdate}
                                             onDelete={handleTaskDelete}
                                             />

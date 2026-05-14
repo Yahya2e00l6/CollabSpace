@@ -201,7 +201,8 @@
 .addProject,
 .addTask,
 .addTeam,
-.createTeam {
+.createTeam,
+.AddTeamMate {
 	width: 100%;
 	border: none;
 	border-radius: 14px;
@@ -227,10 +228,12 @@
 	background: linear-gradient(135deg, #7f8bff 0%, #5b7cfa 100%);
 }
 
+
 .addProject:hover,
 .addTask:hover,
 .addTeam:hover,
-.createTeam:hover {
+.createTeam:hover,
+.AddTeamMate:hover {
 	transform: translateY(-1px);
 	box-shadow: 0 14px 22px rgba(91, 124, 250, 0.32);
 }
@@ -329,7 +332,8 @@
 	.addProject,
 	.addTask,
 	.addTeam,
-	.createTeam {
+	.createTeam,
+	.AddTeamMate {
 		width: 100%;
 	}
 }
@@ -372,7 +376,8 @@
 	.addProject,
 	.addTask,
 	.addTeam,
-	.createTeam {
+	.createTeam,
+	.AddTeamMate {
 		width: 100%;
 		font-size: 14px;
 	}

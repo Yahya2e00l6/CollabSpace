@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException  } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException , BadRequestException  } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,23 +24,30 @@ export class AuthService {
     private userDataRepository : Repository<UserData>
   ){}
 
+  async updateUserRole(userId: number, newRole: string) {
+      const user = await this.userRepository.findOne({ where: { id: userId } });
+      if (!user) {
+          throw new NotFoundException(`User #${userId} not found!`);
+      }
+      user.role = newRole; 
+      const updatedUser = await this.userRepository.save(user);
+      return { 
+          success: true, 
+          message: `User role updated to ${newRole}!`, 
+          user: updatedUser 
+      };
+  }
+
 async getUserProjects(teamId: number, userId: number): Promise<any[]> {
       return await this.userRepository.createQueryBuilder('user')
           .innerJoin('PROJECT_MEMBERS', 'pm', 'pm.userID = user.ID')
-          
-          // 2. Connect the Project entity manually using the junction table's projectID
           .innerJoin(Project, 'project', 'project.id = pm.projectID') 
-          
-          // 3. Connect the Team (Use LEFT JOIN so it doesn't crash if a project has no team)
           .leftJoin('project.team', 'team')     
-          
           .select('project.id', 'id') 
           .addSelect('project.projectName', 'projectName')
-          
-          // 4. Force the user and team filters
+          .addSelect('project.status', 'status')
           .where('user.ID = :userId', { userId })
-          .andWhere('project.teamID = :teamId', { teamId }) // 👈 Look directly at the project's team column
-          
+          .andWhere('project.teamID = :teamId', { teamId }) 
           .getRawMany();
   }
 
@@ -189,11 +196,57 @@ async getUserProjects(teamId: number, userId: number): Promise<any[]> {
     email : dto.email,
     phoneNumber : dto.phoneNumber,
     birthDate : dto.birthDate,
+    identifier: dto.identifier, 
+    password: dto.password,
     status : "pending"
     })
     return await this.requestRepository.save(newRequest);
   }
 
+async acceptRequest(requestId: number) {
+      // 1. Find the pending request
+      const request = await this.requestRepository.findOne({ where: { id: requestId } });
+      
+      if (!request) {
+          throw new NotFoundException(`Request #${requestId} not found`);
+      }
+      if (request.status !== 'pending') {
+          throw new BadRequestException('This request has already been processed!');
+      }
+
+      // 2. Create the Account in the USER table
+      // Looking at your image: ID (auto), RequestID, teamID (null), Identifier, Password, Role
+      const newUser = this.userRepository.create({
+          // Notice how we pull the identifier and password we saved in the last step!
+          identifier: request.identifier,
+          password: request.password, 
+          role: 'member', // Default role for new users
+          
+          // If you set up a relationship to GuestRequest, connect it here
+          request: request 
+      });
+      const savedUser = await this.userRepository.save(newUser);
+
+      // 3. Create the Profile in the USERDATA table
+      // Looking at your image: userID, firstName, lastName, birthDate, CIN, Email, phoneNumber, Gender
+      const newUserData = this.userDataRepository.create({
+          user: savedUser, // Links this data to the user we just created
+          firstName: request.firstName,
+          lastName: request.lastName,
+          birthDate: request.birthDate,
+          cin: request.cin,
+          email: request.email,
+          phoneNumber: request.phoneNumber,
+          gender: request.gender
+      });
+      await this.userDataRepository.save(newUserData);
+
+      // 4. Finally, update the original request status to 'accepted'
+      request.status = 'accepted';
+      await this.requestRepository.save(request);
+
+      return { success: true, message: 'User accepted and account created!' };
+  }
 
   create(createAuthDto: CreateAuthDto) {
     return 'This action adds a new auth';

@@ -19,7 +19,7 @@ const TeamDash = ({teamId}) =>{
             <div className={style.selectedSection}>
                 <Insights section={'teams'} id={teamId} setDoughnut={setDoughnut}/>
                 <div className={style.Overview}>
-                    <DoughtnutChart chartData={doughnutData} title={'Tasks doughtnut'} Axis={'y'}/>
+                    <DoughtnutChart chartData={doughnutData} title={'Projects Breakdown.'} Axis={'y'}/>
                         <div className={style.projectListCards}>
                             <p className={style.name}>DeadLine</p>
                             <ProjectDeadLineList id={teamId}/>

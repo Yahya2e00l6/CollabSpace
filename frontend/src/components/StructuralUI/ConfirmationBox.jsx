@@ -72,7 +72,7 @@ const SignOutBox = ({type , Name , onClose , teamId , userId ,onSuccess , projec
             { 
                 type === 'TeamMate' &&
                     <div className={style.box}>
-                        <p className={style.title}>Remove Team Mate</p>
+                        <p className={style.title}>Remove Teammate</p>
                         <p className={style.Body}>Are you sure you want to remove {Name} from this team?
                             They will lose access to all team-specific projects </p>
                         <div className={style.buttons}>
@@ -118,7 +118,7 @@ const SignOutBox = ({type , Name , onClose , teamId , userId ,onSuccess , projec
             { 
                 type === 'social' &&
                     <div className={style.box}>
-                        <p className={style.title}>Removing User?</p>
+                        <p className={style.title}>Remove User?</p>
                         <p className={style.Body}>Removing {Name} will permanently erase their profile, role associations, and activity history within the platform. They will immediately lose access to all collaborative spaces. Are you sure you want to continue?</p>
                         <div className={style.buttons}>
                             <button type='button' className={style.accept} onClick={handleRemoveUser}>Remove</button>

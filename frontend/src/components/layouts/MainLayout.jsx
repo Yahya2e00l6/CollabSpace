@@ -17,6 +17,7 @@ import AddProject from "../forms/AddProject";
 import AddTask from "../forms/AddTask";
 import Dashboard from "../../pages/Main/Dashboard";
 import ConfirmationBox from "../StructuralUI/ConfirmationBox";
+import AddTeamMate from "../forms/AddTeamMate";
 import { AuthContext } from "../../context/AuthContext";
 const MainLayout = ({setSelected}) => {
     const [ isAddProjectOpen ,setIsAddProjectOpen ] = useState(false)
@@ -24,10 +25,12 @@ const MainLayout = ({setSelected}) => {
     const [ isCreateTeamOpen ,setIsCreateTeamOpen ] = useState(false)
     const [ isSignOutOpen, setIsSignOutOpen ] = useState(false)
     const [ isMenuOpen, setIsMenuOpen ] = useState(false)
+    const [ isAddTeamMateOpen, setIsAddTeamMateOpen ] = useState(false)
     const toggelProject = ()=>setIsAddProjectOpen(!isAddProjectOpen);
     const toggelTask = ()=>setIsAddTaskOpen(!isAddTaskOpen);
     const toggelTeam = ()=>setIsCreateTeamOpen(!isCreateTeamOpen);
     const toggelSignOut = ()=>setIsSignOutOpen(!isSignOutOpen);
+    const toggelTeamMate = ()=>setIsAddTeamMateOpen(!isAddTeamMateOpen);
     const toggleMenu = () => setIsMenuOpen((open) => !open);
     const [selectedMenu , setSelectedMenu ] = useState("Dashboard")
     const isSelected = (selected) =>{
@@ -110,7 +113,7 @@ const MainLayout = ({setSelected}) => {
                                     </li>
                                     <li onClick={() => isSelected('Requests')} className={selectedMenu === "Requests" ? style.chosen : ''}>
                                         <div className={style.icon}><FontAwesomeIcon icon={faBell} /></div>
-                                        <p>Requests</p>
+                                        <p>Requests</p>toggelTeamMate
                                     </li>
                                 </ul>
                             ) : 
@@ -149,30 +152,33 @@ const MainLayout = ({setSelected}) => {
                                     <button className={style.addProject} onClick={toggelProject}>Add Project</button>
                                 </div>
                             ) : 
+                            (user.role === 'manager' && !user.teamId) ?
+                            (
+                                <div className={style.Container}>
+                                    <div>
+                                        <button className={style.addProject} onClick={toggelTeam}>Create Team</button>
+                                    </div>
+                                </div>
+                            ) : 
                             user.role === 'manager' ?
                             (
                                 <div className={style.Container}>
                                     <div>
-                                        <button className={style.addTask} onClick={toggelTask}>Add Task</button>
                                         <button className={style.addProject} onClick={toggelProject}>Add Project</button>
+                                        <button className={style.AddTeamMate} onClick={toggelTeamMate}>Add Teammate</button>
                                     </div>
                                 </div>
-                            ) : 
-                            (
-                                <div className={style.Container}>
-                                    <button className={style.createTeam} onClick={toggelTeam}>Create Team</button>
-                                </div>
-                                
-                            )
+                            ) : ''
                         }
                     </div>
                 </div>
             </nav>
-            <div className={`${style.c_Container} ${(isCreateTeamOpen || isAddProjectOpen || isAddTaskOpen || isSignOutOpen) ? style.isOpen : ""}`}>
+            <div className={`${style.c_Container} ${(isCreateTeamOpen || isAddProjectOpen || isAddTaskOpen || isSignOutOpen || isAddTeamMateOpen) ? style.isOpen : ""}`}>
                 {isCreateTeamOpen && <CreateTeam onClose={toggelTeam}/>}
                 {isAddProjectOpen && <AddProject onClose={toggelProject}/>}
                 {isAddTaskOpen && <AddTask onClose={toggelTask}/>}
                 {isSignOutOpen && <ConfirmationBox onClose={toggelSignOut} type='SignOut' />}
+                {isAddTeamMateOpen && <AddTeamMate onClose={toggelTeamMate} teamId={user.teamId}/>}
             </div>
         </>
     );

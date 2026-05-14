@@ -14,8 +14,10 @@ const TaskCardList = ({userId , projectId , section}) =>{
             }
             try{
                 const response = await get(endpoint)
-                if(response){
-                    setData(response);
+                if (response) {
+                    setData(Array.isArray(response) ? response : []);
+                } else {
+                    setData([]);
                 }
             }catch(e){
                 console.error(e.message)
@@ -29,12 +31,12 @@ return(
             {
                 Data.map((d) => (
                     <div key={`${d.taskId}${d.taskName}`}>
-                        <TaskCard  
-                            taskName={d.taskName} 
-                            createdAt={d.createdAt.split('T')[0]}
+                        <TaskCard
+                            taskName={d.taskName}
+                            createdAt={d.createdAt ? d.createdAt.split('T')[0] : ''}
                             taskStatus={d.taskStatus}
                             projectName={d.project}
-                            />
+                        />
                     </div>
                 ))
             }

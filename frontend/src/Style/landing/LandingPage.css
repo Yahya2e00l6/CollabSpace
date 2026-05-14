@@ -1,0 +1,28 @@
+html,
+body {
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    background: linear-gradient(135deg, #f1faff 0%, #ccd1d6 100%);
+    color: #23272f;
+    overflow-x: hidden;
+    background-repeat: no-repeat;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+

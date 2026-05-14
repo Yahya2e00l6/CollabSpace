@@ -13,7 +13,7 @@ const TaskDeadLine = ({TaskName,ProjectName,remainingDays,DeadLine}) => {
                     <p className={style.Team}>{DeadLine}</p>
                 </div>
                 {
-                    <p className={style.status}>DeadLine in : {remainingDays} days</p>
+                    <p className={style.status}>DEADLINE IN:{remainingDays} {remainingDays ===1 ? 'Day' : 'days'}</p>
                 }
             </div>
         </>

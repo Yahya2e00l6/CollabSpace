@@ -7,6 +7,10 @@ import { UpdateTeamDto } from './dto/update-team.dto';
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 
+  @Post('createTeam')
+  async createTeam(@Body() body: any) {
+      return await this.teamsService.createTeam(body);
+  }
 
   @Get('userTeamProjects/:teamId')
     async userTeamProjects(@Param('teamId', ParseIntPipe) teamId: number) {

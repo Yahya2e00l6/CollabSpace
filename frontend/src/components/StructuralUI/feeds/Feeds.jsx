@@ -18,11 +18,11 @@ const Feeds = () =>{
                             <div className={style.BtnsBox}>
                                 <button type="button" onClick={()=>setSelectedList("Projects")} 
                                 className={`${style.button} ${selectedList === "Projects" ? style.active : ""}`}>
-                                    Projects DeadLine
+                                    Project Deadlines
                                 </button>
                                 <button type="button" onClick={()=>setSelectedList("Tasks")}
                                     className={`${style.button} ${selectedList === "Tasks" ? style.active : ""}`}>
-                                    Tasks DeadLine
+                                    Task Deadlines
                                 </button>
                             </div>
                             {selectedList === 'Projects' && <ProjectDeadLineList/>}

@@ -2,11 +2,22 @@ import style from "../../../Style/StructuralUI/social/UserCard.module.css"
 import femaleProfile from '../../../assets/femaleProfile.png'
 import maleProfile from '../../../assets/maleProfile.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faTrash } from '@fortawesome/free-solid-svg-icons';
+import {faTrash , faUserTie , faUser , faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from "../../../context/AuthContext";
 import { useContext } from "react";
-function UserCard({gender , Role , Age , Team , section , fullName , onDelete}) {
+import { patch } from "../../../api/client";
+function UserCard({gender , Role , Age , Team , section , fullName , onDelete , id , onUpdateRole}) {
     const {user} = useContext(AuthContext)
+    const handleUpdate = async (newRole) =>{
+        try{
+            const response = await patch(`/auth/updateStatus/${id}`, { role: newRole })
+            if(response) {
+                onUpdateRole(id, newRole);
+            }
+        }catch(e){
+            console.error(e.message)
+        }
+    }
     return (
         <div className={style.projectCard}>
             <img src={gender==='f'?femaleProfile : maleProfile} alt=""  className={style.Profile}/>
@@ -36,6 +47,18 @@ function UserCard({gender , Role , Age , Team , section , fullName , onDelete}) 
                 </div>
                 {user?.role === 'admin' && (
                         <div className={style.actions}>
+                            <div className={style.switchRole}>
+                                {Role === 'manager' && 
+                                    <button className={style.member} type="button" onClick={() => handleUpdate('member')}>
+                                        <FontAwesomeIcon icon={faUser} />
+                                    </button>
+                                }
+                                {Role === 'member' && 
+                                    <button className={style.manager} type="button" onClick={() => handleUpdate('manager')}>
+                                        <FontAwesomeIcon icon={faUserTie} />
+                                    </button>
+                                }
+                            </div>
                             <button className={style.Delete} type="button" onClick={onDelete}>
                                 <FontAwesomeIcon icon={faTrash} />
                             </button>

@@ -25,7 +25,6 @@ const ChartCard = () =>{
         if(user.role === 'manager'){
         try{
             const {teamId }= await get(`/auth/userTeam/${user.id}`)
-            console.log(teamId)
             if(teamId){
                 const response = await get(`/teams/teamMembersTasks/${teamId}`)
                 if(response){
@@ -97,15 +96,15 @@ const getChartData = () => {
         <div className={style.charts}>
             {
             user.role === 'member' &&
-            <DoughtnutChart chartData={doughnutData} title={'Tasks doughtnut'} Axis={'y'}/>
+            <DoughtnutChart chartData={doughnutData} title={'Tasks Breakdown'} Axis={'y'}/>
             }
             {
             user.role === 'admin' &&
-            <BarChart chartData={formattedData} title={'Total Projects Finished'} Axis={'y'}/>
+            <BarChart chartData={formattedData} title={'Completed Projects by Team'} Axis={'y'}/>
             }
             {
             user.role==='manager' && 
-            <BarChart chartData={formattedData} title={'Total Projects Finished'} Axis={'y'}/>
+            <BarChart chartData={formattedData} title={'Completed Tasks by Member'} Axis={'y'}/>
             }
         </div>
         </>

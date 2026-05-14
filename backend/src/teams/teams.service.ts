@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable , NotFoundException} from '@nestjs/common';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,6 +20,27 @@ export class TeamsService {
     private ProjectRepo : Repository <Project>
   ){}
 
+
+  async createTeam(TeamData : any) : Promise <any> {
+const user = await this.UserRepo.findOne({ where: { id: TeamData.userId } });
+      if (!user) {
+          throw new NotFoundException(`User #${TeamData.userId} not found!`);
+      }
+      const newTeam = this.TeamRepo.create({
+          name: TeamData.TeamName,
+          manager: user,
+          memberCount: 1 
+      });
+      const savedTeam = await this.TeamRepo.save(newTeam);
+      user.team = savedTeam; 
+      user.role = 'manager'; 
+      await this.UserRepo.save(user);
+      return { 
+          success: true, 
+          message: 'Team successfully created!', 
+          team: savedTeam 
+      };
+  }
   async getUserTeamProjects(teamId: number): Promise<any[]> {
     return await this.ProjectRepo.createQueryBuilder('project')
         .innerJoin('project.team', 'team') 
@@ -84,9 +105,10 @@ export class TeamsService {
       where : {id},
       relations : ['manager']
     })
-    if(team && team.manager){
-      await this.UserRepo.update(team.manager.id , {role : 'member'})
-    }
+    await this.UserRepo.update(
+      { team: { id: id } }, 
+      { team: null }
+    );
     return this.TeamRepo.delete(id)
   }
 

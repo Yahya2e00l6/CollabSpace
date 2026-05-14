@@ -24,7 +24,7 @@ const AddProjectMember = ({ onClose, projectId, projectName , teamId }) => {
             }
         }
         fetchData()
-    }, [projectId])
+    }, [projectId , teamId])
 
     const handleSubmit = async (e) => {
         e.preventDefault()

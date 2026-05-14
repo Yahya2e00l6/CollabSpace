@@ -1,29 +1,40 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import style from "../../../Style/StructuralUI/social/UserList.module.css"
 import UserCard from "./UserCard";
 import ConfirmationBox from "../ConfirmationBox";
 import { get } from "../../../api/client";
+import AddTeamMate from '../../forms/AddTeamMate'
+import { AuthContext } from "../../../context/AuthContext";
 
 const UserList = ({section ,teamId , setUserId}) => {
     const [ searchTerm , setSearchTerm ] = useState("")
     const [ usersData , setUsersData ] = useState([])
     const [isDeleteUserOpen, setIsDeleteUserOpen] = useState(false)
     const [selectedUser, setSelectedUser] = useState(null)
+    const {user}  = useContext(AuthContext)
     const deleteToggle = () => setIsDeleteUserOpen(!isDeleteUserOpen)
+
     const openDelete = (user) => {
         setSelectedUser(user)
         setIsDeleteUserOpen(true)
     }
+
     const filtredData = usersData.filter(
         (user) => user.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
+    const updateUserRoleInState = (id, newRole) => {
+        setUsersData((prevList) => 
+            prevList.map((user) => 
+                user.id === id ? { ...user, role: newRole } : user
+            )
+        );
+    };
     const removeUserFromState = (id) => {
         setUsersData((prevList) => prevList.filter((team) => team.id !== id));
     };
     useEffect(() => {
         const fetchData = async () => {
-            if(section === 'team' ){
+            if(section === 'team' && user.teamId){
                 try{
                     const response = await get(`/teams/teamMembers/${teamId}`)
                     setUsersData(response);
@@ -41,7 +52,7 @@ const UserList = ({section ,teamId , setUserId}) => {
             }
         }
         fetchData()
-    },[teamId , section , setUserId])
+    },[teamId , section , setUserId , user.teamId])
     return(
         <>
         <div className={style.Container}>
@@ -65,6 +76,7 @@ const UserList = ({section ,teamId , setUserId}) => {
                                 fullName={d.fullName}
                                 section={'team'}
                                 onDelete={() => openDelete(d)}
+                                onUpdateRole={updateUserRoleInState}
                             />
                         ))
                     )
@@ -89,6 +101,7 @@ const UserList = ({section ,teamId , setUserId}) => {
                                     Role = {d.role}
                                     Team = {d.teamName}
                                     onDelete={() => openDelete(d)}
+                                    onUpdateRole={updateUserRoleInState}
                                     />
                             </div>
                         ))
@@ -107,6 +120,7 @@ const UserList = ({section ,teamId , setUserId}) => {
                         teamId={teamId}
                         userId={selectedUser?.id}
                         onSuccess={() => removeUserFromState(selectedUser.id)}
+
                     />
                 </div>
             )}

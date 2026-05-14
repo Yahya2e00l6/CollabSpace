@@ -60,5 +60,19 @@ export class guestRequest{
     })
     updatedAt!: Date;
 
+    @Column({ 
+        name: 'identifier', 
+        type: 'varchar',
+        length: 255 
+    })
+    identifier!: string;
+
+    @Column({ 
+        name: 'password', 
+        type: 'varchar',
+        length: 255 
+    })
+    password!: string;
+
 
 }

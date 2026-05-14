@@ -1,13 +1,13 @@
 import style from "../../../Style/StructuralUI/requests/AdminRequest.module.css"
-import { useState } from "react"
+// import { useState } from "react"
 import MembershipRequestCardList from "./MembershipRequestCardList"
 import TeamRequestCardList from "./TeamRequestCardList"
 const AdminRequest = () => {
-    const [ selectedList , setSelectedList ] = useState("Membership")
+    // const [ selectedList , setSelectedList ] = useState("Membership")
     return(
         <>
             <div className={style.feedList}>
-                <div className={style.BtnsBox}>
+                {/* <div className={style.BtnsBox}>
                     <button type="button" onClick={()=>setSelectedList("Membership")} 
                     className={`${style.button} ${selectedList === "Membership" ? style.active : ""}`}>
                         Membership Request
@@ -18,7 +18,8 @@ const AdminRequest = () => {
                     </button>
                 </div>
                 {selectedList === 'Membership' && <MembershipRequestCardList/>}
-                {selectedList === 'Teams' && <TeamRequestCardList/>}
+                {selectedList === 'Teams' && <TeamRequestCardList/>} */}
+                <MembershipRequestCardList/>
             </div>
         </>
     )

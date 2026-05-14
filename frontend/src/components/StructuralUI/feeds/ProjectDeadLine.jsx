@@ -14,7 +14,7 @@ const ProjectDeadLine = ({Name,totalTasks,completedTasks,remainingDays,DeadLine}
                     <p className={style.Team}>{completedTasks}/{totalTasks}</p>
                 </div>
                 {
-                    <p className={style.status}>DeadLine in : {remainingDays} days</p>
+                    <p className={style.status}>DEADLINE IN:{remainingDays} {remainingDays ===1 ? 'Day' : 'days'}</p>
                 }
             </div>
         </>

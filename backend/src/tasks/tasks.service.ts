@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { Project } from 'src/projects/entities/project.entity';
 import { projectMember } from 'src/projects/entities/project-member.entity';
 import { groupBy } from 'rxjs';
+import { User } from 'src/auth/entities/user.entity';
 
 @Injectable()
 export class TasksService {
@@ -14,9 +15,33 @@ export class TasksService {
     @InjectRepository(Task)
     private  taskRepo : Repository <Task>,
     @InjectRepository(projectMember)
-    private projectMemberRepo : Repository <projectMember>
+    private projectMemberRepo : Repository <projectMember>,
+    @InjectRepository(Project)
+    private projectRepo : Repository <Project>,
+    @InjectRepository(User)
+    private UserRepo : Repository <User>,
   ){}
 
+  async createTask (projectId : number ,  taskData : any) : Promise <any>{
+    const project = await this.projectRepo.findOne({where : {id : projectId}})
+    if(!project){
+      throw new  NotFoundException(`Task #${projectId} not found or already deleted!`)
+    }
+    const assignee = await this.UserRepo.findOne({where : {id :taskData.TaskOwner}})
+    if (!assignee) {
+          throw new NotFoundException(`User #${taskData.TaskOwner} not found!`);
+    }
+    const newTask = this.taskRepo.create({
+          taskName: taskData.TaskName,          
+          description: taskData.TaskDescription, 
+          deadLine: taskData.DeadLine,          
+          status: 'pending',
+          project: project,
+          assignee: assignee 
+      });
+      const savedTask = await this.taskRepo.save(newTask);
+      return { success: true, message: 'Task Created!', task: savedTask };
+  }
   async deleteTask (taskId : number) : Promise <any>{
     const result = await this.taskRepo.delete(taskId)
     if(result.affected === 0 ){

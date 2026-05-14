@@ -11,10 +11,8 @@ function RegisterForm(){
     const [ Email , setEmail ] = useState("")
     const [ Phone , setPhone ] = useState("")
     const [ ErrorMessage , setErrorMessage ] = useState("")
-    const [ VerifieEmail , setVerifieEmail ] = useState("")
-    const [ VerifiePhone , setVerifiePhone ] = useState("")
-    const [ ErrorVerifieEmail , setErrorVerifieEmail ] =useState(false)
-    const [ ErrorVerifiePhone , setErrorVerifiePhone ] =useState(false)
+    const [ password , setPassword ] = useState("")
+    const [ identifier , setIdentifier ] = useState("")
     const navigate = useNavigate();
     const today = Temporal.Now.plainDateISO();
     const EndDate = today.subtract({ years: 18});
@@ -29,17 +27,7 @@ function RegisterForm(){
     }
     const HandleSubmit = async (e) => {
         e.preventDefault();
-        setErrorVerifieEmail(false)
-        setErrorVerifiePhone(false)
         setError(false)
-        if(Email !== VerifieEmail ){
-            setErrorVerifieEmail(true);
-            return;
-        }
-        if(Phone !== VerifiePhone){
-            setErrorVerifiePhone(true);
-            return;
-        }
         try{
             const response = await post('/auth/register',{
                 firstName : FirstName.toLowerCase(),
@@ -49,6 +37,8 @@ function RegisterForm(){
                 email : Email.toLowerCase(),
                 birthDate : BirthDate,
                 gender : Gender,
+                identifier : identifier,
+                password : password,
             })
             if(response){
                 console.log("Request submitted successfully!")
@@ -127,18 +117,14 @@ function RegisterForm(){
                             />
                     </div>
                     <div className={style.formGroup}>
-                        <span className={ErrorVerifiePhone ? style.Error : style.Hidden}></span>
-                        <label htmlFor="VerifiePhone" className={style.label}>VerifiePhone</label>
+                        <label htmlFor="identifier" className={style.label}>Identifier</label>
                         <input 
                             type="tel" 
-                            name="VerifiePhone"
-                            id="VerifiePhone"
+                            name="identifier"
+                            id="identifier"
                             className={style.input}
-                            maxLength={10}
                             required
-                            onChange={(e)=>setVerifiePhone(e.target.value)}
-                            onKeyDown={blockPhoneInput}
-                            pattern="^(06|07)\d{8}$"
+                            onChange={(e)=>setIdentifier(e.target.value)}
                             />
                     </div>
                     <div className={style.formGroup}>
@@ -154,15 +140,14 @@ function RegisterForm(){
                             />
                     </div>
                     <div className={style.formGroup}>
-                        <span className={ErrorVerifieEmail ? style.Error : style.Hidden}></span>
-                        <label htmlFor="VerifieEmail" className={style.label}> Verifie email</label>
+                        <label htmlFor="Password" className={style.label}>Password</label>
                         <input 
-                            type="email" 
-                            name="VerifieEmail"
-                            id="VerifieEmail"
+                            type="Password" 
+                            name="Password"
+                            id="Password"
                             className={style.input}
                             required
-                            onChange={(e)=>setVerifieEmail(e.target.value)}
+                            onChange={(e)=>setPassword(e.target.value)}
                             />
                     </div>
                     <div className={style.formGroup}>

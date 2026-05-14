@@ -1,0 +1,41 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: default;
+    background: rgb(255, 255, 255);
+    width: 20rem;
+    height: 27rem;
+    box-shadow: 0 8px 24px rgba(44, 62, 80, 0.4), 0 1.5px 4px rgba(44, 62, 80, 0.3);
+      transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.cardImg {
+    width: 18rem;
+    height: 12rem;
+    margin-top: 1rem;
+    object-fit: scale-down;
+}
+
+.cardTitle {
+    font-size: 1.6rem;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 2rem;
+}
+
+.cardDesc {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    padding: 0 1rem 0 1rem;
+    text-align: center;
+    font-weight: 500;
+    color: rgb(102, 102, 102);
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+}
+

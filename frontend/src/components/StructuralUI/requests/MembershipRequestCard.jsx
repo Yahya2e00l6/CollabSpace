@@ -11,7 +11,12 @@ const MembershipRequestCard = ({Gender ,fullName, cin ,Email , Phone , Status ,A
             : style.statusPending
         
         const handleAccept = async() =>{
-
+            try {
+                await patch(`/auth/acceptedRequest/${requestId}`);
+                onStatusUpdate(); 
+            } catch (e) {
+                console.error(e.message);
+            }
         }
         const handleReject = async() =>{
             try{

@@ -91,8 +91,7 @@ const TeamList = ({setTeamId}) => {
                     <div className={style.modal} onClick={addTeamMateToggel}>
                         <AddTeamMate
                             onClose={addTeamMateToggel}
-                            teamId={selectedTeam.id}
-                            teamName={selectedTeam.name}
+                            teamId={user.teamId}
                         />
                     </div>
                 )}

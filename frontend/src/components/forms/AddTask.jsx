@@ -1,33 +1,52 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import style from "../../Style/form/AddTask.module.css"
-function AddTask({onClose}){
+import { get, post } from "../../api/client"
+import Select from 'react-select'
+function AddTask({onClose,projectId,projectName}){
+        const Now = new Date();
     const [ TaskName , setTaskName ] = useState("")
     const [ TaskOwner , setTaskOwner ] = useState("")
     const [ TaskDescription , setTaskDescription ] = useState("")
-    const [ taskProject , setTaskProject ] = useState('')
-    
-    const [ isTaskOwnerValide , setIsTaskOwnerValide ] = useState(false)
-    const [ isProjectValide , setIsProjectValide ] = useState(false);
+    const [ ProjectMembersData , setProjectMembersData ] = useState('')
     const [ NameHasError , setNameHasError ] = useState(false)
     const [ DescriptionHasError , setDescriptionHasError ] = useState(false)
+    const today = new Date().toISOString().split('T')[0];
+    const [ DeadLine , setDeadLine ] = useState(today);
+    
 
+
+    useEffect(() => {
+        const fetchData = async() =>{
+            try{
+                const response = await get(`/projects/projectMembers/${projectId}`)
+                if(response){
+                    setProjectMembersData(response)
+                    console.log(response)
+                }
+            }catch(e){
+                console.error(e.message)
+            }
+        }
+        fetchData()
+    },[projectId])
     const Handlesubmit = async (e) => {
         e.preventDefault();
-        const hasSymbol = /[!@#$%^&*()+={}\\[\]|\\"'<>?\\/=]/.test(TaskName);
-        if(TaskName.length<8 || typeof(TaskName[0])===Number || hasSymbol){
+        const hasSymbol = /[!@#$%^*()+={}\\[\]|\\"'<>?\\/=]/.test(TaskName);
+        if(TaskName.length<3 || typeof(TaskName[0])===Number || hasSymbol){
             setNameHasError(true);
             return;
         }
-        if(TaskDescription.length < 24){
+        if(TaskDescription.length < 12){
             setDescriptionHasError(true);
             return;
         }
 
-
-        // Owner check
-        
-
-        //API
+        try{
+            await post(`/tasks/createtask/${projectId}`,{TaskName,TaskOwner,TaskDescription,DeadLine})
+            onClose()
+        }catch(e){
+            console.log(e.message)
+        }
     }
     return(
         <>
@@ -50,38 +69,35 @@ function AddTask({onClose}){
                     />
                 </div>
                 <div className={style.formGroup}>
-                    <span className={isProjectValide ? style.OwnerError : style.Hidden}></span>
                     <label htmlFor="TaskOwner" className={style.label}>Project</label>
                     <input 
+                        type="text"
                         id="TaskProject"
                         name="TaskProject"
                         className={style.input}
-                        list="Projects"
-                        required
-                        onChange={(e) => setTaskProject(e.target.value)}
+                        value={projectName}
+                        disabled
                     />
-                    <datalist id="Projects">
-                        <option value="collab" />
-                        <option value="taskflow" />
-                        <option value="pool" />
-                    </datalist>
+                    <input 
+                        type="hidden" 
+                        name="projectId" 
+                        value={projectId}
+                    />
                 </div>
                 <div className={style.formGroup}>
-                    <span className={isTaskOwnerValide? style.OwnerError : style.Hidden}></span>
                     <label htmlFor="TaskOwner" className={style.label}>Owner</label>
-                    <input 
+                    <Select
+                        options={Array.isArray(ProjectMembersData)?ProjectMembersData.map((data)=>({
+                            value : data.userId,
+                            label : data.fullName
+                        })) : []}
                         id="TaskOwner"
                         name="TaskOwner"
-                        className={style.input}
-                        list="members"
+                        onChange={(selectedOption) => setTaskOwner(selectedOption.value)} 
+                        className={style.Select}
                         required
-                        onChange={(e) => setTaskOwner(e.target.value)}
+                        placeholder="Select Task Owner..."
                     />
-                    <datalist id="members">
-                        <option value="Ayoub saad" />
-                        <option value="Ossama" />
-                        <option value="Saad" />
-                    </datalist>
                 </div>
                 <div className={style.formGroup}>
                     <span className={DescriptionHasError ? style.taskDescriptionError : style.hidden}>Description must be at least 24 characters.</span>
@@ -95,7 +111,19 @@ function AddTask({onClose}){
                         onChange={(e)=>setTaskDescription(e.target.value)}
                     ></textarea>
                 </div>
-                <button type="submit" className={style.submitBtn} >Create Task</button>
+                <div className={style.formGroup}>
+                    <label htmlFor="DeadLine" className={style.label}>Dead Line</label>
+                    <input 
+                        type="date"
+                        id="DeadLine"
+                        name="DeadLine"
+                        value={DeadLine}
+                        min={today}
+                        onChange={(e)=>setDeadLine(e.target.value)} 
+                        className={style.input}
+                    />
+                </div>
+                <button type="submit" className={style.submitBtn} onClick={Handlesubmit}>Create Task</button>
                 </fieldset>
             </form>
             </div>
