@@ -160,7 +160,7 @@ async getAvailableMembers(projectId: number, teamId: number): Promise<any[]> {
     .addSelect('TIMESTAMPDIFF(HOUR, project.completionDate, NOW())' , 'diffInHours' )
     .where('project.status = :status',{status : 'completed'})
     .groupBy('project.id')
-    .orderBy('project.completionDate','DESC')
+    .orderBy('project.completionDate','ASC')
     .getRawMany();
   }
   async getprojectDeadlineInfo(teamid : number) : Promise <any[]> {

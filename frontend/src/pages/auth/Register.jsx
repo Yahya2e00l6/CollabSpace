@@ -7,7 +7,6 @@ import Typewriter from 'typewriter-effect';
 const Register = () => {
     return (
         <div className={style.Register}>
-            {/* Left Side: Visual Hero Section */}
             <div className={style.sideBox}>
                 <div className={style.logo}>CollabSpace</div>
                 

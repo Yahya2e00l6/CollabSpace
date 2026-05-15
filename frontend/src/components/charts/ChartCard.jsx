@@ -32,7 +32,7 @@ const ChartCard = () =>{
                 }
             }
         }catch(e){
-            console.error(e.message || 'somthing happend')
+            console.error(e.message || 'something happend')
         }
         }else if(user.role === 'admin' ){
         try{
@@ -41,7 +41,7 @@ const ChartCard = () =>{
                 setData(response)
             }
         }catch(e){
-            console.error(e.message || 'somthing happend')
+            console.error(e.message || 'something happend')
         }
         }else{
             try{

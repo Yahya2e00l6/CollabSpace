@@ -75,9 +75,13 @@ async getUserProjects(teamId: number, userId: number): Promise<any[]> {
     .addOrderBy("request.createdAt", "DESC")
     .getRawMany()
   }
+
+  
   async rejectedRequest (id : number) : Promise <any> {
     return await this.requestRepository.update( id , {status : 'rejected'})
   }
+
+
   async RemoveUser( id : number ) : Promise <any> {
     await this.userDataRepository.delete({id : id})
     const result = await this.userRepository.delete(id)
@@ -204,7 +208,6 @@ async getUserProjects(teamId: number, userId: number): Promise<any[]> {
   }
 
 async acceptRequest(requestId: number) {
-      // 1. Find the pending request
       const request = await this.requestRepository.findOne({ where: { id: requestId } });
       
       if (!request) {
@@ -214,23 +217,15 @@ async acceptRequest(requestId: number) {
           throw new BadRequestException('This request has already been processed!');
       }
 
-      // 2. Create the Account in the USER table
-      // Looking at your image: ID (auto), RequestID, teamID (null), Identifier, Password, Role
       const newUser = this.userRepository.create({
-          // Notice how we pull the identifier and password we saved in the last step!
           identifier: request.identifier,
           password: request.password, 
-          role: 'member', // Default role for new users
-          
-          // If you set up a relationship to GuestRequest, connect it here
+          role: 'member',
           request: request 
       });
       const savedUser = await this.userRepository.save(newUser);
-
-      // 3. Create the Profile in the USERDATA table
-      // Looking at your image: userID, firstName, lastName, birthDate, CIN, Email, phoneNumber, Gender
       const newUserData = this.userDataRepository.create({
-          user: savedUser, // Links this data to the user we just created
+          user: savedUser, 
           firstName: request.firstName,
           lastName: request.lastName,
           birthDate: request.birthDate,
@@ -240,13 +235,14 @@ async acceptRequest(requestId: number) {
           gender: request.gender
       });
       await this.userDataRepository.save(newUserData);
-
-      // 4. Finally, update the original request status to 'accepted'
       request.status = 'accepted';
       await this.requestRepository.save(request);
 
       return { success: true, message: 'User accepted and account created!' };
   }
+
+
+
 
   create(createAuthDto: CreateAuthDto) {
     return 'This action adds a new auth';

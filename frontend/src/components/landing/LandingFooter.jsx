@@ -26,8 +26,8 @@ function LandingFooter({ homeRef, learnMoreRef, scrollTo }) {
     return (
         <>
             <div className={style.locationContainer}>
-                <img src={location} alt="FSTM Location" style={{ border: "0", width: "100%", height: "200", objectFit: "cover" }} />            </div>
-
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.098705032937!2d-7.355918725202118!3d33.706394735914536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7b6d37fd56af5%3A0x5e62c736d5933ac1!2sFaculty%20of%20Sciences%20and%20technologies%20Mohammedia!5e0!3m2!1sen!2sma!4v1778734690802!5m2!1sen!2sma" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+            </div>
             <section ref={learnMoreRef} className={style.learnMore}>
                 <div className={style.logoArea}>
                     <button className={style.logo} onClick={() => scrollTo(homeRef)}>Collabspace</button>
@@ -36,7 +36,7 @@ function LandingFooter({ homeRef, learnMoreRef, scrollTo }) {
                         <li><a href="https://www.facebook.com"><img src={facebookIcon} alt="Facebook" /></a></li>
                         <li><a href="https://www.instagram.com"><img src={instagramIcon} alt="Instagram" /></a></li>
                         <li><a href="https://www.reddit.com"><img src={redditIcon} alt="Reddit" /></a></li>
-                        <li><a href="https://x.com"><img src={xIcon} alt="X" /></a></li>
+                        <li><a href="https://x.com"><img src={xIcon} className={style.xIcon} alt="X" /></a></li>
                         <li><a href="https://github.com"><img src={githubIcon} alt="Github" /></a></li>
                         <li><a href="https://www.linkedin.com"><img src={linkedinIcon} alt="LinkedIn" /></a></li>
                     </ul>

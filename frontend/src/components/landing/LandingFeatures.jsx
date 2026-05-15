@@ -1,11 +1,11 @@
 import style from "../../Style/landing/LandingFeatures.module.css"
 import { motion } from "framer-motion"
 import Dashboard from "../../assets/Landing/dashboard.webp"
-import Tasks from "../../assets/Landing/tasksmascot.webp"
 import Deadline from "../../assets/Landing/deadline.webp"
 import Projects from "../../assets/Landing/projects.webp"
 import Social from "../../assets/Landing/social.webp"
 import Teams from "../../assets/Landing/teams.webp"
+import Tasks from "../../assets/Landing/tasks.webp"
 import Platforms from "../../assets/Landing/platforms.webp"
 import sideMascot from "../../assets/Landing/sidemascot.webp"
 import watchMascot from "../../assets/Landing/watchmascot.webp"
@@ -17,7 +17,6 @@ import requests from "../../assets/Landing/requests.webp"
 import checkMark from "../../assets/Landing/checkmark.webp"
 import teamsMascot from "../../assets/Landing/teamsmascot.webp"
 import socialMascot from "../../assets/Landing/sidemascot.webp"
-
 
 function LandingFeatures({ dashboardRef, requestsRef, teamsRef, socialRef, tasksRef, projectsRef }) {
     return (
@@ -97,9 +96,9 @@ function LandingFeatures({ dashboardRef, requestsRef, teamsRef, socialRef, tasks
                             transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.8 }}
                         />
                         <motion.img
-                            src={Deadline}
-                            alt="Deadline Preview"
-                            className={style.featureImage}
+                            src={Tasks}
+                            alt="Tasks Preview"
+                            className={style.tasksImage}
                             initial={{ y: 150, opacity: 0 }}
                             whileInView={{ y: 0, opacity: 1 }}
                             viewport={{ once: true, amount: 0.4 }}
@@ -109,7 +108,6 @@ function LandingFeatures({ dashboardRef, requestsRef, teamsRef, socialRef, tasks
                 </section>
                 <section className={style.featureSection}>
                     <div className={style.imgGroup}>
-                        <img src={watchMascot} alt="Mascot" className={style.watchMascot} />
                         <motion.img
                             src={Deadline}
                             alt="Deadline Preview"
@@ -118,6 +116,15 @@ function LandingFeatures({ dashboardRef, requestsRef, teamsRef, socialRef, tasks
                             whileInView={{ y: 0, opacity: 1 }}
                             viewport={{ once: true, amount: 0.4 }}
                             transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.10 }}
+                        />
+                        <motion.img
+                            src={watchMascot}
+                            alt="Deadline Mascot"
+                            className={style.watchMascot}
+                            initial={{ x: 150, opacity: 0 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            viewport={{ once: true, amount: 0.4 }}
+                            transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.6 }}
                         />
                     </div>
                     <div className={style.DeadlineText}>
@@ -135,8 +142,24 @@ function LandingFeatures({ dashboardRef, requestsRef, teamsRef, socialRef, tasks
                         <p><img src={checkMark} alt="checkmark" className={style.checkMark} />Keep collaboration structured.</p>
                     </div>
                     <div className={style.imgGroup}>
-                        <img src={teamsMascot} alt="Mascot" className={style.teamsMascot} />
-                        <img src={Teams} alt="Teams Preview" className={style.teamsImage} />
+                        <motion.img
+                            src={teamsMascot}
+                            alt="Mascot"
+                            className={style.teamsMascot}
+                            initial={{ x: -150, opacity: 0 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            viewport={{ once: true, amount: 0.4 }}
+                            transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.70 }}
+                        />
+                        <motion.img
+                            src={Teams}
+                            alt="Teams Preview"
+                            className={style.teamsImage}
+                            initial={{ y: 150, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            viewport={{ once: true, amount: 0.4 }}
+                            transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.10 }}
+                        />
                     </div>
                 </section>
                 <section ref={requestsRef} className={style.featureSection}>
@@ -145,12 +168,21 @@ function LandingFeatures({ dashboardRef, requestsRef, teamsRef, socialRef, tasks
                             src={requestsMascot}
                             alt="Mascot"
                             className={style.requestsMascot}
-                            initial={{ x: 200, opacity: 0 }}
+                            initial={{ x: -150, opacity: 0 }}
                             whileInView={{ x: 0, opacity: 1 }}
                             viewport={{ once: true, amount: 0.4 }}
-                            transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.15 }}
+                            transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.7 }}
                         />
-                        <img src={requests} alt="Teams Preview" className={style.requestsImage} />
+                        <motion.img
+                            src={requests}
+                            alt="Teams Preview"
+                            className={style.requestsImage}
+                            initial={{ y: 150, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            viewport={{ once: true, amount: 0.4 }}
+                            transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.1 }}
+                        />
+
                     </div>
                     <div className={style.RequestsText}>
                         <h1>Join By Requests</h1>
@@ -171,17 +203,17 @@ function LandingFeatures({ dashboardRef, requestsRef, teamsRef, socialRef, tasks
                             src={socialMascot}
                             alt="Mascot"
                             className={style.socialMascot}
-                            initial={{ y: 100, opacity: 0 }}
-                            whileInView={{ y: 0, opacity: 1 }}
+                            initial={{ x: 150 ,opacity: 0 }}
+                            whileInView={{ x: 0,opacity: 1 }}
                             viewport={{ once: true, amount: 0.4 }}
-                            transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.1 }}
+                            transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.7 }}
                         />
                         <motion.img
                             src={Social}
                             alt="Social Preview"
                             className={style.socialImage}
-                            initial={{ x: 150 }}
-                            whileInView={{ x: 0 }}
+                            initial={{ y: 100, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
                             viewport={{ once: true, amount: 0.4 }}
                             transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.10 }}
                         />

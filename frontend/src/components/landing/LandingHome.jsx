@@ -1,13 +1,17 @@
 import style from "../../Style/landing/LandingHome.module.css"
 import { DotLottieReact } from "@lottiefiles/dotlottie-react"
-import heroLottie from "../../assets/Landing/heroLottie.lottie"
+import heroImg from "../../assets/Landing/platformsmascot.webp"
 import { Link } from "react-router-dom";
 import CardComponent from "./CardComponent";
-import img1 from "../../assets/Landing/platformsmascot.webp"
-import img2 from "../../assets/Landing/platformsmascot.webp"
+import img1 from "../../assets/Landing/submit.webp"
+import img2 from "../../assets/Landing/apprej.webp"
 import img3 from "../../assets/Landing/notif.webp"
-import img4 from "../../assets/Landing/platformsmascot.webp"
+import img4 from "../../assets/Landing/access.webp"
 import whyMascot from "../../assets/Landing/whymascot.webp"
+import submitIcon from "../../assets/Landing/submit.svg"
+import vettingIcon from "../../assets/Landing/usercheck.svg"
+import notifIcon from "../../assets/Landing/bell.svg"
+import accessIcon from "../../assets/Landing/thunder.svg"
 import { motion } from "framer-motion";
 
 function LandingHome({ homeRef }) {
@@ -23,7 +27,10 @@ function LandingHome({ homeRef }) {
                     hidden: { opacity: 0 },
                     visible: {
                         opacity: 1,
-                        transition: { staggerChildren: 0.5 }
+                        transition: {
+                            staggerChildren: 0.2,
+                            delayChildren: 0.1
+                        }
                     }
                 }}
             >
@@ -31,8 +38,12 @@ function LandingHome({ homeRef }) {
                     <motion.h1
                         className={style.bigTitle}
                         variants={{
-                            hidden: { opacity: 0, y: 20 },
-                            visible: { opacity: 1, y: 0 }
+                            hidden: { opacity: 0, y: 30 },
+                            visible: {
+                                opacity: 1,
+                                y: 0,
+                                transition: { duration: 0.6, ease: "easeOut" }
+                            }
                         }}
                     >
                         Dont Let Your <span className={style.businessWord}>Business </span><br /> Get Left Behind!
@@ -42,31 +53,49 @@ function LandingHome({ homeRef }) {
                         className={style.underTitle}
                         variants={{
                             hidden: { opacity: 0, y: 20 },
-                            visible: { opacity: 1, y: 0 }
+                            visible: {
+                                opacity: 1,
+                                y: 0,
+                                transition: { duration: 0.5 }
+                            }
                         }}
                     >
-                        <button className={style.getStartedBtn}>
+                        <Link to="/Register" className={style.getStartedBtn}>
                             GET STARTED
-                        </button>
-                        <h4 className={style.alreadyIn}>Or <Link to="/" className={style.loginLink}>Join your business</Link> if you're already in. </h4>
+                        </Link>
                     </motion.div>
+                        <motion.h4 className={style.alreadyIn}
+                            variants={{
+                                hidden: { opacity: 0, right: 500 },
+                                visible: {
+                                    opacity: 1,
+                                    right: 330,
+                                    transition: { duration: 0.5,delay: 1 }
+                                }
+                            }}
+                        >Or <Link to="/SignIn" className={style.loginLink}>Join your business</Link> if you're already in. </motion.h4>
                 </div>
 
-                <motion.div
+                <motion.img
+                    className={style.heroImg}
+                    src={heroImg}
+                    autoPlay
+                    loop
                     variants={{
-                        hidden: { opacity: 0, scale: 0.8 },
-                        visible: { opacity: 1, scale: 1 }
+                        hidden: { opacity: 0, right: -500 },
+                        visible: {
+                            opacity: 1,
+                            right: -192,
+                            transition: {
+                                type: "spring",
+                                stiffness: 100,
+                                damping: 20
+                            }
+                        }
                     }}
-                >
-                    <DotLottieReact
-                        className={style.firstAnimation}
-                        src={heroLottie}
-                        autoplay
-                        loop
-                        style={{ height: "400px", width: "400px", margin: "0 auto" }}
-                    />
-                </motion.div>
-            </motion.section>
+
+                />
+            </motion.section >
 
             <section id="about" className={style.about}>
                 <h1>Why CollabSpace?</h1>
@@ -116,10 +145,10 @@ function LandingHome({ homeRef }) {
                 <h1>How it works?</h1>
                 <p className={style.aboutQuote}>Transforming complex workflows into simple actions. CollabSpace provides the tools you need to stay organized, secure, and ahead of schedule.</p>
                 <div className={style.cardsGroup}>
-                    <CardComponent image={img1} title={"Submit Request"} description={"Guests apply to integrate with the business hub by providing their credentials."} />
-                    <CardComponent image={img1} title={"Admin Vetting"} description={"Business owners evaluate the request within the secure Gatekeeper queue."} />
-                    <CardComponent image={img3} title={"Get Notified"} description={"Receive an instant system notification once your access has been provisioned."} />
-                    <CardComponent image={img1} title={"Instant Access"} description={"Gain full access to your assigned teams, tasks, and project dashboards."} />
+                    <CardComponent image={img1} icon={submitIcon} title={"Submit Request"} description={"Guests apply to integrate with the business hub by providing their credentials."} />
+                    <CardComponent image={img2} icon={vettingIcon} title={"Admin Vetting"} description={"Business owners evaluate the request within the secure Gatekeeper queue."} />
+                    <CardComponent image={img3} icon={notifIcon} title={"Get Notified"} description={"Receive an instant system notification once your access has been provisioned."} />
+                    <CardComponent image={img4} icon={accessIcon} title={"Instant Access"} description={"Gain full access to your assigned teams, tasks, and project dashboards."} />
                 </div>
 
             </section>

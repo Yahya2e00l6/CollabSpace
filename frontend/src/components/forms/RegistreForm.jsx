@@ -56,7 +56,6 @@ function RegisterForm(){
             <form method="POST" onSubmit={HandleSubmit} className={style.form}>
                 <fieldset className={style.fieldset}>
                     <legend className={style.legend}>Register Form</legend>
-                    <span className={error ? style.error : style.hidden}>{ErrorMessage ? ErrorMessage : "Something went wrong" }</span>
                     <div className={style.formGroup}>
                         <label htmlFor="FirstName" className={style.label}>First Name</label>
                         <input 

@@ -10,7 +10,7 @@ const SignOutBox = ({type , Name , onClose , teamId , userId ,onSuccess , projec
     const handleLogOut = (e) => {
         e.preventDefault()
         logout()
-        navigate('/SignIn')
+        navigate('/LandingPage')
     }
 
     const handleDeleteTeam = async() => {

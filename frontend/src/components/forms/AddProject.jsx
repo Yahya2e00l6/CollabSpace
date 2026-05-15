@@ -39,7 +39,7 @@ function AddProject({onClose}){
             setNameHasError(true);
             return;
         }
-        if(ProjectDescription.length < 12){
+        if(ProjectDescription.length < 4){
             setDescriptionHasError(true);
             return;
         }   

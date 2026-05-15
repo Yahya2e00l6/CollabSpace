@@ -36,7 +36,7 @@ function AddTask({onClose,projectId,projectName}){
             setNameHasError(true);
             return;
         }
-        if(TaskDescription.length < 12){
+        if(TaskDescription.length < 8){
             setDescriptionHasError(true);
             return;
         }

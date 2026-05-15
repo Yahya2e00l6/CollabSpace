@@ -50,7 +50,7 @@ const AddTeamMate = ({onClose ,teamId , teamName}) => {
                         type="text" 
                         id="teamName" 
                         name="teamName" 
-                        value={teamName}
+                        value={teamName || ""}
                         className={style.input}
                         disabled
                     />

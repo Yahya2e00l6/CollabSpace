@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import angleRight from "../../assets/angleRight.svg"
 import { Link } from "react-router-dom";
 
+
 function LandingHeader({ refs, scrollTo }) {
     const [isScrolled, setIsScrolled] = useState(false);
     const { homeRef, dashboardRef, projectsRef, tasksRef, teamsRef, requestsRef, socialRef, learnMoreRef } = refs;
@@ -21,7 +22,7 @@ function LandingHeader({ refs, scrollTo }) {
                 <ul className={style.headerTabGroup}>
                     <li><button className={style.headerTab} onClick={() => scrollTo(homeRef)}>HOME </button></li>
                     <li className={style.headerTabAbout}><button>
-                        FEATURES <img src={angleRight} style={{ transform: 'rotate(90deg)' }} /></button>
+                        FEATURES <img src={angleRight} className={style.angleRight} /></button>
                         <ul className={style.aboutMenu}>
                             <li><button onClick={() => scrollTo(dashboardRef)}>DASHBOARD</button></li>
                             <li><button onClick={() => scrollTo(projectsRef)}>PROJECTS</button></li>
@@ -34,8 +35,8 @@ function LandingHeader({ refs, scrollTo }) {
                     <li><button className={style.headerTab} onClick={() => scrollTo(learnMoreRef)}>LEARN MORE </button></li>
                 </ul >
                 <ul className={style.btns}>
-                    <li><Link to='/SignIn' className={style.loginBtn}>SIGN IN</Link></li>
-                    <li><Link to='/Register' className={style.signupBtn}>REQUEST</Link></li>
+                    <li><Link to="/SignIn" className={style.loginBtn}>SIGN IN</Link></li>
+                    <li><Link to= "/Register" className={style.signupBtn}>REQUEST</Link></li>
                 </ul>
 
             </header >

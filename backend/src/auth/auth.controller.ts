@@ -72,9 +72,13 @@ export class AuthController {
         return await this.authService.acceptRequest(id);
     }
 
+    
 
 
-
+    @Post('signin')
+    signin(@Body() SignInDto: SignInDto) {
+      return this.authService.validateUser(SignInDto.identifier,SignInDto.password);
+    }
 
 
   @Post()
@@ -82,10 +86,6 @@ export class AuthController {
     return this.authService.create(createAuthDto);
   }
 
-  @Post('signin')
-  signin(@Body() SignInDto: SignInDto) {
-    return this.authService.validateUser(SignInDto.identifier,SignInDto.password);
-  }
 
   @Post('register')
   register(@Body() dto : CreateRequestDto) {

@@ -13,7 +13,7 @@ const MembershipRequestCard = ({Gender ,fullName, cin ,Email , Phone , Status ,A
         const handleAccept = async() =>{
             try {
                 await patch(`/auth/acceptedRequest/${requestId}`);
-                onStatusUpdate(); 
+                onStatusUpdate(requestId, 'accepted'); 
             } catch (e) {
                 console.error(e.message);
             }
@@ -21,7 +21,7 @@ const MembershipRequestCard = ({Gender ,fullName, cin ,Email , Phone , Status ,A
         const handleReject = async() =>{
             try{
                 await await patch(`/auth/rejectedRequest/${requestId}`)
-                onStatusUpdate()
+                onStatusUpdate(requestId, 'rejected');
             }catch(e){
                 console.error(e)
             }
