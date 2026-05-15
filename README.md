@@ -10,7 +10,7 @@ Frontend: React (JavaScript), Vite
 
 Backend: NestJS (TypeScript), Node.js
 
-Database: MySQL / PostgreSQL (managed in /database)
+Database: MySQL / mariadb (managed in /backend/src/database)
 
 ⚙️ Project Setup
 
@@ -55,7 +55,3 @@ npm run dev
 /frontend: React application using JavaScript.
 
 /backend: NestJS application using TypeScript.
-
-/database: Database schemas and migration scripts.
-
-/docs: Project documentation and architecture diagrams.
